@@ -8,12 +8,33 @@ import {
 } from "react-router-dom";
 
 import LogInPage from './Pages/LogInPage';
+import AdminPanel from './Pages/AdminPanel';
+import ErrorPage from './Pages/ErrorPage';
+import ProtectedRoute from './Components/ProtectedRoute';
+import RootLayout from './Pages/RootLayout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<LogInPage />}>
-      <Route path='/login' element={<LogInPage />}></Route>
+    <>
+    <Route 
+      path='/' 
+      element={<RootLayout />} 
+    >
+      <Route index element={<AdminPanel />} />
+      <Route 
+        path='/login' 
+        element={<LogInPage />}
+      />
+      <Route 
+        path='/adminpanel' 
+        element={<ProtectedRoute><AdminPanel /></ProtectedRoute>}
+      />
+      <Route
+        path='*'
+        element={<ErrorPage />}
+      />
     </Route>
+    </>
   )
 );
 
