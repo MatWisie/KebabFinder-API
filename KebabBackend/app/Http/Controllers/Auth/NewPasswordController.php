@@ -17,6 +17,45 @@ class NewPasswordController extends Controller
     /**
      * Handle an incoming new password request.
      *
+     * @OA\Post(
+     *     path="/api/password/reset",
+     *     summary="Reset user password",
+     *     tags={"Password Reset"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"token", "email", "password", "password_confirmation"},
+     *             @OA\Property(property="token", type="string", example="reset_token_example"),
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="newpassword123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="newpassword123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Password reset successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="passwords.reset")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The provided credentials are incorrect."),
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="This password reset token is invalid.")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse

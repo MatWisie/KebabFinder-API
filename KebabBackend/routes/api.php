@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="API Documentation",
+ *      description="This is the API documentation for the admin authentication and other functionalities.",
+ *      @OA\Contact(
+ *          email="support@example.com"
+ *      )
+ * )
+ */
+
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

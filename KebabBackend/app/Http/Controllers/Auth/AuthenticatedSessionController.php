@@ -19,8 +19,36 @@ class AuthenticatedSessionController extends Controller
         $this->userAuthService = $userAuthService;
     }
 
-    /**
+     /**
      * Handle an incoming authentication request.
+     *
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="User login",
+     *     tags={"User Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully logged in",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Invalid credentials")
+     *         )
+     *     )
+     * )
      */
     public function store(LoginRequest $request): JsonResponse
     {
@@ -43,6 +71,24 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Destroy an authenticated session.
+     *
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="User logout",
+     *     tags={"User Authentication"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=204,
+     *         description="Successfully logged out"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      */
     public function destroy(Request $request): Response
     {
