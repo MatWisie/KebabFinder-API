@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Services\AdminAuthService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminAuthenticatedSessionController extends Controller
 {
@@ -20,14 +18,17 @@ class AdminAuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): Response
+    public function store(LoginRequest $request): JsonResponse
     {
         $this->adminAuthService->authenticate($request->only("email"));
 
         $request->authenticate();
-
         $request->session()->regenerate();
-
-        return response()->noContent();
+        $user = $request->user();
+        $user->tokens()->delete();
+        $token = $user->createToken('api-token');
+        return response()->json([
+                'token'=> $token,
+        ]);
     }
 }
