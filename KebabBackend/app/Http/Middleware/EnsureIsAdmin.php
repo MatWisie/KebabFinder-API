@@ -16,7 +16,7 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->isAdmin()) {
+        if (!Auth::check() || !Auth::user()->is_admin) {
             return response()->json(['message' => 'Unauthorized.'], 401);
         }
         
