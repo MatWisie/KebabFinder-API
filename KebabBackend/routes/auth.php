@@ -13,7 +13,7 @@ Route::post('/api/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
     ->name('register');
 
-Route::post('/api/login', [AuthenticatedSessionController::class, 'store'])
+Route::post('/api/user-login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest')
     ->name('login');
 
@@ -40,3 +40,7 @@ Route::post('/api/email/verification-notification', [EmailVerificationNotificati
 Route::post('/api/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::get('/api/csrf-cookie', function () {
+    return redirect('/sanctum/csrf-cookie');
+});
