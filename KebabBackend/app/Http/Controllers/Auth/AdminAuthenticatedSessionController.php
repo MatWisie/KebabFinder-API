@@ -21,7 +21,7 @@ class AdminAuthenticatedSessionController extends Controller
      * @OA\Post(
      *     path="/api/admin-login",
      *     summary="Admin login",
-     *     tags={"Admin Authentication"},
+     *     tags={"Authentication"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

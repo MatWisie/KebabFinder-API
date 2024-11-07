@@ -221,12 +221,12 @@ class UserController extends Controller
     }
 
     /**
-     * Change the password for the first login.
+     * Change the password for the first admin login.
      *
      * @OA\Post(
      *     path="/api/user/change-password-first-login",
      *     summary="Change password for the first login",
-     *     tags={"User"},
+     *     tags={"Admin"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
