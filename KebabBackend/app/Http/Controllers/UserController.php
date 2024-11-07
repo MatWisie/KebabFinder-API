@@ -126,11 +126,11 @@ class UserController extends Controller
     }
 
     /**
-     * Change the authenticated user's username.
+     * Change the user's username.
      *
      * @OA\Post(
      *     path="/api/user/change-username",
-     *     summary="Change the authenticated user's username",
+     *     summary="Change the user's username",
      *     tags={"User"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -169,11 +169,11 @@ class UserController extends Controller
     }
 
     /**
-     * Change the authenticated user's password.
+     * Change the user's password.
      *
      * @OA\Post(
      *     path="/api/user/change-password",
-     *     summary="Change the authenticated user's password",
+     *     summary="Change the user's password",
      *     tags={"User"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
