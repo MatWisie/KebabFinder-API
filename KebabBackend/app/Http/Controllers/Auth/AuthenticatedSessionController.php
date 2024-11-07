@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @OA\Post(
-     *     path="/api/login",
+     *     path="/api/user-login",
      *     summary="User login",
      *     tags={"User Authentication"},
      *     @OA\RequestBody(

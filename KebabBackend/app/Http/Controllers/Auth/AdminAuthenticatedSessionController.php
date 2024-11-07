@@ -19,7 +19,7 @@ class AdminAuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @OA\Post(
-     *     path="/api/admin/login",
+     *     path="/api/admin-login",
      *     summary="Admin login",
      *     tags={"Admin Authentication"},
      *     @OA\RequestBody(
