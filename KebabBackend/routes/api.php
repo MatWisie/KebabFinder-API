@@ -13,9 +13,7 @@ Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware(['auth:sanctum'])->get('/user', [UserController::class, 'getUser']);
 
 Route::middleware(['auth:sanctum','admin'])->get('/users', [UserController::class, 'index']);
 

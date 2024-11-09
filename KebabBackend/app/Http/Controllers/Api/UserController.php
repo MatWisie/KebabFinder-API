@@ -30,7 +30,7 @@ use \App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     /**
-     * Check if the user is logging in for the first time.
+     * Check if the user is logged in for the first time.
      *
      * @OA\Get(
      *     path="/api/user/first-login",
@@ -92,6 +92,30 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message'=> 'User deleted successfully'],200);
+    }
+
+    /**
+     * Get the currently authenticated user.
+     *
+     * @OA\Get(
+     *     path="/api/user",
+     *     summary="Get the currently authenticated user",
+     *     tags={"User"},
+     *     security={{"bearerAuth": {}}},  // Użyj bearer token do autoryzacji
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully retrieved user",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function getUser(Request $request)
+    {
+        return response()->json($request->user());
     }
 
     /**
