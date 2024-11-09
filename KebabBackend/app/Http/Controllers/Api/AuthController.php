@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Services\UserAuthService;
 use App\Services\AdminAuthService;
 use App\Services\UserRegistrationService;
@@ -25,7 +24,7 @@ class AuthController extends Controller
     /**
      * Register User.
      * @OA\Post(
-     *     path="/register",
+     *     path="/api/register",
      *     summary="User Registration",
      *     description="Registers a new user and returns an authentication token.",
      *     operationId="registerUser",
@@ -69,7 +68,7 @@ class AuthController extends Controller
      * Login for user.
      * 
      * @OA\Post(
-     *     path="/user-login",
+     *     path="/api/user-login",
      *     summary="User Login",
      *     description="Logs in a user and returns an authentication token.",
      *     operationId="loginUser",
@@ -111,7 +110,7 @@ class AuthController extends Controller
      * Login for admin.
      * 
      * @OA\Post(
-     *     path="/admin-login",
+     *     path="/api/admin-login",
      *     summary="Admin Login",
      *     description="Logs in an admin and returns an authentication token.",
      *     operationId="loginAdmin",
@@ -157,7 +156,7 @@ class AuthController extends Controller
      * Logout for everyone
      * 
      * @OA\Post(
-     *     path="/logout",
+     *     path="/api/logout-from-all",
      *     summary="User Logout",
      *     description="Logs out the currently authenticated user and invalidates their tokens.",
      *     operationId="logoutUser",

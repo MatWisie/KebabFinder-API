@@ -59,7 +59,7 @@ class UserController extends Controller
      * Delete a user by ID.
      *
      * @OA\Delete(
-     *     path="/api/user/{id}",
+     *     path="/api/admin/{id}",
      *     summary="Delete a user by ID",
      *     tags={"User"},
      *     security={{"bearerAuth": {}}},
@@ -101,7 +101,7 @@ class UserController extends Controller
      *     path="/api/user",
      *     summary="Get the currently authenticated user",
      *     tags={"User"},
-     *     security={{"bearerAuth": {}}},  // Użyj bearer token do autoryzacji
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Successfully retrieved user",
@@ -122,7 +122,7 @@ class UserController extends Controller
      * Get all users.
      *
      * @OA\Get(
-     *     path="/api/users",
+     *     path="/api/admin/users",
      *     summary="Get all users",
      *     tags={"User"},
      *     security={{"bearerAuth": {}}},
@@ -249,7 +249,7 @@ class UserController extends Controller
      * Change the password for the first admin login.
      *
      * @OA\Post(
-     *     path="/api/user/change-password-first-login",
+     *     path="/api/admin/change-password-first-login",
      *     summary="Change password for the first login",
      *     tags={"Admin"},
      *     security={{"bearerAuth": {}}},

@@ -9,7 +9,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/register": {
+        "/api/register": {
             "post": {
                 "tags": [
                     "Auth"
@@ -66,7 +66,7 @@
                 }
             }
         },
-        "/admin-login": {
+        "/api/admin-login": {
             "post": {
                 "tags": [
                     "Auth"
@@ -120,7 +120,7 @@
                 }
             }
         },
-        "/logout": {
+        "/api/logout-from-all": {
             "post": {
                 "tags": [
                     "Auth"
@@ -161,7 +161,7 @@
                     "User"
                 ],
                 "summary": "Check if the user is logging in for the first time",
-                "description": "Check if the user is logging in for the first time.",
+                "description": "Check if the user is logged in for the first time.",
                 "operationId": "03799da7396122b7a78855004a6cae04",
                 "responses": {
                     "200": {
@@ -188,14 +188,14 @@
                 ]
             }
         },
-        "/api/user/{id}": {
+        "/api/admin/{id}": {
             "delete": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Delete a user by ID",
                 "description": "Delete a user by ID.",
-                "operationId": "fb7c6cd121c930b66eefc7569b0f0ab3",
+                "operationId": "00c40b388d5872b75d9407acb493bf12",
                 "parameters": [
                     {
                         "name": "id",
@@ -248,14 +248,44 @@
                 ]
             }
         },
-        "/api/users": {
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get the currently authenticated user",
+                "description": "Get the currently authenticated user.",
+                "operationId": "3671108ef08ef7ba13008db3dfd0a947",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Get all users",
                 "description": "Get all users.",
-                "operationId": "566aed8efb436ca506e0ef51a032ecd9",
+                "operationId": "7dd4baaf77f85b1282854bf0aa281464",
                 "responses": {
                     "200": {
                         "description": "A list of users",
@@ -423,14 +453,14 @@
                 ]
             }
         },
-        "/api/user/change-password-first-login": {
+        "/api/admin/change-password-first-login": {
             "post": {
                 "tags": [
                     "Admin"
                 ],
                 "summary": "Change password for the first login",
                 "description": "Change the password for the first admin login.",
-                "operationId": "ec5cb5ae54fad25af4a3f6f64b5bb27c",
+                "operationId": "23fd9b45ca0e9a95f2d17523ab77809f",
                 "requestBody": {
                     "required": true,
                     "content": {

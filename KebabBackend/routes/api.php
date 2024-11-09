@@ -12,7 +12,7 @@ Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
 Route::post('/logout-from-all', [AuthController::class,'logoutFromAll']);
 
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware(['auth:sanctum'])->post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth:sanctum'])->get('/user', [UserController::class, 'getUser']);
 
