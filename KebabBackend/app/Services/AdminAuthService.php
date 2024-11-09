@@ -12,7 +12,7 @@ class AdminAuthService
     public function login(array $data)
     {
         $validator = Validator::make($data, [
-            'email' => ['required', 'string', 'email'],
+            'name' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
@@ -20,7 +20,7 @@ class AdminAuthService
             throw new ValidationException($validator);
         }
 
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('name', $data['name'])->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             throw new ValidationException($validator, response()->json(['message' => 'Invalid credentials'], 401));
