@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kebab extends Model
 {
+    protected $fillable = [
+        'name',
+        'coordinates',
+        'logo_link',
+        'open_year',
+        'closed_year',
+        'status',
+        'is_craft',
+        'building_type',
+        'is_chain',
+        'google_review',
+        'pysznepl_review'
+    ];
+
     public function socialMedias()
     {
         return $this->hasMany(KebabSocialMedia::class);
