@@ -61,7 +61,7 @@ class UserController extends Controller
      * @OA\Delete(
      *     path="/api/admin/{id}",
      *     summary="Delete a user by ID",
-     *     tags={"User"},
+     *     tags={"Admin"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -124,7 +124,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/admin/users",
      *     summary="Get all users",
-     *     tags={"User"},
+     *     tags={"Admin"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
