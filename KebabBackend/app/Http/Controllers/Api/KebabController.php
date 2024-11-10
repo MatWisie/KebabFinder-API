@@ -16,7 +16,16 @@ class KebabController extends Controller
 {
     public function index(Request $request): JsonResource
     {
-        $kebab = Kebab::with(['openingHour', 'meatTypes', 'orderWay', 'sauces', 'socialMedias'])->paginate(10);
+        $kebab = Kebab::with([
+            'openingHour',
+            'meatTypes',
+            'orderWay',
+            'sauces',
+            'socialMedias'
+        ])->paginate(10);
+
+        return response()->json($kebab);
+    }
 
     public function store(Request $request): JsonResource
     {
