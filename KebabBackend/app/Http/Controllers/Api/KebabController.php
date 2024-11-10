@@ -14,6 +14,40 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class KebabController extends Controller
 {
+
+    /**
+     * Get all kebabs or kebab by id.
+     * 
+     * @OA\Get(
+     *     path="/api/kebabs",
+     *     summary="Get all kebabs with related information",
+     *     tags={"Kebabs"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of kebabs",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Kebab"))
+     *     )
+     * )
+     * 
+     * @OA\Get(
+     *     path="/api/kebabs/{id}",
+     *     summary="Get a single kebab by ID",
+     *     tags={"Kebabs"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Kebab ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kebab details",
+     *         @OA\JsonContent(ref="#/components/schemas/Kebab")
+     *     ),
+     *     @OA\Response(response=404, description="Kebab not found")
+     * )
+     */
     public function index(Request $request): JsonResource
     {
         $kebab = Kebab::with([
