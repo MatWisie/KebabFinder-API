@@ -68,4 +68,12 @@ class KebabController extends Controller
 
         return response()->json($kebab);
     }
+
+    public function destroy($id)
+    {
+        $kebab = Kebab::findOrFail($id);
+        $kebab->delete();
+
+        return response()->json(['success' => true]);
+    }
 }
