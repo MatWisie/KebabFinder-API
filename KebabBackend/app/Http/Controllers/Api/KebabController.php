@@ -113,21 +113,15 @@ class KebabController extends Controller
             'order_ways' => 'array'
         ]);
 
-        $kebab = Kebab::create($validated);
+        $kebab = Kebab::create([
+            'name' => $validated['name'],
+            'address' => $validated['address'],
+            'coordinates' => $validated['coordinates'],
+        ]);
 
-        foreach ($validated['sauces'] as $sauceId) {
-            SauceType::create([
-                'kebab_id' => $kebab->id,
-                'sauce_id' => $sauceId
-            ]);
-        }
+        $kebab->sauces()->attach($validated['sauces']);
 
-        foreach ($validated['meats'] as $meatId) {
-            MeatType::create([
-                'kebab_id' => $kebab->id,
-                'meat_type_id' => $meatId
-            ]);
-        }
+        $kebab->meatTypes()->attach($validated['meats']);
 
         foreach ($validated['social_media_links'] as $link) {
             KebabSocialMedia::create([
@@ -136,13 +130,12 @@ class KebabController extends Controller
             ]);
         }
 
+        $openingHours = new OpeningHour(['kebab_id' => $kebab->id]);
         foreach ($validated['opening_hours'] as $day => $hours) {
-            OpeningHour::create([
-                'kebab_id' => $kebab->id,
-                $day . '_open' => $hours['open'] ?? null,
-                $day . '_close' => $hours['close'] ?? null,
-            ]);
+            $openingHours->{$day . '_open'} = $hours['open'] ?? null;
+            $openingHours->{$day . '_close'} = $hours['close'] ?? null;
         }
+        $openingHours->save();
 
         foreach ($validated['order_ways'] as $way) {
             OrderWay::create([
