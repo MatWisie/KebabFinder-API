@@ -61,6 +61,24 @@ class KebabController extends Controller
         return response()->json($kebab);
     }
 
+    /**
+     * Add new kebab.
+     * 
+     * @OA\Post(
+     *     path="/api/kebabs",
+     *     summary="Add a new kebab with related information",
+     *     tags={"Kebabs"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/KebabInput")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Kebab created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Kebab")
+     *     )
+     * )
+     */
     public function store(Request $request): JsonResource
     {
         $validated = $request->validate([
