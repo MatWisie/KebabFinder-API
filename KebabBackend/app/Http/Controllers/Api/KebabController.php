@@ -135,6 +135,27 @@ class KebabController extends Controller
         return response()->json($kebab);
     }
 
+    /**
+     * Delete kebab by id.
+     * 
+     * @OA\Delete(
+     *     path="/api/kebabs/{id}",
+     *     summary="Delete a kebab by ID",
+     *     tags={"Kebabs"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Kebab ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kebab deleted successfully"
+     *     ),
+     *     @OA\Response(response=404, description="Kebab not found")
+     * )
+     */
     public function destroy($id)
     {
         $kebab = Kebab::findOrFail($id);
