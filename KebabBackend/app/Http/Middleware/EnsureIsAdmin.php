@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureEmailIsVerified
+class EnsureIsAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,12 +16,10 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyEmail &&
-            ! $request->user()->hasVerifiedEmail())) {
-            return response()->json(['message' => 'Your email address is not verified.'], 409);
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
         }
-
+        
         return $next($request);
     }
 }
