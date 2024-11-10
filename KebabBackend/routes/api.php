@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,6 @@ Route::middleware(['auth:sanctum'])->put('/user/change-username', [UserControlle
 Route::middleware(['auth:sanctum'])->post('/user/change-password', [UserController::class, 'changePassword']);
 
 Route::middleware(['auth:sanctum', 'admin'])->post('/admin/change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+
+Route::apiResource('kebab', KebabController::class);
+
