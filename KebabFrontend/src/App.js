@@ -11,7 +11,7 @@ import LogInPage from './Pages/LogInPage';
 import AdminPanel from './Pages/AdminPanel';
 import ErrorPage from './Pages/ErrorPage';
 import ProtectedRoute from './Components/ProtectedRoute';
-import RootLayout from './Pages/RootLayout';
+import RootLayout from './Components/RootLayout';
 import { UserContext } from './Contexts/AuthContext';
 
 const router = createBrowserRouter(
