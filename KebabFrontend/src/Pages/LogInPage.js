@@ -1,4 +1,4 @@
-import {React, useContext, useEffect, useState} from 'react'
+import {React, useContext, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Contexts/AuthContext';
 
@@ -7,7 +7,7 @@ export default function LogInPage() {
 
   const [formData, setFormData] = useState({ name: '', password: ''});
   const [errorMessage, setErrorMessage] = useState(false)
-  const {token, setToken} = useContext(UserContext)
+  const {setToken} = useContext(UserContext)
 
   const navigate = useNavigate()
 
