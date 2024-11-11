@@ -191,7 +191,7 @@
         "/api/admin/{id}": {
             "delete": {
                 "tags": [
-                    "User"
+                    "Admin"
                 ],
                 "summary": "Delete a user by ID",
                 "description": "Delete a user by ID.",
@@ -281,7 +281,7 @@
         "/api/admin/users": {
             "get": {
                 "tags": [
-                    "User"
+                    "Admin"
                 ],
                 "summary": "Get all users",
                 "description": "Get all users.",

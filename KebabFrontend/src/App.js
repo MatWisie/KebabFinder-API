@@ -1,4 +1,5 @@
 import './App.css';
+import { useEffect, useState } from 'react'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -11,6 +12,7 @@ import AdminPanel from './Pages/AdminPanel';
 import ErrorPage from './Pages/ErrorPage';
 import ProtectedRoute from './Components/ProtectedRoute';
 import RootLayout from './Pages/RootLayout';
+import { UserContext } from './Contexts/AuthContext';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,9 +40,19 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const [token, setToken] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+
+  useEffect(()=>{
+    setToken(localStorage.getItem('access_token'))
+    setLoading(false)
+  }, [token])
+
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <UserContext.Provider value={{token, setToken, isLoading}}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </div>
   );
 }
