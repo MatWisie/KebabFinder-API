@@ -189,7 +189,7 @@ class KebabController extends Controller
             ]);
         }
 
-        return response()->json($kebab);
+        return response()->json(['message' => 'Kebab created successfully'], 200);
     }
 
     /**
