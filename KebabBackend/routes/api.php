@@ -13,21 +13,36 @@ Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
 Route::post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
 
-Route::middleware(['auth:sanctum'])->post('/logout', [AuthController::class, 'logout']);
-
-Route::middleware(['auth:sanctum'])->get('/user', [UserController::class, 'getUser']);
-
-Route::middleware(['auth:sanctum', 'admin'])->get('/admin/users', [UserController::class, 'index']);
-
 Route::middleware(['auth:sanctum'])->get('/first-login', [UserController::class, 'isFirstLogin']);
 
-Route::middleware(['auth:sanctum', 'admin'])->delete('/admin/delete-user/{id}', [UserController::class, 'destroy']);
+Route::prefix('user')->group(function () {
 
-Route::middleware(['auth:sanctum'])->put('/user/change-username', [UserController::class, 'changeUsername']);
+    Route::middleware(['auth:sanctum'])->get('/', [UserController::class, 'getUser']);
 
-Route::middleware(['auth:sanctum'])->post('/user/change-password', [UserController::class, 'changePassword']);
+    Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
 
-Route::middleware(['auth:sanctum', 'admin'])->post('/admin/change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+    Route::middleware(['auth:sanctum'])->post('change-password', [UserController::class, 'changePassword']);
+});
 
-Route::apiResource('kebab', KebabController::class);
+Route::prefix('admin')->group(function () {
+
+    Route::middleware(['auth:sanctum', 'admin'])->get('users', [UserController::class, 'index']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->delete('delete-user/{id}', [UserController::class, 'destroy']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+});
+
+Route::prefix('kebabs')->group(function () {
+
+    Route::get('{kebab}', [KebabController::class, 'show']);
+
+    Route::get('/', [KebabController::class, 'index']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [KebabController::class, 'update']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
+});
 
