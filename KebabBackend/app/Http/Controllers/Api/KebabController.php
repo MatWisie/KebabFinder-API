@@ -245,6 +245,90 @@ class KebabController extends Controller
      *     @OA\Response(response=404, description="Kebab not found")
      * )
      */
+    public function update(Request $request, Kebab $kebab): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'coordinates' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $coordinates = explode(',', $value);
+                    if (count($coordinates) !== 2) {
+                        return $fail('The coordinates must contain exactly two values (latitude and longitude).');
+                    }
+
+                    $latitude = trim($coordinates[0]);
+                    $longitude = trim($coordinates[1]);
+
+                    if (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
+                        return $fail('The latitude must be a valid number between -90 and 90.');
+                    }
+
+                    if (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
+                        return $fail('The longitude must be a valid number between -180 and 180.');
+                    }
+                },
+            ],
+            'logo_link' => 'nullable|url',
+            'open_year' => 'nullable|integer|digits:4',
+            'closed_year' => 'nullable|integer|digits:4',
+            'status' => 'required|in:open,closed,planned',
+            'is_craft' => 'required|boolean',
+            'building_type' => 'required|string',
+            'is_chain' => 'required|boolean',
+            'sauces' => 'array|exists:sauce_types,id',
+            'meats' => 'array|exists:meat_types,id',
+            'social_media_links' => 'array',
+            'opening_hours' => 'array',
+            'order_ways' => 'array'
+        ]);
+
+        $kebab->update($validated);
+
+        if (isset($validated['sauces'])) {
+            $kebab->sauces()->sync($validated['sauces']);
+        }
+
+        if (isset($validated['meats'])) {
+            $kebab->meatTypes()->sync($validated['meats']);
+        }
+
+        if (isset($validated['social_media_links'])) {
+            $kebab->socialMediaLinks()->delete();
+            foreach ($validated['social_media_links'] as $link) {
+                KebabSocialMedia::create([
+                    'kebab_id' => $kebab->id,
+                    'social_media_link' => $link
+                ]);
+            }
+        }
+
+        if (isset($validated['opening_hours'])) {
+            $openingHours = $kebab->openingHours ?: new OpeningHour(['kebab_id' => $kebab->id]);
+            foreach ($validated['opening_hours'] as $day => $hours) {
+                $openingHours->{$day . '_open'} = $hours['open'] ?? null;
+                $openingHours->{$day . '_close'} = $hours['close'] ?? null;
+            }
+            $openingHours->save();
+        }
+
+        if (isset($validated['order_ways'])) {
+            $kebab->orderWays()->delete();
+            foreach ($validated['order_ways'] as $way) {
+                OrderWay::create([
+                    'kebab_id' => $kebab->id,
+                    'app_name' => $way['app_name'] ?? null,
+                    'phone_number' => $way['phone_number'] ?? null,
+                    'website' => $way['website'] ?? null,
+                ]);
+            }
+        }
+
+        return response()->json(['message' => 'Kebab updated successfully'], 200);
+    }
+
     public function destroy($id)
     {
         $kebab = Kebab::find($id);
