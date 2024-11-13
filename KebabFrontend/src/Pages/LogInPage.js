@@ -8,6 +8,7 @@ export default function LogInPage() {
   const [formData, setFormData] = useState({ name: '', password: ''});
   const [errorMessage, setErrorMessage] = useState(false)
   const {token, setToken} = useContext(UserContext)
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -19,6 +20,8 @@ export default function LogInPage() {
   function logIn(event){
       event.preventDefault()
       setErrorMessage('Loading')
+      setLoading(true)
+
       fetch(apiUrl+'admin-login', {
         method: 'POST',
         headers: {
@@ -37,7 +40,7 @@ export default function LogInPage() {
           } else {
             setErrorMessage('Something went wrong')
           }
-
+          setLoading(false)
           throw new Error('Network response was not ok ' + response.statusText);
         }
       
@@ -65,6 +68,7 @@ export default function LogInPage() {
       })
       .catch(error => {
         console.error('There was a problem with the login request:', error);
+        setLoading(false)
       });
   }
 
@@ -126,6 +130,7 @@ export default function LogInPage() {
             
             <button 
               type="submit" 
+              disabled={loading}
               className="w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               Log In
