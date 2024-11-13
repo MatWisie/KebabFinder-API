@@ -201,9 +201,13 @@ class KebabController extends Controller
      */
     public function destroy($id)
     {
-        $kebab = Kebab::findOrFail($id);
-        $kebab->delete();
+        $kebab = Kebab::find($id);
 
-        return response()->json(['success' => true]);
+        if (!$kebab) {
+            return response()->json(['message' => 'Kebab not found'], 404);
+        }
+
+        $kebab->delete();
+        return response()->json(['message' => 'Kebab deleted successfully'], 200);
     }
 }
