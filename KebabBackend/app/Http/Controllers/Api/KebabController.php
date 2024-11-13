@@ -86,7 +86,7 @@ class KebabController extends Controller
             'address' => 'required|string',
             'coordinates' => 'required|string',
             'sauces' => 'array|exists:saucetypes,id',
-            'meats' => 'array|exists|meattypes,id',
+            'meats' => 'array|exists:meattypes,id',
             'social_media_links' => 'array',
             'opening_hours' => 'array',
             'order_ways' => 'array'
