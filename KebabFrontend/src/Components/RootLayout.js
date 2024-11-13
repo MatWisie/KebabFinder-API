@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 export default function RootLayout(){
     return(
         <>
-        <div>
+        <div style={{ position: "sticky", top: 0, background:"#fff" }}>
             <nav>
                 This is a navbar
             </nav>

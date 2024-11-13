@@ -7,7 +7,7 @@ export default function LogInPage() {
 
   const [formData, setFormData] = useState({ name: '', password: ''});
   const [errorMessage, setErrorMessage] = useState(false)
-  const {setToken} = useContext(UserContext)
+  const {token, setToken} = useContext(UserContext)
 
   const navigate = useNavigate()
 
@@ -51,10 +51,14 @@ export default function LogInPage() {
       })
       .then(data => {
         if (typeof data === 'object' && data.token) {
+
           localStorage.setItem('token', data.token);
           setToken(data.token)
-          console.log("logged in")
-          navigate('/adminpanel');
+
+          console.log(data.message)
+
+          isFirstLogIn(data.token)
+
         } else {
           console.log('Received non-JSON response:', data);
         }
@@ -62,6 +66,33 @@ export default function LogInPage() {
       .catch(error => {
         console.error('There was a problem with the login request:', error);
       });
+  }
+
+  function isFirstLogIn() {
+    fetch(apiUrl + 'first-login', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token}`,
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json()
+    })
+    .then(data=>{
+      if(data.is_first_login) {
+        navigate('/changepassword')
+      } else {
+        navigate('/adminpanel');
+      }
+    })
+    .catch(error => {
+      console.error('There was a problem with the request:', error);
+    });
   }
 
   return (
