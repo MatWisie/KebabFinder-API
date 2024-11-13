@@ -8,6 +8,7 @@ class Kebab extends Model
 {
     protected $fillable = [
         'name',
+        'address',
         'coordinates',
         'logo_link',
         'open_year',
