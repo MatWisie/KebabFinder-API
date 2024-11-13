@@ -66,7 +66,7 @@ class KebabController extends Controller
             'orderWay',
             'sauces',
             'socialMedias'
-        ])->paginate(10);
+        ])->get();
 
         return response()->json($kebab);
     }
