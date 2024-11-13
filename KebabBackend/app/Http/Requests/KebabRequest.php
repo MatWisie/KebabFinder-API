@@ -21,7 +21,7 @@ class KebabRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string',
             'address' => 'required|string',
             'coordinates' => [
@@ -58,6 +58,12 @@ class KebabRequest extends FormRequest
             'opening_hours' => 'array',
             'order_ways' => 'array'
         ];
+
+        if ($this->isMethod('patch')) {
+            return $rules;
+        }
+
+        return $rules;
     }
     /**
      * Get the custom messages for the validation rules.

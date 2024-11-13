@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KebabRequest;
 use App\Models\Kebab;
-use App\Models\KebabSocialMedia;
-use App\Models\OpeningHour;
-use App\Models\OrderWay;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Services\KebabService;
 
 class KebabController extends Controller
 {
+    protected $kebabService;
+
+    public function __construct(KebabService $kebabService)
+    {
+        $this->kebabService = $kebabService;
+    }
     public function show(Kebab $kebab): JsonResponse
     {
         $kebab->load([
@@ -141,53 +145,15 @@ class KebabController extends Controller
      *     security={{"sanctum": {}}}
      * )
      */
-
-    public function store(Request $request): JsonResponse
     public function store(KebabRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
-        $kebab = Kebab::create([
-            'name' => $validated['name'],
-            'address' => $validated['address'],
-            'coordinates' => $validated['coordinates'],
-            'logo_link' => $validated['logo_link'] ?? null,
-            'open_year' => $validated['open_year'] ?? null,
-            'closed_year' => $validated['closed_year'] ?? null,
-            'status' => $validated['status'],
-            'is_craft' => $validated['is_craft'],
-            'building_type' => $validated['building_type'],
-            'is_chain' => $validated['is_chain'],
-        ]);
+        $kebab = Kebab::create($this->kebabService->getKebabData($validated));
 
-        $kebab->sauces()->sync($validated['sauces']);
+        $this->kebabService->syncRelations($kebab, $validated);
 
-        $kebab->meatTypes()->sync($validated['meats']);
-
-        foreach ($validated['social_media_links'] as $link) {
-            KebabSocialMedia::create([
-                'kebab_id' => $kebab->id,
-                'social_media_link' => $link
-            ]);
-        }
-
-        $openingHours = new OpeningHour(['kebab_id' => $kebab->id]);
-        foreach ($validated['opening_hours'] as $day => $hours) {
-            $openingHours->{$day . '_open'} = $hours['open'] ?? null;
-            $openingHours->{$day . '_close'} = $hours['close'] ?? null;
-        }
-        $openingHours->save();
-
-        foreach ($validated['order_ways'] as $way) {
-            OrderWay::create([
-                'kebab_id' => $kebab->id,
-                'app_name' => $way['app_name'] ?? null,
-                'phone_number' => $way['phone_number'] ?? null,
-                'website' => $way['website'] ?? null,
-            ]);
-        }
-
-        return response()->json(['message' => 'Kebab created successfully'], 200);
+        return response()->json(['message' => 'Kebab created successfully'], 201);
     }
 
     /**
@@ -211,51 +177,13 @@ class KebabController extends Controller
      *     @OA\Response(response=404, description="Kebab not found")
      * )
      */
-    public function update(Request $request, Kebab $kebab): JsonResponse
     public function update(KebabRequest $request, Kebab $kebab): JsonResponse
     {
         $validated = $request->validated();
 
-        $kebab->update($validated);
+        $kebab->update($this->kebabService->getKebabData($validated));
 
-        if (isset($validated['sauces'])) {
-            $kebab->sauces()->sync($validated['sauces']);
-        }
-
-        if (isset($validated['meats'])) {
-            $kebab->meatTypes()->sync($validated['meats']);
-        }
-
-        if (isset($validated['social_media_links'])) {
-            $kebab->socialMediaLinks()->delete();
-            foreach ($validated['social_media_links'] as $link) {
-                KebabSocialMedia::create([
-                    'kebab_id' => $kebab->id,
-                    'social_media_link' => $link
-                ]);
-            }
-        }
-
-        if (isset($validated['opening_hours'])) {
-            $openingHours = $kebab->openingHours ?: new OpeningHour(['kebab_id' => $kebab->id]);
-            foreach ($validated['opening_hours'] as $day => $hours) {
-                $openingHours->{$day . '_open'} = $hours['open'] ?? null;
-                $openingHours->{$day . '_close'} = $hours['close'] ?? null;
-            }
-            $openingHours->save();
-        }
-
-        if (isset($validated['order_ways'])) {
-            $kebab->orderWays()->delete();
-            foreach ($validated['order_ways'] as $way) {
-                OrderWay::create([
-                    'kebab_id' => $kebab->id,
-                    'app_name' => $way['app_name'] ?? null,
-                    'phone_number' => $way['phone_number'] ?? null,
-                    'website' => $way['website'] ?? null,
-                ]);
-            }
-        }
+        $this->kebabService->syncRelations($kebab, $validated);
 
         return response()->json(['message' => 'Kebab updated successfully'], 200);
     }
@@ -269,6 +197,7 @@ class KebabController extends Controller
         }
 
         $kebab->delete();
-        return response()->json(['message' => 'Kebab deleted successfully'], 200);
+
+        return response()->json(['message' => 'Kebab deleted successfully'], 204);
     }
 }
