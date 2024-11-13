@@ -134,8 +134,28 @@ class KebabController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'address' => 'required|string',
-            'coordinates' => 'required|string',
             'logo_link' => 'nullable|string',
+            'coordinates' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $coordinates = explode(',', $value);
+                    if (count($coordinates) !== 2) {
+                        return $fail('The coordinates must contain exactly two values (latitude and longitude).');
+                    }
+
+                    $latitude = trim($coordinates[0]);
+                    $longitude = trim($coordinates[1]);
+
+                    if (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
+                        return $fail('The latitude must be a valid number between -90 and 90.');
+                    }
+
+                    if (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
+                        return $fail('The longitude must be a valid number between -180 and 180.');
+                    }
+                },
+            ],
             'open_year' => 'nullable|integer|digits:4',
             'closed_year' => 'nullable|integer|digits:4',
             'status' => 'required|in:open,closed,planned',
