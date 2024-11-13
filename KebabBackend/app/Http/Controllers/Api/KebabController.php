@@ -46,7 +46,7 @@ class KebabController extends Controller
      *     @OA\Response(response=404, description="Kebab not found")
      * )
      */
-    public function index(Request $request): JsonResource
+    public function index(Request $request): JsonResponse
     {
         $kebab = Kebab::with([
             'openingHour',
@@ -129,7 +129,7 @@ class KebabController extends Controller
      * )
      */
 
-    public function store(Request $request): JsonResource
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string',
