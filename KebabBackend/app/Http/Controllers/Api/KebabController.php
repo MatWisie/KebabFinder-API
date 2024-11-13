@@ -65,20 +65,72 @@ class KebabController extends Controller
      * Add new kebab.
      * 
      * @OA\Post(
-     *     path="/api/kebabs",
-     *     summary="Add a new kebab with related information",
+     *     path="/kebabs",
+     *     summary="Create a new kebab",
      *     tags={"Kebabs"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/KebabInput")
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", description="The name of the kebab"),
+     *             @OA\Property(property="address", type="string", description="Address of the kebab location"),
+     *             @OA\Property(property="coordinates", type="string", description="Geographical coordinates"),
+     *             @OA\Property(
+     *                 property="sauces",
+     *                 type="array",
+     *                 description="List of sauce IDs",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             @OA\Property(
+     *                 property="meats",
+     *                 type="array",
+     *                 description="List of meat type IDs",
+     *                 @OA\Items(type="integer")
+     *             ),
+     *             @OA\Property(
+     *                 property="social_media_links",
+     *                 type="array",
+     *                 description="List of social media links",
+     *                 @OA\Items(type="string", format="url")
+     *             ),
+     *             @OA\Property(
+     *                 property="opening_hours",
+     *                 type="object",
+     *                 description="Opening hours for each day",
+     *                 @OA\Property(property="monday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="tuesday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="wednesday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="thursday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="friday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="saturday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
+     *                 @OA\Property(property="sunday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time"))
+     *             ),
+     *             @OA\Property(
+     *                 property="order_ways",
+     *                 type="array",
+     *                 description="Different ways to order from this kebab",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="app_name", type="string", nullable=true),
+     *                     @OA\Property(property="phone_number", type="string", nullable=true),
+     *                     @OA\Property(property="website", type="string", format="url", nullable=true)
+     *                 )
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Kebab created successfully",
      *         @OA\JsonContent(ref="#/components/schemas/Kebab")
-     *     )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     *     security={{"sanctum": {}}}
      * )
      */
+
     public function store(Request $request): JsonResource
     {
         $validated = $request->validate([
