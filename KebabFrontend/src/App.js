@@ -1,23 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react'
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route
+} from "react-router-dom";
+
+import LogInPage from './Pages/LogInPage';
+import AdminPanel from './Pages/AdminPanel';
+import ErrorPage from './Pages/ErrorPage';
+import ProtectedRoute from './Components/ProtectedRoute';
+import RootLayout from './Components/RootLayout';
+import { UserContext } from './Contexts/AuthContext';
+import ChangePasswordPage from './Pages/ChangePasswordPage';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+    <Route 
+      path='/' 
+      element={<RootLayout />} 
+    >
+      <Route index element={<AdminPanel />} />
+      <Route 
+        path='/login' 
+        element={<LogInPage />}
+      />
+      <Route 
+        path='/adminpanel' 
+        element={<ProtectedRoute><AdminPanel /></ProtectedRoute>}
+      />
+      <Route
+        path='/changepassword'
+        element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>}
+      >
+
+      </Route>
+      <Route
+        path='*'
+        element={<ErrorPage />}
+      />
+    </Route>
+    </>
+  )
+);
 
 function App() {
+  const [token, setToken] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+
+  useEffect(()=>{
+    setToken(localStorage.getItem('token'))
+    setLoading(false)
+  }, [token])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserContext.Provider value={{token, setToken, isLoading}}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </div>
   );
 }
