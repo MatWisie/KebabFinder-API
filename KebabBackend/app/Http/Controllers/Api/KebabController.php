@@ -134,7 +134,6 @@ class KebabController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'address' => 'required|string',
-            'logo_link' => 'nullable|string',
             'coordinates' => [
                 'required',
                 'string',
@@ -156,6 +155,7 @@ class KebabController extends Controller
                     }
                 },
             ],
+            'logo_link' => 'nullable|url',
             'open_year' => 'nullable|integer|digits:4',
             'closed_year' => 'nullable|integer|digits:4',
             'status' => 'required|in:open,closed,planned',
