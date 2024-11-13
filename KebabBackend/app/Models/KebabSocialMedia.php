@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class KebabSocialMedia extends Model
 {
+    protected $table = 'kebab_social_medias';
     protected $fillable = [
         'kebab_id',
         'social_media_link',

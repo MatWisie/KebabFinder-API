@@ -12,7 +12,6 @@ class OrderWay extends Model
         'phone_number',
         'website',
     ];
-    protected $table = 'orderway';
     public function kebab()
     {
         return $this->belongsTo(Kebab::class);

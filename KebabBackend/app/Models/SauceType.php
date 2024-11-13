@@ -8,6 +8,6 @@ class SauceType extends Model
 {
     public function kebabs()
     {
-        return $this->belongsToMany(Kebab::class, 'kebabsauces');
+        return $this->belongsToMany(Kebab::class, 'kebab_sauces');
     }
 }
