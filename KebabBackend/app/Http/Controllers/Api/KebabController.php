@@ -135,8 +135,15 @@ class KebabController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'coordinates' => 'required|string',
-            'sauces' => 'array|exists:saucetypes,id',
-            'meats' => 'array|exists:meattypes,id',
+            'logo_link' => 'nullable|string',
+            'open_year' => 'nullable|integer|digits:4',
+            'closed_year' => 'nullable|integer|digits:4',
+            'status' => 'required|in:open,closed,planned',
+            'is_craft' => 'required|boolean',
+            'building_type' => 'required|string',
+            'is_chain' => 'required|boolean',
+            'sauces' => 'array|exists:sauce_types,id',
+            'meats' => 'array|exists:meat_types,id',
             'social_media_links' => 'array',
             'opening_hours' => 'array',
             'order_ways' => 'array'
@@ -146,6 +153,13 @@ class KebabController extends Controller
             'name' => $validated['name'],
             'address' => $validated['address'],
             'coordinates' => $validated['coordinates'],
+            'logo_link' => $validated['logo_link'] ?? null,
+            'open_year' => $validated['open_year'] ?? null,
+            'closed_year' => $validated['closed_year'] ?? null,
+            'status' => $validated['status'],
+            'is_craft' => $validated['is_craft'],
+            'building_type' => $validated['building_type'],
+            'is_chain' => $validated['is_chain'],
         ]);
 
         $kebab->sauces()->attach($validated['sauces']);
