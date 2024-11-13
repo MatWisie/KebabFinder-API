@@ -17,6 +17,31 @@ class KebabController extends Controller
     {
         $this->kebabService = $kebabService;
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/kebabs/{kebab}",
+     *     summary="Get details of a specific kebab",
+     *     description="Returns the details of a specific kebab including associated sauces, meat types, social media links, opening hours, and order methods.",
+     *     tags={"Kebabs"},
+     *     @OA\Parameter(
+     *         name="kebab",
+     *         in="path",
+     *         description="Kebab ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kebab details",
+     *         @OA\JsonContent(ref="#/components/schemas/Kebab")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kebab not found"
+     *     )
+     * )
+     */
     public function show(Kebab $kebab): JsonResponse
     {
         $kebab->load([
@@ -31,36 +56,16 @@ class KebabController extends Controller
     }
 
     /**
-     * Get all kebabs or kebab by id.
-     * 
      * @OA\Get(
      *     path="/api/kebabs",
-     *     summary="Get all kebabs with related information",
+     *     summary="Get a list of all kebabs",
+     *     description="Returns a list of all kebabs along with their associated data.",
      *     tags={"Kebabs"},
      *     @OA\Response(
      *         response=200,
      *         description="List of kebabs",
      *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Kebab"))
      *     )
-     * )
-     * 
-     * @OA\Get(
-     *     path="/api/kebabs/{id}",
-     *     summary="Get a single kebab by ID",
-     *     tags={"Kebabs"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="Kebab ID",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Kebab details",
-     *         @OA\JsonContent(ref="#/components/schemas/Kebab")
-     *     ),
-     *     @OA\Response(response=404, description="Kebab not found")
      * )
      */
     public function index(Request $request): JsonResponse
@@ -77,72 +82,70 @@ class KebabController extends Controller
     }
 
     /**
-     * Add new kebab.
-     * 
      * @OA\Post(
-     *     path="/kebabs",
+     *     path="/api/kebabs",
      *     summary="Create a new kebab",
+     *     description="Creates a new kebab with the provided data and associates related entities like sauces, meats, social media links, opening hours, and order methods.",
      *     tags={"Kebabs"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="name", type="string", description="The name of the kebab"),
-     *             @OA\Property(property="address", type="string", description="Address of the kebab location"),
-     *             @OA\Property(property="coordinates", type="string", description="Geographical coordinates"),
-     *             @OA\Property(
-     *                 property="sauces",
-     *                 type="array",
-     *                 description="List of sauce IDs",
-     *                 @OA\Items(type="integer")
+     *             required={"name", "address", "status", "coordinates", "is_craft", "is_chain", "building_type", "sauces", "meats", "social_media_links", "opening_hours", "order_ways"},
+     *             @OA\Property(property="name", type="string", description="The name of the kebab", example="Sample Kebab Place"),
+     *             @OA\Property(property="address", type="string", description="The address of the kebab", example="123 Kebab St, Kebab City"),
+     *             @OA\Property(property="coordinates", type="string", description="Coordinates of the kebab (latitude,longitude)", example="51.5074, -10.1278"),
+     *             @OA\Property(property="logo_link", type="string", format="uri", description="URL of the logo (optional)", example="http://example.com"),
+     *             @OA\Property(property="open_year", type="integer", description="Year the kebab opened", example=1999),
+     *             @OA\Property(property="closed_year", type="integer", description="Year the kebab closed", example=2020),
+     *             @OA\Property(property="status", type="string", enum={"open", "closed", "planned"}, description="The status of the kebab", example="open"),
+     *             @OA\Property(property="is_craft", type="boolean", description="Whether the kebab is a craft kebab", example=true),
+     *             @OA\Property(property="building_type", type="string", description="The type of building where the kebab is located", example="domek"),
+     *             @OA\Property(property="is_chain", type="boolean", description="Whether the kebab is part of a chain", example=true),
+     *             @OA\Property(property="sauces", type="array", @OA\Items(type="integer"), description="List of sauce types associated with the kebab", example={1, 2}),
+     *             @OA\Property(property="meats", type="array", @OA\Items(type="integer"), description="List of meat types associated with the kebab", example={2, 4}),
+     *             @OA\Property(property="social_media_links", type="array", @OA\Items(type="string", format="uri"), description="Social media links for the kebab", example={
+     *                 "https://facebook.com/samplekebab",
+     *                 "https://instagram.com/samplekebab"
+     *             }),
+     *             @OA\Property(property="opening_hours", type="object", description="Opening hours for the kebab", 
+     *                 @OA\AdditionalProperties(
+     *                     type="object", 
+     *                     @OA\Property(property="open", type="string", example="10:00"),
+     *                     @OA\Property(property="close", type="string", example="22:00")
+     *                 ), 
+     *                 example={
+     *                     "monday": { "open": "10:00", "close": "22:00" },
+     *                     "tuesday": { "open": "10:00", "close": "22:00" },
+     *                     "wednesday": { "open": "10:00", "close": "22:00" },
+     *                     "thursday": { "open": "10:00", "close": "22:00" },
+     *                     "friday": { "open": "10:00", "close": "23:00" }
+     *                 }
      *             ),
-     *             @OA\Property(
-     *                 property="meats",
-     *                 type="array",
-     *                 description="List of meat type IDs",
-     *                 @OA\Items(type="integer")
-     *             ),
-     *             @OA\Property(
-     *                 property="social_media_links",
-     *                 type="array",
-     *                 description="List of social media links",
-     *                 @OA\Items(type="string", format="url")
-     *             ),
-     *             @OA\Property(
-     *                 property="opening_hours",
-     *                 type="object",
-     *                 description="Opening hours for each day",
-     *                 @OA\Property(property="monday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="tuesday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="wednesday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="thursday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="friday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="saturday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time")),
-     *                 @OA\Property(property="sunday", type="object", @OA\Property(property="open", type="string", format="time"), @OA\Property(property="close", type="string", format="time"))
-     *             ),
-     *             @OA\Property(
-     *                 property="order_ways",
-     *                 type="array",
-     *                 description="Different ways to order from this kebab",
+     *             @OA\Property(property="order_ways", type="array", description="Order methods for the kebab",
      *                 @OA\Items(
      *                     type="object",
-     *                     @OA\Property(property="app_name", type="string", nullable=true),
-     *                     @OA\Property(property="phone_number", type="string", nullable=true),
-     *                     @OA\Property(property="website", type="string", format="url", nullable=true)
-     *                 )
+     *                     @OA\Property(property="app_name", type="string", description="The name of the app", example="UberEats"),
+     *                     @OA\Property(property="phone_number", type="string", description="Phone number for orders", example="123-456-789"),
+     *                     @OA\Property(property="website", type="string", format="uri", description="Website URL for the app", example="https://ubereats.com/samplekebab")
+     *                 ), 
+     *                 example={
+     *                     {"app_name": "UberEats", "phone_number": "123-456-789", "website": "https://ubereats.com/samplekebab"},
+     *                     {"app_name": "DoorDash", "phone_number": null, "website": "https://doordash.com/samplekebab"}
+     *                 }
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Kebab created successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Kebab")
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Kebab created successfully")
+     *         )
      *     ),
      *     @OA\Response(
-     *         response=422,
-     *         description="Validation error"
-     *     ),
-     *     security={{"sanctum": {}}}
+     *         response=400,
+     *         description="Invalid data provided"
+     *     )
      * )
      */
     public function store(KebabRequest $request): JsonResponse
@@ -157,24 +160,54 @@ class KebabController extends Controller
     }
 
     /**
-     * Delete kebab by id.
-     * 
-     * @OA\Delete(
-     *     path="/api/kebabs/{id}",
-     *     summary="Delete a kebab by ID",
+     * @OA\Put(
+     *     path="/api/kebabs/{kebab}",
+     *     summary="Update an existing kebab",
+     *     description="Updates the details of an existing kebab along with its associated entities like sauces, meats, social media links, opening hours, and order methods.",
      *     tags={"Kebabs"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="kebab",
      *         in="path",
-     *         required=true,
      *         description="Kebab ID",
+     *         required=true,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "address", "coordinates", "status", "is_craft", "building_type", "is_chain"},
+     *             @OA\Property(property="name", type="string", description="The name of the kebab"),
+     *             @OA\Property(property="address", type="string", description="The address of the kebab"),
+     *             @OA\Property(property="coordinates", type="string", description="Coordinates of the kebab (latitude,longitude)"),
+     *             @OA\Property(property="logo_link", type="string", format="uri", description="URL of the logo (optional)"),
+     *             @OA\Property(property="open_year", type="integer", description="Year the kebab opened (optional)"),
+     *             @OA\Property(property="closed_year", type="integer", description="Year the kebab closed (optional)"),
+     *             @OA\Property(property="status", type="string", enum={"open", "closed", "planned"}, description="The status of the kebab"),
+     *             @OA\Property(property="is_craft", type="boolean", description="Whether the kebab is a craft kebab"),
+     *             @OA\Property(property="building_type", type="string", description="The type of building where the kebab is located"),
+     *             @OA\Property(property="is_chain", type="boolean", description="Whether the kebab is part of a chain"),
+     *             @OA\Property(property="sauces", type="array", @OA\Items(type="integer"), description="List of sauce types associated with the kebab"),
+     *             @OA\Property(property="meats", type="array", @OA\Items(type="integer"), description="List of meat types associated with the kebab"),
+     *             @OA\Property(property="social_media_links", type="array", @OA\Items(type="string", format="uri"), description="Social media links for the kebab"),
+     *             @OA\Property(property="opening_hours", type="array", description="Opening hours for the kebab", @OA\Items(type="object")),
+     *             @OA\Property(property="order_ways", type="array", description="Order methods for the kebab", @OA\Items(type="object"))
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Kebab deleted successfully"
+     *         description="Kebab updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Kebab updated successfully")
+     *         )
      *     ),
-     *     @OA\Response(response=404, description="Kebab not found")
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kebab not found"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid data provided"
+     *     )
      * )
      */
     public function update(KebabRequest $request, Kebab $kebab): JsonResponse
@@ -188,6 +221,29 @@ class KebabController extends Controller
         return response()->json(['message' => 'Kebab updated successfully'], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/kebabs/{kebab}",
+     *     summary="Delete a kebab",
+     *     description="Deletes a kebab by its ID.",
+     *     tags={"Kebabs"},
+     *     @OA\Parameter(
+     *         name="kebab",
+     *         in="path",
+     *         description="Kebab ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Kebab deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kebab not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $kebab = Kebab::find($id);
