@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KebabRequest;
 use App\Models\Kebab;
 use App\Models\KebabSocialMedia;
 use App\Models\OpeningHour;
@@ -142,44 +143,9 @@ class KebabController extends Controller
      */
 
     public function store(Request $request): JsonResponse
+    public function store(KebabRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'coordinates' => [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) {
-                    $coordinates = explode(',', $value);
-                    if (count($coordinates) !== 2) {
-                        return $fail('The coordinates must contain exactly two values (latitude and longitude).');
-                    }
-
-                    $latitude = trim($coordinates[0]);
-                    $longitude = trim($coordinates[1]);
-
-                    if (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
-                        return $fail('The latitude must be a valid number between -90 and 90.');
-                    }
-
-                    if (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
-                        return $fail('The longitude must be a valid number between -180 and 180.');
-                    }
-                },
-            ],
-            'logo_link' => 'nullable|url',
-            'open_year' => 'nullable|integer|digits:4',
-            'closed_year' => 'nullable|integer|digits:4',
-            'status' => 'required|in:open,closed,planned',
-            'is_craft' => 'required|boolean',
-            'building_type' => 'required|string',
-            'is_chain' => 'required|boolean',
-            'sauces' => 'array|exists:sauce_types,id',
-            'meats' => 'array|exists:meat_types,id',
-            'social_media_links' => 'array',
-            'opening_hours' => 'array',
-            'order_ways' => 'array'
-        ]);
+        $validated = $request->validated();
 
         $kebab = Kebab::create([
             'name' => $validated['name'],
@@ -246,44 +212,9 @@ class KebabController extends Controller
      * )
      */
     public function update(Request $request, Kebab $kebab): JsonResponse
+    public function update(KebabRequest $request, Kebab $kebab): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'coordinates' => [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) {
-                    $coordinates = explode(',', $value);
-                    if (count($coordinates) !== 2) {
-                        return $fail('The coordinates must contain exactly two values (latitude and longitude).');
-                    }
-
-                    $latitude = trim($coordinates[0]);
-                    $longitude = trim($coordinates[1]);
-
-                    if (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
-                        return $fail('The latitude must be a valid number between -90 and 90.');
-                    }
-
-                    if (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
-                        return $fail('The longitude must be a valid number between -180 and 180.');
-                    }
-                },
-            ],
-            'logo_link' => 'nullable|url',
-            'open_year' => 'nullable|integer|digits:4',
-            'closed_year' => 'nullable|integer|digits:4',
-            'status' => 'required|in:open,closed,planned',
-            'is_craft' => 'required|boolean',
-            'building_type' => 'required|string',
-            'is_chain' => 'required|boolean',
-            'sauces' => 'array|exists:sauce_types,id',
-            'meats' => 'array|exists:meat_types,id',
-            'social_media_links' => 'array',
-            'opening_hours' => 'array',
-            'order_ways' => 'array'
-        ]);
+        $validated = $request->validated();
 
         $kebab->update($validated);
 
