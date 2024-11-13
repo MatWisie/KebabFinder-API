@@ -12,6 +12,18 @@ use Illuminate\Http\Request;
 
 class KebabController extends Controller
 {
+    public function show(Kebab $kebab): JsonResponse
+    {
+        $kebab->load([
+            'sauces:id,name',
+            'meatTypes:id,name',
+            'socialMedias:id,social_media_link',
+            'openingHour',
+            'orderWay:id,app_name,phone_number,website'
+        ]);
+
+        return response()->json($kebab);
+    }
 
     /**
      * Get all kebabs or kebab by id.
