@@ -162,9 +162,9 @@ class KebabController extends Controller
             'is_chain' => $validated['is_chain'],
         ]);
 
-        $kebab->sauces()->attach($validated['sauces']);
+        $kebab->sauces()->sync($validated['sauces']);
 
-        $kebab->meatTypes()->attach($validated['meats']);
+        $kebab->meatTypes()->sync($validated['meats']);
 
         foreach ($validated['social_media_links'] as $link) {
             KebabSocialMedia::create([
