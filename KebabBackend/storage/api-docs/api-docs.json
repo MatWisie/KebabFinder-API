@@ -155,41 +155,17 @@
                 ]
             }
         },
-        "/api/kebabs": {
+        "/api/kebabs/{kebab}": {
             "get": {
                 "tags": [
                     "Kebabs"
                 ],
-                "summary": "Get all kebabs with related information",
-                "description": "Get all kebabs or kebab by id.",
-                "operationId": "f13582052e1a5f54f3290ffedc53507b",
-                "responses": {
-                    "200": {
-                        "description": "List of kebabs",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Kebab"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/kebabs/{id}": {
-            "get": {
-                "tags": [
-                    "Kebabs"
-                ],
-                "summary": "Get a single kebab by ID",
-                "operationId": "dde7d7f1926120a65de493f4089b64b2",
+                "summary": "Get details of a specific kebab",
+                "description": "Returns the details of a specific kebab including associated sauces, meat types, social media links, opening hours, and order methods.",
+                "operationId": "32ee6dc78062fe1f2141b574aa0038b7",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "kebab",
                         "in": "path",
                         "description": "Kebab ID",
                         "required": true,
@@ -214,16 +190,162 @@
                     }
                 }
             },
+            "put": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Update an existing kebab",
+                "description": "Updates the details of an existing kebab along with its associated entities like sauces, meats, social media links, opening hours, and order methods.",
+                "operationId": "2104d9fd92521b8652074c8057648d9d",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "Kebab ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "coordinates",
+                                    "status",
+                                    "is_craft",
+                                    "building_type",
+                                    "is_chain"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the kebab",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "The address of the kebab",
+                                        "type": "string"
+                                    },
+                                    "coordinates": {
+                                        "description": "Coordinates of the kebab (latitude,longitude)",
+                                        "type": "string"
+                                    },
+                                    "logo_link": {
+                                        "description": "URL of the logo (optional)",
+                                        "type": "string",
+                                        "format": "uri"
+                                    },
+                                    "open_year": {
+                                        "description": "Year the kebab opened (optional)",
+                                        "type": "integer"
+                                    },
+                                    "closed_year": {
+                                        "description": "Year the kebab closed (optional)",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "The status of the kebab",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed",
+                                            "planned"
+                                        ]
+                                    },
+                                    "is_craft": {
+                                        "description": "Whether the kebab is a craft kebab",
+                                        "type": "boolean"
+                                    },
+                                    "building_type": {
+                                        "description": "The type of building where the kebab is located",
+                                        "type": "string"
+                                    },
+                                    "is_chain": {
+                                        "description": "Whether the kebab is part of a chain",
+                                        "type": "boolean"
+                                    },
+                                    "sauces": {
+                                        "description": "List of sauce types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "meats": {
+                                        "description": "List of meat types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "social_media_links": {
+                                        "description": "Social media links for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        }
+                                    },
+                                    "opening_hours": {
+                                        "description": "Opening hours for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "order_ways": {
+                                        "description": "Order methods for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Kebab updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Kebab updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "Kebabs"
                 ],
-                "summary": "Delete a kebab by ID",
-                "description": "Delete kebab by id.",
-                "operationId": "00a2f568a3c5c140aff94d154fc5842e",
+                "summary": "Delete a kebab",
+                "description": "Deletes a kebab by its ID.",
+                "operationId": "118c8c495f6de8a0b5e119bc34fda9ca",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "kebab",
                         "in": "path",
                         "description": "Kebab ID",
                         "required": true,
@@ -233,7 +355,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "204": {
                         "description": "Kebab deleted successfully"
                     },
                     "404": {
@@ -242,170 +364,131 @@
                 }
             }
         },
-        "/kebabs": {
+        "/api/kebabs": {
+            "get": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Get a list of all kebabs",
+                "description": "Returns a list of all kebabs along with their associated data.",
+                "operationId": "f13582052e1a5f54f3290ffedc53507b",
+                "responses": {
+                    "200": {
+                        "description": "List of kebabs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Kebab"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Kebabs"
                 ],
                 "summary": "Create a new kebab",
-                "description": "Add new kebab.",
-                "operationId": "318909f92f6aeac3f7003d6f732eab67",
+                "description": "Creates a new kebab with the provided data and associates related entities like sauces, meats, social media links, opening hours, and order methods.",
+                "operationId": "695cc21d8dd138348f5947647c76d780",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "coordinates",
+                                    "status",
+                                    "is_craft",
+                                    "building_type",
+                                    "is_chain"
+                                ],
                                 "properties": {
                                     "name": {
                                         "description": "The name of the kebab",
                                         "type": "string"
                                     },
                                     "address": {
-                                        "description": "Address of the kebab location",
+                                        "description": "The address of the kebab",
                                         "type": "string"
                                     },
                                     "coordinates": {
-                                        "description": "Geographical coordinates",
+                                        "description": "Coordinates of the kebab (latitude,longitude)",
                                         "type": "string"
                                     },
+                                    "logo_link": {
+                                        "description": "URL of the logo (optional)",
+                                        "type": "string",
+                                        "format": "uri"
+                                    },
+                                    "open_year": {
+                                        "description": "Year the kebab opened (optional)",
+                                        "type": "integer"
+                                    },
+                                    "closed_year": {
+                                        "description": "Year the kebab closed (optional)",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "The status of the kebab",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed",
+                                            "planned"
+                                        ]
+                                    },
+                                    "is_craft": {
+                                        "description": "Whether the kebab is a craft kebab",
+                                        "type": "boolean"
+                                    },
+                                    "building_type": {
+                                        "description": "The type of building where the kebab is located",
+                                        "type": "string"
+                                    },
+                                    "is_chain": {
+                                        "description": "Whether the kebab is part of a chain",
+                                        "type": "boolean"
+                                    },
                                     "sauces": {
-                                        "description": "List of sauce IDs",
+                                        "description": "List of sauce types associated with the kebab",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
                                         }
                                     },
                                     "meats": {
-                                        "description": "List of meat type IDs",
+                                        "description": "List of meat types associated with the kebab",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
                                         }
                                     },
                                     "social_media_links": {
-                                        "description": "List of social media links",
+                                        "description": "Social media links for the kebab",
                                         "type": "array",
                                         "items": {
                                             "type": "string",
-                                            "format": "url"
+                                            "format": "uri"
                                         }
                                     },
                                     "opening_hours": {
-                                        "description": "Opening hours for each day",
-                                        "properties": {
-                                            "monday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "tuesday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "wednesday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "thursday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "friday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "saturday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "sunday": {
-                                                "properties": {
-                                                    "open": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    },
-                                                    "close": {
-                                                        "type": "string",
-                                                        "format": "time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "order_ways": {
-                                        "description": "Different ways to order from this kebab",
+                                        "description": "Opening hours for the kebab",
                                         "type": "array",
                                         "items": {
-                                            "properties": {
-                                                "app_name": {
-                                                    "type": "string",
-                                                    "nullable": true
-                                                },
-                                                "phone_number": {
-                                                    "type": "string",
-                                                    "nullable": true
-                                                },
-                                                "website": {
-                                                    "type": "string",
-                                                    "format": "url",
-                                                    "nullable": true
-                                                }
-                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "order_ways": {
+                                        "description": "Order methods for the kebab",
+                                        "type": "array",
+                                        "items": {
                                             "type": "object"
                                         }
                                     }
@@ -421,20 +504,21 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Kebab"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Kebab created successfully"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
-                    "422": {
-                        "description": "Validation error"
+                    "400": {
+                        "description": "Invalid data provided"
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         },
         "/api/user/first-login": {
