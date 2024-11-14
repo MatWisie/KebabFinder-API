@@ -60,4 +60,10 @@ class CommentController extends Controller
         return response()->json($comments);
     }
 
+    public function adminRemoveComment(Comment $comment): JsonResponse
+    {
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully by admin'], 204);
+    }
 }
