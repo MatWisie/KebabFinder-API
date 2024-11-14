@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Kebab;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
