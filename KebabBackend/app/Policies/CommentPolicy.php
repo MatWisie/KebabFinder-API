@@ -11,4 +11,12 @@ class CommentPolicy
     {
         return $user->id === $comment->user_id;
     }
+
+    /**
+     * Determine if the authenticated user can delete a comment.
+     */
+    public function delete(User $user, Comment $comment): bool
+    {
+        return $user->id === $comment->user_id || $user->is_admin;
+    }
 }
