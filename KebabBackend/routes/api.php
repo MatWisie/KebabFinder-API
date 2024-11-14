@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentsController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -22,6 +23,14 @@ Route::prefix('user')->group(function () {
     Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
 
     Route::middleware(['auth:sanctum'])->post('change-password', [UserController::class, 'changePassword']);
+    Route::prefix('Comments')->group(function () {
+
+        Route::get('/', [CommentsController::class, 'getUserComments']);
+
+        Route::put('{comment}', [CommentsController::class, 'editComment']);
+
+        Route::delete('{comment}', [CommentsController::class, 'removeComment']);
+    });
 });
 
 Route::prefix('admin')->group(function () {
@@ -38,6 +47,10 @@ Route::prefix('kebabs')->group(function () {
     Route::get('{kebab}', [KebabController::class, 'show']);
 
     Route::get('/', [KebabController::class, 'index']);
+
+    Route::post('{kebab}/comments', [CommentsController::class, 'addComment']);
+
+    Route::get('{kebab}/comments', [CommentsController::class, 'getCommentsByKebabId']);
 
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
 
