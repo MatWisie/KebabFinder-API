@@ -25,4 +25,16 @@ class CommentRequest extends FormRequest
             'content' => 'required|string|100',
         ];
     }
+
+    /**
+     * Get the custom messages for validation errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'content.required' => 'Content of the comment is required.',
+            'content.string' => 'Content must be a valid string.',
+            'content.max' => 'Content can have a maximum length of 100 characters.',
+        ];
+    }
 }
