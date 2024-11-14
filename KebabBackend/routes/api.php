@@ -16,13 +16,14 @@ Route::post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
 
 Route::middleware(['auth:sanctum'])->get('/first-login', [UserController::class, 'isFirstLogin']);
 
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
 
-    Route::middleware(['auth:sanctum'])->get('/', [UserController::class, 'getUser']);
+    Route::get('/', [UserController::class, 'getUser']);
 
-    Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
+    Route::put('change-username', [UserController::class, 'changeUsername']);
 
-    Route::middleware(['auth:sanctum'])->post('change-password', [UserController::class, 'changePassword']);
+    Route::post('change-password', [UserController::class, 'changePassword']);
+
     Route::prefix('Comments')->group(function () {
 
         Route::get('/', [CommentsController::class, 'getUserComments']);
@@ -33,13 +34,13 @@ Route::prefix('user')->group(function () {
     });
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
 
-    Route::middleware(['auth:sanctum', 'admin'])->get('users', [UserController::class, 'index']);
+    Route::get('users', [UserController::class, 'index']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->delete('delete-user/{id}', [UserController::class, 'destroy']);
+    Route::delete('delete-user/{id}', [UserController::class, 'destroy']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+    Route::post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
 });
 
 Route::prefix('kebabs')->group(function () {
