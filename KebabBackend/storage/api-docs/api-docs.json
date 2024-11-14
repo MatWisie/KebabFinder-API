@@ -155,6 +155,372 @@
                 ]
             }
         },
+        "/api/kebabs/{kebab}": {
+            "get": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Get details of a specific kebab",
+                "description": "Returns the details of a specific kebab including associated sauces, meat types, social media links, opening hours, and order methods.",
+                "operationId": "32ee6dc78062fe1f2141b574aa0038b7",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "Kebab ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Kebab details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Kebab"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Update an existing kebab",
+                "description": "Updates the details of an existing kebab along with its associated entities like sauces, meats, social media links, opening hours, and order methods.",
+                "operationId": "2104d9fd92521b8652074c8057648d9d",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "Kebab ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "coordinates",
+                                    "status",
+                                    "is_craft",
+                                    "building_type",
+                                    "is_chain"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the kebab",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "The address of the kebab",
+                                        "type": "string"
+                                    },
+                                    "coordinates": {
+                                        "description": "Coordinates of the kebab (latitude,longitude)",
+                                        "type": "string"
+                                    },
+                                    "logo_link": {
+                                        "description": "URL of the logo (optional)",
+                                        "type": "string",
+                                        "format": "uri"
+                                    },
+                                    "open_year": {
+                                        "description": "Year the kebab opened (optional)",
+                                        "type": "integer"
+                                    },
+                                    "closed_year": {
+                                        "description": "Year the kebab closed (optional)",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "The status of the kebab",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed",
+                                            "planned"
+                                        ]
+                                    },
+                                    "is_craft": {
+                                        "description": "Whether the kebab is a craft kebab",
+                                        "type": "boolean"
+                                    },
+                                    "building_type": {
+                                        "description": "The type of building where the kebab is located",
+                                        "type": "string"
+                                    },
+                                    "is_chain": {
+                                        "description": "Whether the kebab is part of a chain",
+                                        "type": "boolean"
+                                    },
+                                    "sauces": {
+                                        "description": "List of sauce types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "meats": {
+                                        "description": "List of meat types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "social_media_links": {
+                                        "description": "Social media links for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        }
+                                    },
+                                    "opening_hours": {
+                                        "description": "Opening hours for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "order_ways": {
+                                        "description": "Order methods for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Kebab updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Kebab updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Delete a kebab",
+                "description": "Deletes a kebab by its ID.",
+                "operationId": "118c8c495f6de8a0b5e119bc34fda9ca",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "Kebab ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Kebab deleted successfully"
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    }
+                }
+            }
+        },
+        "/api/kebabs": {
+            "get": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Get a list of all kebabs",
+                "description": "Returns a list of all kebabs along with their associated data.",
+                "operationId": "f13582052e1a5f54f3290ffedc53507b",
+                "responses": {
+                    "200": {
+                        "description": "List of kebabs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Kebab"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Kebabs"
+                ],
+                "summary": "Create a new kebab",
+                "description": "Creates a new kebab with the provided data and associates related entities like sauces, meats, social media links, opening hours, and order methods.",
+                "operationId": "695cc21d8dd138348f5947647c76d780",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "coordinates",
+                                    "status",
+                                    "is_craft",
+                                    "building_type",
+                                    "is_chain"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the kebab",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "The address of the kebab",
+                                        "type": "string"
+                                    },
+                                    "coordinates": {
+                                        "description": "Coordinates of the kebab (latitude,longitude)",
+                                        "type": "string"
+                                    },
+                                    "logo_link": {
+                                        "description": "URL of the logo (optional)",
+                                        "type": "string",
+                                        "format": "uri"
+                                    },
+                                    "open_year": {
+                                        "description": "Year the kebab opened (optional)",
+                                        "type": "integer"
+                                    },
+                                    "closed_year": {
+                                        "description": "Year the kebab closed (optional)",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "The status of the kebab",
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed",
+                                            "planned"
+                                        ]
+                                    },
+                                    "is_craft": {
+                                        "description": "Whether the kebab is a craft kebab",
+                                        "type": "boolean"
+                                    },
+                                    "building_type": {
+                                        "description": "The type of building where the kebab is located",
+                                        "type": "string"
+                                    },
+                                    "is_chain": {
+                                        "description": "Whether the kebab is part of a chain",
+                                        "type": "boolean"
+                                    },
+                                    "sauces": {
+                                        "description": "List of sauce types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "meats": {
+                                        "description": "List of meat types associated with the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "social_media_links": {
+                                        "description": "Social media links for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        }
+                                    },
+                                    "opening_hours": {
+                                        "description": "Opening hours for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "order_ways": {
+                                        "description": "Order methods for the kebab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Kebab created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Kebab created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                }
+            }
+        },
         "/api/user/first-login": {
             "get": {
                 "tags": [
@@ -584,6 +950,167 @@
                     }
                 },
                 "type": "object"
+            },
+            "Kebab": {
+                "title": "Kebab",
+                "description": "Kebab model schema",
+                "required": [
+                    "id",
+                    "name",
+                    "address"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier for the kebab",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Name of the kebab place",
+                        "type": "string"
+                    },
+                    "address": {
+                        "description": "Address of the kebab place",
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "description": "Coordinates of the kebab place",
+                        "type": "string"
+                    },
+                    "google_review": {
+                        "description": "Google review rating",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "pyszne_pl_review": {
+                        "description": "Pyszne.pl review rating",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "sauces": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sauce"
+                        }
+                    },
+                    "meatTypes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MeatType"
+                        }
+                    },
+                    "socialMedias": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SocialMedia"
+                        }
+                    },
+                    "openingHours": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OpeningHour"
+                        }
+                    },
+                    "orderWay": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderWay"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "MeatType": {
+                "description": "Meat type schema",
+                "properties": {
+                    "id": {
+                        "description": "Meat type ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Meat type name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "OpeningHour": {
+                "description": "Opening hours schema",
+                "properties": {
+                    "day": {
+                        "description": "Day of the week",
+                        "type": "string"
+                    },
+                    "open": {
+                        "description": "Opening time",
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "close": {
+                        "description": "Closing time",
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "OrderWay": {
+                "description": "Order way schema",
+                "properties": {
+                    "id": {
+                        "description": "Order way ID",
+                        "type": "integer"
+                    },
+                    "app_name": {
+                        "description": "App name for ordering",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phone_number": {
+                        "description": "Phone number for ordering",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "website": {
+                        "description": "Website for ordering",
+                        "type": "string",
+                        "format": "url",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Sauce": {
+                "description": "Sauce type schema",
+                "properties": {
+                    "id": {
+                        "description": "Sauce ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Sauce name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SocialMedia": {
+                "description": "Social media link schema",
+                "properties": {
+                    "id": {
+                        "description": "Social media link ID",
+                        "type": "integer"
+                    },
+                    "link": {
+                        "description": "Social media URL",
+                        "type": "string",
+                        "format": "url"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -591,6 +1118,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Kebabs",
+            "description": "Kebabs"
         },
         {
             "name": "User",

@@ -4,18 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('openinghours', function (Blueprint $table) {
+        Schema::create('opening_hours', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kebab_id')->constrained('kebabs')->onDelete('cascade');
             $table->time('monday_open')->nullable();
-            $table->time('monday_closed')->nullable();
+            $table->time('monday_close')->nullable();
             $table->time('tuesday_open')->nullable();
             $table->time('tuesday_close')->nullable();
             $table->time('wednesday_open')->nullable();
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('openinghours');
+        Schema::dropIfExists('opening_hours');
     }
 };

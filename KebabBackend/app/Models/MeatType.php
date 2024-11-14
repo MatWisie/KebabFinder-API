@@ -8,6 +8,6 @@ class MeatType extends Model
 {
     public function kebabs()
     {
-        return $this->belongsToMany(Kebab::class, 'kebabmeattypes');
+        return $this->belongsToMany(Kebab::class, 'kebab_meat_types');
     }
 }

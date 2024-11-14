@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kebab extends Model
 {
+    protected $fillable = [
+        'name',
+        'address',
+        'coordinates',
+        'logo_link',
+        'open_year',
+        'closed_year',
+        'status',
+        'is_craft',
+        'building_type',
+        'is_chain',
+        'google_review',
+        'pysznepl_review'
+    ];
+
     public function socialMedias()
     {
         return $this->hasMany(KebabSocialMedia::class);
@@ -17,7 +32,7 @@ class Kebab extends Model
 
     public function meatTypes()
     {
-        return $this->belongsToMany(MeatType::class, 'kebabmeattypes');
+        return $this->belongsToMany(MeatType::class, 'kebab_meat_types');
     }
     public function orderWay()
     {
@@ -25,7 +40,7 @@ class Kebab extends Model
     }
     public function sauces()
     {
-        return $this->belongsToMany(SauceType::class, 'kebabsauces');
+        return $this->belongsToMany(SauceType::class, 'kebab_sauces');
     }
     public function comments()
     {
@@ -37,6 +52,6 @@ class Kebab extends Model
     }
     public function favouritedBy()
     {
-        return $this->belongsToMany(User::class, 'favouritekebabs');
+        return $this->belongsToMany(User::class, 'favourite_kebabs');
     }
 }
