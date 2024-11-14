@@ -46,4 +46,11 @@ class CommentController extends Controller
         return response()->json(['message' => 'Comment updated successfully', 'comment' => $comment], 200);
     }
 
+    public function getUserComments(): JsonResponse
+    {
+        $comments = Comment::where('user_id', Auth::id())->get();
+
+        return response()->json($comments);
+    }
+
 }
