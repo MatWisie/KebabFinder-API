@@ -19,4 +19,15 @@ class CommentController extends Controller
         return response()->json(['message' => 'Comment added successfully', 'comment' => $comment], 201);
     }
 
+    public function removeComment(Comment $comment): JsonResponse
+    {
+        if ($comment->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully'], 204);
+    }
+
 }
