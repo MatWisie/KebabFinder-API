@@ -53,4 +53,11 @@ class CommentController extends Controller
         return response()->json($comments);
     }
 
+    public function getCommentsByKebabId(Kebab $kebab): JsonResponse
+    {
+        $comments = $kebab->comments()->with('user:id,name')->get();
+
+        return response()->json($comments);
+    }
+
 }
