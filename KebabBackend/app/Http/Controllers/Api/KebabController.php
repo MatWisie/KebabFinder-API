@@ -145,6 +145,10 @@ class KebabController extends Controller
      *     @OA\Response(
      *         response=400,
      *         description="Invalid data provided"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Content"
      *     )
      * )
      */
