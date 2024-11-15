@@ -244,8 +244,8 @@
                     "201": {
                         "description": "Comment added successfully"
                     },
-                    "400": {
-                        "description": "Validation error"
+                    "422": {
+                        "description": "Unprocessable Content"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -346,14 +346,14 @@
                 ]
             }
         },
-        "/comments/{comment}/admin": {
+        "/admin/delete-comment/{comment}": {
             "delete": {
                 "tags": [
                     "Comments"
                 ],
                 "summary": "Admin can remove any comment",
                 "description": "Admin can remove any comment.",
-                "operationId": "0cdaf46efe5811ed8027cdd310fc5771",
+                "operationId": "089c9bddefae020e1d7a2e7102ddded9",
                 "parameters": [
                     {
                         "name": "comment",
