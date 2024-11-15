@@ -63,7 +63,7 @@ class CommentController extends Controller
      *         )
      *     ),
      *     @OA\Response(response=201, description="Comment added successfully"),
-     *     @OA\Response(response=400, description="Validation error"),
+     *     @OA\Response(response=422, description="Unprocessable Content"),
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
