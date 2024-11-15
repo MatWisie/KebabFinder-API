@@ -14,13 +14,13 @@ Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
 Route::post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
 
-Route::middleware(['auth:sanctum'])->get('/first-login', [UserController::class, 'isFirstLogin']);
-
-Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('user')->group(function () {
 
     Route::get('/', [UserController::class, 'getUser']);
 
-    Route::put('change-username', [UserController::class, 'changeUsername']);
+    Route::middleware(['auth:sanctum'])->get('first-login', [UserController::class, 'isFirstLogin']);
+
+    Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
 
     Route::post('change-password', [UserController::class, 'changePassword']);
 
