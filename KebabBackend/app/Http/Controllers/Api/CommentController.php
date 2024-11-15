@@ -174,7 +174,7 @@ class CommentController extends Controller
      * Admin can remove any comment.
      *
      * @OA\Delete(
-     *     path="/comments/{comment}/admin",
+     *     path="/admin/delete-comment/{comment}",
      *     summary="Admin can remove any comment",
      *     tags={"Comments"},
      *     security={{"sanctum":{}, "admin":{}}},
