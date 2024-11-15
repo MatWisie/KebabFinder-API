@@ -9,9 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
 use App\Services\CommentService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentController extends Controller
 {
+    use AuthorizesRequests;
+
     protected CommentService $commentService;
 
     public function __construct(CommentService $commentService)
