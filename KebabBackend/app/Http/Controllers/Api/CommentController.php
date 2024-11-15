@@ -7,8 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
+use App\Services\CommentService;
 
 class CommentController extends Controller
 {
@@ -17,6 +17,25 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
+    }
+
+    /**
+     * Get all comments belonging to the authenticated user.
+     *
+     * @OA\Get(
+     *     path="/user/comments",
+     *     summary="Get all user's comments",
+     *     tags={"Comments"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(response=200, description="List of comments"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
+     */
+    public function getUserComments(): JsonResponse
+    {
+        $comments = $this->commentService->getUserComments();
+
+        return response()->json($comments);
     }
 
     /**
@@ -45,49 +64,13 @@ class CommentController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
-    public function addComment(Request $request, Kebab $kebab): JsonResponse
+    public function addComment(CommentRequest $request, Kebab $kebab): JsonResponse
     {
         $validated = $request->validated();
 
-        $comment = Comment::create([
-            'user_id' => Auth::id(),
-            'content' => $request->input('content'),
-        ]);
-
-        $kebab->comments()->save($comment);
+        $comment = $this->commentService->addComment($kebab, $validated['content']);
 
         return response()->json(['message' => 'Comment added successfully', 'comment' => $comment], 201);
-    }
-
-    /**
-     * Remove a comment belonging to the authenticated user.
-     *
-     * @OA\Delete(
-     *     path="/user/comments/{comment}",
-     *     summary="Remove user's comment",
-     *     tags={"Comments"},
-     *     security={{"sanctum":{}}},
-     *     @OA\Parameter(
-     *         name="comment",
-     *         in="path",
-     *         required=true,
-     *         description="ID of the comment",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response=204, description="Comment deleted successfully"),
-     *     @OA\Response(response=403, description="Unauthorized"),
-     *     @OA\Response(response=404, description="Comment not found")
-     * )
-     */
-    public function removeComment(Comment $comment): JsonResponse
-    {
-        if ($comment->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $comment->delete();
-
-        return response()->json(['message' => 'Comment deleted successfully'], 204);
     }
 
     /**
@@ -116,39 +99,47 @@ class CommentController extends Controller
      *     @OA\Response(response=404, description="Comment not found")
      * )
      */
-    public function editComment(Request $request, Comment $comment): JsonResponse
+    public function editComment(CommentRequest $request, Comment $comment): JsonResponse
     {
-        if ($comment->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('update', $comment);
 
-        $request->validate([
-            'content' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
-        $comment->content = $request->input('content');
-        $comment->save();
+        $updatedComment = $this->commentService->updateComment($comment, $validated['content']);
 
-        return response()->json(['message' => 'Comment updated successfully', 'comment' => $comment], 200);
+        return response()->json([
+            'message' => 'Comment updated successfully',
+            'comment' => $updatedComment,
+        ], 200);
     }
 
     /**
-     * Get all comments belonging to the authenticated user.
+     * Remove a comment belonging to the authenticated user.
      *
-     * @OA\Get(
-     *     path="/user/comments",
-     *     summary="Get all user's comments",
+     * @OA\Delete(
+     *     path="/user/comments/{comment}",
+     *     summary="Remove user's comment",
      *     tags={"Comments"},
      *     security={{"sanctum":{}}},
-     *     @OA\Response(response=200, description="List of comments"),
-     *     @OA\Response(response=401, description="Unauthorized")
+     *     @OA\Parameter(
+     *         name="comment",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the comment",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=204, description="Comment deleted successfully"),
+     *     @OA\Response(response=403, description="Unauthorized"),
+     *     @OA\Response(response=404, description="Comment not found")
      * )
      */
-    public function getUserComments(): JsonResponse
+    public function removeComment(Comment $comment): JsonResponse
     {
-        $comments = Comment::where('user_id', Auth::id())->get();
+        $this->authorize('delete', $comment);
 
-        return response()->json($comments);
+        $this->commentService->deleteComment($comment);
+
+        return response()->json(['message' => 'Comment deleted successfully'], 204);
     }
 
     /**
@@ -171,7 +162,7 @@ class CommentController extends Controller
      */
     public function getCommentsByKebabId(Kebab $kebab): JsonResponse
     {
-        $comments = $kebab->comments()->with('user:id,name')->get();
+        $comments = $this->commentService->getCommentsByKebabId($kebab);
 
         return response()->json($comments);
     }
@@ -198,7 +189,9 @@ class CommentController extends Controller
      */
     public function adminRemoveComment(Comment $comment): JsonResponse
     {
-        $comment->delete();
+        $this->authorize('delete', $comment);
+
+        $this->commentService->deleteComment($comment);
 
         return response()->json(['message' => 'Comment deleted successfully by admin'], 204);
     }
