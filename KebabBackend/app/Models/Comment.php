@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+    protected $fillable = [
+        "user_id",
+        "content"
+    ];
     public function kebab()
     {
         return $this->belongsTo(Kebab::class);
