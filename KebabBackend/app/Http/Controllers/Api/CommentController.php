@@ -12,6 +12,13 @@ use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
+    protected CommentService $commentService;
+
+    public function __construct(CommentService $commentService)
+    {
+        $this->commentService = $commentService;
+    }
+
     /**
      * Add a new comment to a specific kebab.
      *
