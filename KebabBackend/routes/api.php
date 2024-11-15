@@ -12,19 +12,19 @@ Route::post('/user-login', [AuthController::class, 'userLogin']);
 
 Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
-Route::post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
+Route::middleware(['auth:sanctum'])->post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
 
-Route::prefix('user')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
 
     Route::get('/', [UserController::class, 'getUser']);
 
-    Route::middleware(['auth:sanctum'])->get('first-login', [UserController::class, 'isFirstLogin']);
+    Route::get('first-login', [UserController::class, 'isFirstLogin']);
 
-    Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
+    Route::put('change-username', [UserController::class, 'changeUsername']);
 
     Route::post('change-password', [UserController::class, 'changePassword']);
 
-    Route::prefix('Comments')->group(function () {
+    Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', [CommentController::class, 'getUserComments']);
 
@@ -41,6 +41,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::delete('delete-user/{id}', [UserController::class, 'destroy']);
 
     Route::post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+
+    Route::delete('delete-comment/{comment}', [CommentController::class, 'adminRemoveComment']);
 });
 
 Route::prefix('kebabs')->group(function () {
@@ -49,9 +51,9 @@ Route::prefix('kebabs')->group(function () {
 
     Route::get('/', [KebabController::class, 'index']);
 
-    Route::post('{kebab}/comments', [CommentController::class, 'addComment']);
-
     Route::get('{kebab}/comments', [CommentController::class, 'getCommentsByKebabId']);
+
+    Route::middleware(['auth:sanctum'])->post('{kebab}/comments', [CommentController::class, 'addComment']);
 
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
 
