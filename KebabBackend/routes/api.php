@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
@@ -23,6 +24,8 @@ Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
     Route::put('change-username', [UserController::class, 'changeUsername']);
 
     Route::post('change-password', [UserController::class, 'changePassword']);
+
+    Route::get('favourites', [FavouriteController::class, 'getFavourites']);
 
     Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
 
@@ -54,6 +57,10 @@ Route::prefix('kebabs')->group(function () {
     Route::get('{kebab}/comments', [CommentController::class, 'getCommentsByKebabId']);
 
     Route::middleware(['auth:sanctum'])->post('{kebab}/comments', [CommentController::class, 'addComment']);
+
+    Route::middleware(['auth:sanctum'])->post('{kebab}/favourite', [FavouriteController::class, 'addToFavourites']);
+
+    Route::middleware(['auth:sanctum'])->delete('{kebab}/favourite', [FavouriteController::class, 'removeFromFavourites']);
 
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
 
