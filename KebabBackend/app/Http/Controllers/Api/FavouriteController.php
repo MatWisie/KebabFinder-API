@@ -27,4 +27,15 @@ class FavouriteController extends Controller
         return response()->json(['message' => 'Kebab added to favourites'], 201);
     }
 
+    public function removeFromFavourites(Kebab $kebab): JsonResponse
+    {
+        $user = auth()->user();
+
+        if (!$this->favouriteService->removeFavourite($user, $kebab)) {
+            return response()->json(['message' => 'Kebab not found in favourites'], 404);
+        }
+
+        return response()->json(null, 204);
+    }
+
 }
