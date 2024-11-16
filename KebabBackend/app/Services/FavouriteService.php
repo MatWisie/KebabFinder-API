@@ -33,4 +33,12 @@ class FavouriteService
         return true;
     }
 
+    /**
+     * Get the user's favourite kebabs.
+     */
+    public function getFavourites(User $user, int $perPage = 10)
+    {
+        return $user->favouriteKebabs()->paginate($perPage);
+    }
+
 }
