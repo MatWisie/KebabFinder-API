@@ -403,37 +403,48 @@
                                 "required": [
                                     "name",
                                     "address",
-                                    "coordinates",
                                     "status",
+                                    "coordinates",
                                     "is_craft",
+                                    "is_chain",
                                     "building_type",
-                                    "is_chain"
+                                    "sauces",
+                                    "meats",
+                                    "social_media_links",
+                                    "opening_hours",
+                                    "order_ways"
                                 ],
                                 "properties": {
                                     "name": {
                                         "description": "The name of the kebab",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Sample Kebab Place"
                                     },
                                     "address": {
                                         "description": "The address of the kebab",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "123 Kebab St, Kebab City"
                                     },
                                     "coordinates": {
                                         "description": "Coordinates of the kebab (latitude,longitude)",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "51.5074, -10.1278"
                                     },
                                     "logo_link": {
                                         "description": "URL of the logo (optional)",
                                         "type": "string",
-                                        "format": "uri"
+                                        "format": "uri",
+                                        "example": "http://example.com"
                                     },
                                     "open_year": {
-                                        "description": "Year the kebab opened (optional)",
-                                        "type": "integer"
+                                        "description": "Year the kebab opened",
+                                        "type": "integer",
+                                        "example": 1999
                                     },
                                     "closed_year": {
-                                        "description": "Year the kebab closed (optional)",
-                                        "type": "integer"
+                                        "description": "Year the kebab closed",
+                                        "type": "integer",
+                                        "example": 2020
                                     },
                                     "status": {
                                         "description": "The status of the kebab",
@@ -442,33 +453,45 @@
                                             "open",
                                             "closed",
                                             "planned"
-                                        ]
+                                        ],
+                                        "example": "open"
                                     },
                                     "is_craft": {
                                         "description": "Whether the kebab is a craft kebab",
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "example": true
                                     },
                                     "building_type": {
                                         "description": "The type of building where the kebab is located",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "domek"
                                     },
                                     "is_chain": {
                                         "description": "Whether the kebab is part of a chain",
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "example": true
                                     },
                                     "sauces": {
                                         "description": "List of sauce types associated with the kebab",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
-                                        }
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
                                     },
                                     "meats": {
                                         "description": "List of meat types associated with the kebab",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
-                                        }
+                                        },
+                                        "example": [
+                                            2,
+                                            4
+                                        ]
                                     },
                                     "social_media_links": {
                                         "description": "Social media links for the kebab",
@@ -476,12 +499,48 @@
                                         "items": {
                                             "type": "string",
                                             "format": "uri"
-                                        }
+                                        },
+                                        "example": [
+                                            "https://facebook.com/samplekebab",
+                                            "https://instagram.com/samplekebab"
+                                        ]
                                     },
                                     "opening_hours": {
                                         "description": "Opening hours for the kebab",
-                                        "type": "array",
-                                        "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "monday": {
+                                                "open": "10:00",
+                                                "close": "22:00"
+                                            },
+                                            "tuesday": {
+                                                "open": "10:00",
+                                                "close": "22:00"
+                                            },
+                                            "wednesday": {
+                                                "open": "10:00",
+                                                "close": "22:00"
+                                            },
+                                            "thursday": {
+                                                "open": "10:00",
+                                                "close": "22:00"
+                                            },
+                                            "friday": {
+                                                "open": "10:00",
+                                                "close": "23:00"
+                                            }
+                                        },
+                                        "additionalProperties": {
+                                            "properties": {
+                                                "open": {
+                                                    "type": "string",
+                                                    "example": "10:00"
+                                                },
+                                                "close": {
+                                                    "type": "string",
+                                                    "example": "22:00"
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -489,8 +548,38 @@
                                         "description": "Order methods for the kebab",
                                         "type": "array",
                                         "items": {
+                                            "properties": {
+                                                "app_name": {
+                                                    "description": "The name of the app",
+                                                    "type": "string",
+                                                    "example": "UberEats"
+                                                },
+                                                "phone_number": {
+                                                    "description": "Phone number for orders",
+                                                    "type": "string",
+                                                    "example": "123-456-789"
+                                                },
+                                                "website": {
+                                                    "description": "Website URL for the app",
+                                                    "type": "string",
+                                                    "format": "uri",
+                                                    "example": "https://ubereats.com/samplekebab"
+                                                }
+                                            },
                                             "type": "object"
-                                        }
+                                        },
+                                        "example": [
+                                            {
+                                                "app_name": "UberEats",
+                                                "phone_number": "123-456-789",
+                                                "website": "https://ubereats.com/samplekebab"
+                                            },
+                                            {
+                                                "app_name": "DoorDash",
+                                                "phone_number": null,
+                                                "website": "https://doordash.com/samplekebab"
+                                            }
+                                        ]
                                     }
                                 },
                                 "type": "object"
