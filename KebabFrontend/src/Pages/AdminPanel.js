@@ -19,6 +19,8 @@ export default function AdminPanel(){
   const [map, setMap] = useState(null)
   const [kebabs, setKebabs] = useState([])
   const [loadingKebabs, setLoadingKebabs] = useState(false)
+  const [loadingComments, setLoadingComments] = useState(false)
+  const [comments, setComments] = useState([])
     
     useEffect(() => {
       if (!mapRef.current) return;
@@ -116,12 +118,39 @@ export default function AdminPanel(){
 
         setLoadingKebabs(false)
         setKebabs(data)
-        console.log(data)
-        
 
       } catch(error) {
         console.error('Fetch error:', error);
         setLoadingKebabs(false)
+      }
+    }
+
+    async function getKebabComments(kebabID){
+      setLoadingComments(true)
+      setComments([])
+      try {
+        const response = await fetch(apiUrl + `/${kebabID}/comments`, {
+          method: 'GET',
+          headers: {
+            'Accept' : 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+
+        if (!response.ok) {
+          setLoadingComments(false)
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.json()
+        setComments(data)
+        console.log(data)
+
+      } catch (error) {
+        console.log(error)
+
+      } finally {
+        setLoadingComments(false)
+
       }
     }
 
@@ -131,6 +160,7 @@ export default function AdminPanel(){
       setIsPaneVisible(true)
       
       setChosenKebab(kebabs.find(kebab => kebab.id === clickedKebabID))
+      getKebabComments(clickedKebabID)
     }
     function hidePanel() {
       setIsPaneVisible(false)
@@ -243,13 +273,13 @@ export default function AdminPanel(){
             <div id="map" className="w-full h-full" ref={mapRef} ></div>
           </div>
           {isPanelVisible && 
-            <KebabPanel onAction={hidePanel} kebab={chosenKebab}></KebabPanel>
+            <KebabPanel onAction={hidePanel} kebab={chosenKebab} comments={comments} loadingComments={loadingComments}></KebabPanel>
           }
         </div>
     )
 }
 
-function  KebabPanel({ onAction, kebab }) {
+function  KebabPanel({ onAction, kebab, comments, loadingComments }) {
 
   return (
     <div className="right-0 fixed flex justify-center items-center bg-gray-500 z-50 w-full h-full bg-opacity-70">
@@ -338,6 +368,27 @@ function  KebabPanel({ onAction, kebab }) {
                         ))}
                     </ul>
                   </details>
+                </div>
+                <div>
+                  <details>
+                    <summary>Comments</summary>
+                    {loadingComments ?
+                    <div>Loading Comments...</div>
+                    :
+                    comments.length > 0 ?
+                      <ul>
+                        {comments.map((comment, index) => (
+                          <li key={index}>
+                            <div>{comment.user_id}</div>
+                            <p>{comment.content}</p>
+                          </li>
+                        ))}
+                      </ul>
+                      :
+                      <div>No comments</div>
+                    
+                  }
+                </details>
                 </div>
               </details>
             </div>
