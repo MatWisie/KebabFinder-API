@@ -73,7 +73,7 @@ export default function LogInPage() {
   }
 
   function isFirstLogIn() {
-    fetch(apiUrl + 'first-login', {
+    fetch(apiUrl + 'user/first-login', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
