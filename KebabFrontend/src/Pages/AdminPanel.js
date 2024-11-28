@@ -181,83 +181,18 @@ export default function AdminPanel(){
             </div>
             <div className="kebabList">
               {loadingKebabs && <div>Loading kebabs...</div>}
+              {kebabs.length === 0 && <div>No kebabs found</div>}
               {(kebabs && kebabs.length>0) ? kebabs.map((kebab, index) => (
                 <div key={index} className="kebab-item border-b-2">
                   <image src={kebab.logo_link}></image>
                   <h2 className="text-2xl font-semibold">{kebab.name}</h2>
                   <address>{kebab.address}</address>
                   <div>{kebab.status}</div>
-                  <details>
-                    <summary>Show More</summary>
-                    <div>{kebab.is_chain ? 'chain' : 'not chain'}</div>
-                    <div>{kebab.is_craft ? 'craft' : 'not craft'}</div>
-                    <div>{kebab.building_type}</div>
-                    <div>{kebab.open_year}</div>
-                    <div>{kebab.google_review}</div>
-                    <div>{kebab.pyszne_pl_review}</div>
-                    <div>
-                      <details className="">
-                        <summary>Opening Hours</summary>
-                        <ul>
-                        {
-                        <>
-                        <li>Monday: {kebab.opening_hour.monday_open} - {kebab.opening_hour.monday_close}</li>
-                        <li>Tuesday: {kebab.opening_hour.tuesday_open} - {kebab.opening_hour.tuesday_close}</li> 
-                        <li>Wednesday: {kebab.opening_hour.wednesday_open} - {kebab.opening_hour.wednesday_close}</li> 
-                        <li>Thursday: {kebab.opening_hour.thursday_open} - {kebab.opening_hour.thursday_close}</li> 
-                        <li>Friday: {kebab.opening_hour.friday_open} - {kebab.opening_hour.friday_close}</li> 
-                        <li>Saturday: {kebab.opening_hour.saturday_open || 'Closed'}{kebab.opening_hour.saturday_close || ''}</li> 
-                        <li>Sunday: {kebab.opening_hour.sunday_open || 'Closed'}{kebab.opening_hour.sunday_close || ''}</li>
-                        </>
-                        }
-                        </ul>
-                      </details>
-                    </div>
-                    <div>
-                      <details>
-                        <summary>Sauces</summary>
-                          <ul>
-                            {kebab.sauces.map((sauce, index) => (
-                              <li key={index}>
-                                {sauce.name}
-                              </li>
-                            ))}
-                          </ul>
-                      </details>
-                    </div>
-                    <div>
-                      <details>
-                        <summary>Meat Types</summary>
-                        {kebab.meat_types.map((meat, index) => (
-                              <li key={index}>
-                                {meat.name}
-                              </li>
-                            ))}
-                      </details>
-                    </div>
-                    <div>
-                      <details>
-                        <summary>Ways to Order</summary>
-                        {kebab.order_way.map((way, index) => (
-                          <li key={index}>
-                            <p>Phone number: {way.phone_number}</p>
-                            <p>{way.app_name}</p>
-                            <a href={way.website}>{way.website}</a>
-                          </li>
-                        ))}
-                      </details>
-                    </div>
-                    <div>
-                      <details>
-                        <summary>Social Media</summary>
-                        {kebab.social_medias.map((media, index) => (
-                              <li key={index}>
-                                <a href={media.social_media_link}>{media.social_media_link}</a>
-                              </li>
-                            ))}
-                      </details>
-                    </div>
-                  </details>
+                  <button onClick={()=>{
+                    clickedKebabID = kebab.id
+                    showPanel()
+                    
+                    }}>Show More</button>
                 </div>
               )) : <></>}
             </div>
