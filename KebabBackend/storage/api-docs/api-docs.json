@@ -331,8 +331,8 @@
                     "404": {
                         "description": "Kebab not found"
                     },
-                    "400": {
-                        "description": "Invalid data provided"
+                    "422": {
+                        "description": "Unprocessable Content"
                     }
                 }
             },
@@ -606,6 +606,9 @@
                     },
                     "400": {
                         "description": "Invalid data provided"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
                     }
                 }
             }
@@ -1046,7 +1049,11 @@
                 "required": [
                     "id",
                     "name",
-                    "address"
+                    "address",
+                    "status",
+                    "is_craft",
+                    "building_type",
+                    "is_chain"
                 ],
                 "properties": {
                     "id": {
@@ -1065,6 +1072,42 @@
                         "description": "Coordinates of the kebab place",
                         "type": "string"
                     },
+                    "logo_link": {
+                        "description": "URL to kebab logo",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "open_year": {
+                        "description": "Year when the kebab opened",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "closed_year": {
+                        "description": "Year when the kebab closed",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "status": {
+                        "description": "Current status of the kebab place",
+                        "type": "string",
+                        "enum": [
+                            "open",
+                            "closed",
+                            "under renovation"
+                        ]
+                    },
+                    "is_craft": {
+                        "description": "Indicates if the kebab is a craft kebab",
+                        "type": "boolean"
+                    },
+                    "building_type": {
+                        "description": "Type of building the kebab operates in",
+                        "type": "string"
+                    },
+                    "is_chain": {
+                        "description": "Indicates if the kebab place is part of a chain",
+                        "type": "boolean"
+                    },
                     "google_review": {
                         "description": "Google review rating",
                         "type": "number",
@@ -1077,31 +1120,42 @@
                         "format": "float",
                         "nullable": true
                     },
+                    "created_at": {
+                        "description": "Record creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Record last update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
                     "sauces": {
+                        "description": "List of available sauces",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Sauce"
                         }
                     },
-                    "meatTypes": {
+                    "meat_types": {
+                        "description": "List of available meat types",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/MeatType"
                         }
                     },
-                    "socialMedias": {
+                    "social_medias": {
+                        "description": "List of social media links",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/SocialMedia"
                         }
                     },
-                    "openingHours": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OpeningHour"
-                        }
+                    "opening_hour": {
+                        "$ref": "#/components/schemas/OpeningHour"
                     },
-                    "orderWay": {
+                    "order_way": {
+                        "description": "Available ordering methods",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/OrderWay"
@@ -1111,37 +1165,133 @@
                 "type": "object"
             },
             "MeatType": {
-                "description": "Meat type schema",
+                "title": "Meat Type",
+                "description": "Meat Type model schema",
+                "required": [
+                    "id",
+                    "name"
+                ],
                 "properties": {
                     "id": {
-                        "description": "Meat type ID",
+                        "description": "Unique identifier for the meat type",
                         "type": "integer"
                     },
                     "name": {
-                        "description": "Meat type name",
+                        "description": "Name of the meat type",
                         "type": "string"
+                    },
+                    "pivot": {
+                        "description": "Pivot table data",
+                        "properties": {
+                            "kebab_id": {
+                                "description": "Kebab ID",
+                                "type": "integer"
+                            },
+                            "meat_type_id": {
+                                "description": "Meat type ID",
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
             },
             "OpeningHour": {
-                "description": "Opening hours schema",
+                "title": "Opening Hour",
+                "description": "Opening Hour model schema",
+                "required": [
+                    "id",
+                    "kebab_id"
+                ],
                 "properties": {
-                    "day": {
-                        "description": "Day of the week",
-                        "type": "string"
+                    "id": {
+                        "description": "Unique identifier for the opening hour",
+                        "type": "integer"
                     },
-                    "open": {
-                        "description": "Opening time",
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
+                    "kebab_id": {
+                        "description": "Kebab ID",
+                        "type": "integer"
                     },
-                    "close": {
-                        "description": "Closing time",
+                    "monday_open": {
+                        "description": "Opening time on Monday",
                         "type": "string",
-                        "format": "time",
-                        "nullable": true
+                        "format": "time"
+                    },
+                    "monday_close": {
+                        "description": "Closing time on Monday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "tuesday_open": {
+                        "description": "Opening time on Tuesday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "tuesday_close": {
+                        "description": "Closing time on Tuesday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "wednesday_open": {
+                        "description": "Opening time on Wednesday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "wednesday_close": {
+                        "description": "Closing time on Wednesday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "thursday_open": {
+                        "description": "Opening time on Thursday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "thursday_close": {
+                        "description": "Closing time on Thursday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "friday_open": {
+                        "description": "Opening time on Friday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "friday_close": {
+                        "description": "Closing time on Friday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "saturday_open": {
+                        "description": "Opening time on Saturday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "saturday_close": {
+                        "description": "Closing time on Saturday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "sunday_open": {
+                        "description": "Opening time on Sunday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "sunday_close": {
+                        "description": "Closing time on Sunday",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "created_at": {
+                        "description": "Record creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Record last update timestamp",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -1173,15 +1323,34 @@
                 "type": "object"
             },
             "Sauce": {
-                "description": "Sauce type schema",
+                "title": "Sauce",
+                "description": "Sauce model schema",
+                "required": [
+                    "id",
+                    "name"
+                ],
                 "properties": {
                     "id": {
-                        "description": "Sauce ID",
+                        "description": "Unique identifier for the sauce",
                         "type": "integer"
                     },
                     "name": {
-                        "description": "Sauce name",
+                        "description": "Name of the sauce",
                         "type": "string"
+                    },
+                    "pivot": {
+                        "description": "Pivot table data",
+                        "properties": {
+                            "kebab_id": {
+                                "description": "Kebab ID",
+                                "type": "integer"
+                            },
+                            "sauce_type_id": {
+                                "description": "Sauce type ID",
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
