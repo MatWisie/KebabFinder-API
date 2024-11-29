@@ -72,7 +72,7 @@ export default function LogInPage() {
       });
   }
 
-  function isFirstLogIn() {
+  function isFirstLogIn(token) {
     fetch(apiUrl + 'user/first-login', {
       method: 'GET',
       headers: {
