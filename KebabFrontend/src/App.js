@@ -14,6 +14,7 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import RootLayout from './Components/RootLayout';
 import { UserContext } from './Contexts/AuthContext';
 import ChangePasswordPage from './Pages/ChangePasswordPage';
+import EditKebabPanel from './Pages/EditKebabPanel';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,8 +36,11 @@ const router = createBrowserRouter(
         path='/changepassword'
         element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>}
       >
-
       </Route>
+      <Route
+        path='/editkebab'
+        element={<EditKebabPanel></EditKebabPanel>}
+      ></Route>
       <Route
         path='*'
         element={<ErrorPage />}
