@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       path='/' 
       element={<RootLayout />} 
     >
-      <Route index element={<AdminPanel />} />
+      <Route index element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
       <Route 
         path='/login' 
         element={<LogInPage />}
