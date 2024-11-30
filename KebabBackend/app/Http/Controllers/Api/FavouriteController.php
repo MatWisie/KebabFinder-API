@@ -9,11 +9,4 @@ use App\Services\FavouriteService;
 
 class FavouriteController extends Controller
 {
-    protected FavouriteService $favouriteService;
-
-    public function __construct(FavouriteService $favouriteService)
-    {
-        $this->favouriteService = $favouriteService;
-    }
-
 }
