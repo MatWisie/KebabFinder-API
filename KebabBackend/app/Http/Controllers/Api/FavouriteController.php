@@ -38,12 +38,4 @@ class FavouriteController extends Controller
         return response()->json(null, 204);
     }
 
-    public function getFavourites(): JsonResponse
-    {
-        $user = auth()->user();
-
-        $favourites = $this->favouriteService->getFavourites($user);
-
-        return response()->json($favourites, 200);
-    }
 }
