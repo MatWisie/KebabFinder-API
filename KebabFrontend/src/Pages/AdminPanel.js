@@ -129,7 +129,7 @@ export default function AdminPanel(){
       setLoadingComments(true)
       setComments([])
       try {
-        const response = await fetch(apiUrl + `/${kebabID}/comments`, {
+        const response = await fetch(apiUrl + `kebabs/${kebabID}/comments`, {
           method: 'GET',
           headers: {
             'Accept' : 'application/json',
