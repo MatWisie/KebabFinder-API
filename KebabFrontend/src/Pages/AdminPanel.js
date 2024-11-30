@@ -175,7 +175,7 @@ export default function AdminPanel(){
     return (
         <div className="flex h-screen overflow-hidden">
           {isSidePanelOpen &&
-          <div id="sidePanel" className={`h-screen z-30 bg-white overflow-y-auto shadow-lg ${isSidePanelOpen ? "w-full sm:w-2/5 md:w-1/5" : "hidden"}`}>
+          <div id="sidePanel" className={`h-full z-30 bg-white overflow-y-auto shadow-lg ${isSidePanelOpen ? "w-full sm:w-2/5 md:w-1/5" : "hidden"}`}>
             <div id="searchBar" className="w-full">
               <input type="text" placeholder="Search" className=" my-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-3/4"></input>
             </div>
