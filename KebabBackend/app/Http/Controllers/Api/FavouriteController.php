@@ -16,15 +16,4 @@ class FavouriteController extends Controller
         $this->favouriteService = $favouriteService;
     }
 
-    public function addToFavourites(Kebab $kebab): JsonResponse
-    {
-        $user = auth()->user();
-
-        if (!$this->favouriteService->addFavourite($user, $kebab)) {
-            return response()->json(['message' => 'Kebab already in favourites'], 409);
-        }
-
-        return response()->json(['message' => 'Kebab added to favourites'], 201);
-    }
-
 }
