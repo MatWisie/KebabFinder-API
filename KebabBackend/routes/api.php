@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -12,26 +13,37 @@ Route::post('/user-login', [AuthController::class, 'userLogin']);
 
 Route::post('/admin-login', [AuthController::class, 'adminLogin']);
 
-Route::post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
+Route::middleware(['auth:sanctum'])->post('/logout-from-all', [AuthController::class, 'logoutFromAll']);
 
-Route::prefix('user')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
 
-    Route::middleware(['auth:sanctum'])->get('/', [UserController::class, 'getUser']);
+    Route::get('/', [UserController::class, 'getUser']);
 
-    Route::middleware(['auth:sanctum'])->get('first-login', [UserController::class, 'isFirstLogin']);
+    Route::get('first-login', [UserController::class, 'isFirstLogin']);
 
-    Route::middleware(['auth:sanctum'])->put('change-username', [UserController::class, 'changeUsername']);
+    Route::put('change-username', [UserController::class, 'changeUsername']);
 
-    Route::middleware(['auth:sanctum'])->post('change-password', [UserController::class, 'changePassword']);
+    Route::post('change-password', [UserController::class, 'changePassword']);
+
+    Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
+
+        Route::get('/', [CommentController::class, 'getUserComments']);
+
+        Route::put('{comment}', [CommentController::class, 'editComment']);
+
+        Route::delete('{comment}', [CommentController::class, 'removeComment']);
+    });
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
 
-    Route::middleware(['auth:sanctum', 'admin'])->get('users', [UserController::class, 'index']);
+    Route::get('users', [UserController::class, 'index']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->delete('delete-user/{id}', [UserController::class, 'destroy']);
+    Route::delete('delete-user/{id}', [UserController::class, 'destroy']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+    Route::post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);
+
+    Route::delete('delete-comment/{comment}', [CommentController::class, 'adminRemoveComment']);
 });
 
 Route::prefix('kebabs')->group(function () {
@@ -39,6 +51,10 @@ Route::prefix('kebabs')->group(function () {
     Route::get('{kebab}', [KebabController::class, 'show']);
 
     Route::get('/', [KebabController::class, 'index']);
+
+    Route::get('{kebab}/comments', [CommentController::class, 'getCommentsByKebabId']);
+
+    Route::middleware(['auth:sanctum'])->post('{kebab}/comments', [CommentController::class, 'addComment']);
 
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
 
