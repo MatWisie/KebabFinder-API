@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\KebabController;
+use App\Http\Controllers\Api\MeatTypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
@@ -60,5 +61,15 @@ Route::prefix('kebabs')->group(function () {
     Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [KebabController::class, 'update']);
 
     Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
+});
+
+Route::prefix('meattypes')->group(function () {
+    Route::get('/', [MeatTypeController::class, 'index']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->post('/', [MeatTypeController::class, 'store']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [MeatTypeController::class, 'update']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [MeatTypeController::class, 'destroy']);
 });
 

@@ -842,6 +842,168 @@
                 }
             }
         },
+        "/api/meattypes": {
+            "get": {
+                "tags": [
+                    "MeatTypes"
+                ],
+                "summary": "Get all meat types",
+                "operationId": "4c7d593ade65bc44f8b9a9f9bc87a9b1",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved all meat types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MeatType"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MeatTypes"
+                ],
+                "summary": "Create a new meat type",
+                "operationId": "98bd8247b397355c8a94835d7ea15212",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MeatTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "MeatType added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "MeatType added successfully"
+                                        },
+                                        "meattype": {
+                                            "$ref": "#/components/schemas/MeatType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/meattypes/{id}": {
+            "put": {
+                "tags": [
+                    "MeatTypes"
+                ],
+                "summary": "Update an existing meat type",
+                "operationId": "0a704c9877ce5ae78551f05b23a83396",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MeatTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Meat type updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Meat type updated successfully"
+                                        },
+                                        "meatType": {
+                                            "$ref": "#/components/schemas/MeatType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Meat type not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MeatTypes"
+                ],
+                "summary": "Delete a meat type",
+                "operationId": "8d1550ce47ed3b81b5a3df41f4126edf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meat type deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Meat type deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Meat type not found"
+                    }
+                }
+            }
+        },
         "/api/user/first-login": {
             "get": {
                 "tags": [
@@ -1219,6 +1381,18 @@
     },
     "components": {
         "schemas": {
+            "MeatTypeRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Chicken"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
@@ -1602,6 +1776,10 @@
         }
     },
     "tags": [
+        {
+            "name": "MeatTypes",
+            "description": "Operations related to Meat Types"
+        },
         {
             "name": "Auth",
             "description": "Auth"
