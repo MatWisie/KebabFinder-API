@@ -20,17 +20,4 @@ class FavouriteService
         return true;
     }
 
-    /**
-     * Remove a kebab from the user's favourites.
-     */
-    public function removeFavourite(User $user, Kebab $kebab): bool
-    {
-        if (!$this->isFavourite($user, $kebab)) {
-            return false;
-        }
-
-        $user->favouriteKebabs()->detach($kebab->id);
-        return true;
-    }
-
 }
