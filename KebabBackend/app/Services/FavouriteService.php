@@ -41,11 +41,4 @@ class FavouriteService
         return $user->favouriteKebabs()->paginate($perPage);
     }
 
-    /**
-     * Check if a kebab is in the user's favourites.
-     */
-    public function isFavourite(User $user, Kebab $kebab): bool
-    {
-        return $user->favouriteKebabs()->where('kebab_id', $kebab->id)->exists();
-    }
 }
