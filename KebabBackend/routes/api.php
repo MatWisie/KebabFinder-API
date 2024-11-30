@@ -25,6 +25,8 @@ Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
 
     Route::post('change-password', [UserController::class, 'changePassword']);
 
+    Route::get('/{id}', [UserController::class, 'getUserById']);
+
     Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', [CommentController::class, 'getUserComments']);
