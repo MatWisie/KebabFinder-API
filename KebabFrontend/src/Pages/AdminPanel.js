@@ -272,9 +272,9 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
               <image src={kebab.logo_link}></image>
               <h2 className="text-2xl font-semibold">{kebab.name}</h2>
               <address>{kebab.address}</address>
-              <div>{kebab.status}</div>
+              <div className="text-md">{kebab.status.toUpperCase()}</div>
               <details>
-                <summary>Show More</summary>
+                <summary className="text-lg font-semibold cursor-default">Show More</summary>
                 <div>{kebab.is_chain ? 'chain' : 'not chain'}</div>
                 <div>{kebab.is_craft ? 'craft' : 'not craft'}</div>
                 <div>{kebab.building_type}</div>
@@ -282,8 +282,8 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 <div>{kebab.google_review}</div>
                 <div>{kebab.pyszne_pl_review}</div>
                 <div>
-                  <details className="">
-                    <summary>Opening Hours</summary>
+                  <details>
+                    <summary className="text-lg font-semibold cursor-default">Opening Hours</summary>
                     <ul>
                     {
                     <>
@@ -301,7 +301,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 </div>
                 <div>
                   <details>
-                    <summary>Sauces</summary>
+                    <summary className="text-lg font-semibold cursor-default">Sauces</summary>
                       <ul>
                         {kebab.sauces.map((sauce, index) => (
                           <li key={index}>
@@ -313,7 +313,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 </div>
                 <div>
                   <details>
-                    <summary>Meat Types</summary>
+                    <summary className="text-lg font-semibold cursor-default">Meat Types</summary>
                       <ul>
                     {kebab.meat_types.map((meat, index) => (
                           <li key={index}>
@@ -325,7 +325,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 </div>
                 <div>
                   <details>
-                    <summary>Ways to Order</summary>
+                    <summary className="text-lg font-semibold cursor-default">Ways to Order</summary>
                     <ul>
                     {kebab.order_way.map((way, index) => (
                       <li key={index}>
@@ -339,7 +339,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 </div>
                 <div>
                   <details>
-                    <summary>Social Media</summary>
+                    <summary className="text-lg font-semibold cursor-default">Social Media</summary>
                     <ul>
                     {kebab.social_medias.map((media, index) => (
                           <li key={index}>
@@ -351,7 +351,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                 </div>
                 <div>
                   <details>
-                    <summary>Comments</summary>
+                    <summary className="text-lg font-semibold cursor-default">Comments</summary>
                     {loadingComments ?
                     <div>Loading Comments...</div>
                     :
