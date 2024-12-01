@@ -39,6 +39,6 @@ class CommentService
 
     public function getCommentsByKebabId(Kebab $kebab): \Illuminate\Database\Eloquent\Collection
     {
-        return $kebab->comments;
+        return $kebab->comments()->with('user')->get();
     }
 }

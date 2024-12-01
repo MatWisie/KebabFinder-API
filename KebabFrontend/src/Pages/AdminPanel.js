@@ -181,7 +181,7 @@ export default function AdminPanel(){
             </div>
             <div className="kebabList">
               {loadingKebabs && <div>Loading kebabs...</div>}
-              {kebabs.length === 0 && <div>No kebabs found</div>}
+              {kebabs.length === 0 && !loadingKebabs && (<div>No kebabs found</div>)}
               {(kebabs && kebabs.length>0) ? kebabs.map((kebab, index) => (
                 <div key={index} className="kebab-item border-b-2">
                   <image src={kebab.logo_link}></image>
@@ -314,7 +314,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments }) {
                       <ul>
                         {comments.map((comment, index) => (
                           <li key={index}>
-                            <div>{comment.user_id}</div>
+                            <div>{comment.user.name}</div>
                             <p>{comment.content}</p>
                           </li>
                         ))}
