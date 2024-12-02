@@ -263,8 +263,8 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
 
   return (
     <div className="right-0 fixed flex justify-center items-center bg-gray-500 z-50 w-full h-full bg-opacity-70">
-      <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-3/4 overflow-y-auto">
-        <button onClick={onAction} className="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
+      <div className="bg-white p-6 sm:rounded-lg shadow-lg relative sm:h-3/4 sm:w-3/4 w-full h-full overflow-y-auto">
+        <button onClick={onAction} className="text-xl absolute top-2 right-2 text-gray-600 hover:text-gray-800">
             X
         </button>
         <div className="mt-4">
@@ -364,7 +364,10 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                                 {comment.user.name.charAt(0).toUpperCase()}
                               </div>
                               <div className="flex-1">
-                                <div className="font-bold text-gray-800 text-left text-wrap">{comment.user.name}</div>
+                                <div className="font-bold text-gray-800 text-left text-wrap">{comment.user.name}
+                                <div className="italic text-sm font-normal">{comment.user.is_admin ? 'Administrator' : 'User'}</div>
+                                </div>
+                                
                                 <p className="text-gray-600 mt-1 text-wrap break-all">{comment.content}</p>
                               </div>
                             </div>
