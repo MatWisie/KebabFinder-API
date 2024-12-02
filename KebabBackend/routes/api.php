@@ -25,8 +25,6 @@ Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
 
     Route::post('change-password', [UserController::class, 'changePassword']);
 
-    Route::get('/{id}', [UserController::class, 'getUserById']);
-
     Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', [CommentController::class, 'getUserComments']);
@@ -40,6 +38,8 @@ Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::get('users', [UserController::class, 'index']);
+
+    Route::get('users/{id}', [UserController::class, 'getUserById']);
 
     Route::delete('delete-user/{id}', [UserController::class, 'destroy']);
 
