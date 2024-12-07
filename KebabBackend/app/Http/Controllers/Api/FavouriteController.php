@@ -52,7 +52,7 @@ class FavouriteController extends Controller
      * Remove a kebab from the authenticated user's favourites.
      *
      * @OA\Delete(
-     *     path="/kebabs/{kebab}/favourite",
+     *     path="/api/kebabs/{kebab}/favourite",
      *     summary="Remove a kebab from favourites",
      *     tags={"Favourites"},
      *     security={{"sanctum":{}}},
