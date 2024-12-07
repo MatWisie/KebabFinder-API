@@ -435,6 +435,104 @@
                 ]
             }
         },
+        "/api/kebabs/{kebab}/favourite": {
+            "post": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Add a kebab to favourites",
+                "description": "Add a kebab to the authenticated user's favourites.",
+                "operationId": "d511356f4ec87fc4f140481213a45a6b",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "ID of the kebab",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Kebab added to favourites"
+                    },
+                    "409": {
+                        "description": "Already in favourites"
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Remove a kebab from favourites",
+                "description": "Remove a kebab from the authenticated user's favourites.",
+                "operationId": "b0d89d10a5f1d9c8fb652b8d8ea2d4b6",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "ID of the kebab",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Kebab removed from favourites"
+                    },
+                    "404": {
+                        "description": "Kebab not found in favourites"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user/favourites": {
+            "get": {
+                "tags": [
+                    "Favourites"
+                ],
+                "summary": "Get all favourite kebabs",
+                "description": "Get all favourite kebabs of the authenticated user.",
+                "operationId": "fa3163c2179b2909e62d9d14a3f1dea3",
+                "responses": {
+                    "200": {
+                        "description": "List of favourite kebabs"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/kebabs/{kebab}": {
             "get": {
                 "tags": [
@@ -1876,6 +1974,10 @@
         {
             "name": "Comments",
             "description": "Comments"
+        },
+        {
+            "name": "Favourites",
+            "description": "Favourites"
         },
         {
             "name": "Kebabs",
