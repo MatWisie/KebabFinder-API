@@ -20,7 +20,7 @@ class FavouriteController extends Controller
      * Add a kebab to the authenticated user's favourites.
      *
      * @OA\Post(
-     *     path="/kebabs/{kebab}/favourite",
+     *     path="/api/kebabs/{kebab}/favourite",
      *     summary="Add a kebab to favourites",
      *     tags={"Favourites"},
      *     security={{"sanctum":{}}},
