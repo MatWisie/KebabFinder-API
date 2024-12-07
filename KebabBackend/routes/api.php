@@ -42,6 +42,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
 
     Route::get('users', [UserController::class, 'index']);
 
+    Route::get('users/{id}', [UserController::class, 'getUserById']);
+
     Route::delete('delete-user/{id}', [UserController::class, 'destroy']);
 
     Route::post('change-password-first-login', [UserController::class, 'changePasswordForFirstLogin']);

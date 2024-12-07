@@ -66,6 +66,57 @@
                 }
             }
         },
+        "/api/user-login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Login",
+                "description": "Logs in a user and returns an authentication token.",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
         "/api/admin-login": {
             "post": {
                 "tags": [
@@ -155,14 +206,14 @@
                 ]
             }
         },
-        "/user/comments": {
+        "/api/user/comments": {
             "get": {
                 "tags": [
                     "Comments"
                 ],
                 "summary": "Get all user's comments",
                 "description": "Get all comments belonging to the authenticated user.",
-                "operationId": "7021b17f3436a34dd0976698fcbdfd7f",
+                "operationId": "57468ee662aad477bea96c8d0a63e494",
                 "responses": {
                     "200": {
                         "description": "List of comments"
@@ -178,14 +229,14 @@
                 ]
             }
         },
-        "/kebabs/{kebab}/comments": {
+        "/api/kebabs/{kebab}/comments": {
             "get": {
                 "tags": [
                     "Comments"
                 ],
                 "summary": "Get all comments for a specific kebab",
                 "description": "Get all comments for a specific kebab.",
-                "operationId": "1e9d7fdf1350a4ae951868d8982bfe01",
+                "operationId": "e25417f0243f90f94546a0bff63bf7b2",
                 "parameters": [
                     {
                         "name": "kebab",
@@ -212,7 +263,7 @@
                 ],
                 "summary": "Add a new comment to a kebab",
                 "description": "Add a new comment to a specific kebab.",
-                "operationId": "ce8ff47d0be05c5f577341125b679da0",
+                "operationId": "ab65efa23dedbf890921ad60a457866e",
                 "parameters": [
                     {
                         "name": "kebab",
@@ -258,14 +309,14 @@
                 ]
             }
         },
-        "/user/comments/{comment}": {
+        "/api/user/comments/{comment}": {
             "put": {
                 "tags": [
                     "Comments"
                 ],
                 "summary": "Edit user's comment",
                 "description": "Edit a comment belonging to the authenticated user.",
-                "operationId": "1c432a8e69757828b13ac76c4c600df7",
+                "operationId": "706025f7ca2d2b7bf54602535ccd20b1",
                 "parameters": [
                     {
                         "name": "comment",
@@ -316,7 +367,7 @@
                 ],
                 "summary": "Remove user's comment",
                 "description": "Remove a comment belonging to the authenticated user.",
-                "operationId": "bc0edf0eb4f3dd5762a42ae2e13db42c",
+                "operationId": "82a74e5a6dacd6f3a96ef638568fbafe",
                 "parameters": [
                     {
                         "name": "comment",
@@ -346,14 +397,14 @@
                 ]
             }
         },
-        "/admin/delete-comment/{comment}": {
+        "/api/admin/delete-comment/{comment}": {
             "delete": {
                 "tags": [
                     "Comments"
                 ],
                 "summary": "Admin can remove any comment",
                 "description": "Admin can remove any comment.",
-                "operationId": "089c9bddefae020e1d7a2e7102ddded9",
+                "operationId": "75bb4e82946cf71881c73c9288f35357",
                 "parameters": [
                     {
                         "name": "comment",
@@ -1118,6 +1169,44 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a user by id",
+                "description": "Get a user by id",
+                "operationId": "e97fea3915cf8a67543ff86adcbc3f9c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The user with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [

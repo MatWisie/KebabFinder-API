@@ -72,8 +72,8 @@ export default function LogInPage() {
       });
   }
 
-  function isFirstLogIn() {
-    fetch(apiUrl + 'first-login', {
+  function isFirstLogIn(token) {
+    fetch(apiUrl + 'user/first-login', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
