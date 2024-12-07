@@ -83,7 +83,7 @@ class FavouriteController extends Controller
      * Get all favourite kebabs of the authenticated user.
      *
      * @OA\Get(
-     *     path="/user/favourites",
+     *     path="/api/user/favourites",
      *     summary="Get all favourite kebabs",
      *     tags={"Favourites"},
      *     security={{"sanctum":{}}},
