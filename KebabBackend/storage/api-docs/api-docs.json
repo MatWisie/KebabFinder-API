@@ -1153,6 +1153,159 @@
                 }
             }
         },
+        "/api/sauce-types": {
+            "get": {
+                "tags": [
+                    "Sauce Types"
+                ],
+                "summary": "Get all sauce types",
+                "description": "Retrieve a list of all sauce types.",
+                "operationId": "7a0d740b97528a8e6a307dba05a8533e",
+                "responses": {
+                    "200": {
+                        "description": "List of sauce types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SauceType"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sauce Types"
+                ],
+                "summary": "Add a new sauce type",
+                "description": "Create a new sauce type.",
+                "operationId": "35187983a5a30e55f60e7088c0ff5e29",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SauceTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sauce type added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "SauceType added successfully"
+                                        },
+                                        "saucetype": {
+                                            "$ref": "#/components/schemas/SauceType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sauce-types/{id}": {
+            "put": {
+                "tags": [
+                    "Sauce Types"
+                ],
+                "summary": "Update a sauce type",
+                "description": "Update an existing sauce type.",
+                "operationId": "94c1df0f6a31300c73ec1e6ad63c51d9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the sauce type",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SauceTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sauce type updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sauce type updated successfully"
+                                        },
+                                        "sauceType": {
+                                            "$ref": "#/components/schemas/SauceType"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sauce Types"
+                ],
+                "summary": "Delete a sauce type",
+                "description": "Delete a specific sauce type.",
+                "operationId": "23af7d9c492b0137ff5adc369cc03b52",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the sauce type",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SauceType deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "SauceType deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/first-login": {
             "get": {
                 "tags": [
@@ -1580,6 +1733,39 @@
                 },
                 "type": "object"
             },
+            "SauceType": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Spicy"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "SauceTypeRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Sweet Chili"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
@@ -1982,6 +2168,10 @@
         {
             "name": "Kebabs",
             "description": "Kebabs"
+        },
+        {
+            "name": "Sauce Types",
+            "description": "Sauce Types"
         },
         {
             "name": "User",
