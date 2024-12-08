@@ -1153,14 +1153,14 @@
                 }
             }
         },
-        "/api/sauce-types": {
+        "/api/saucetypes": {
             "get": {
                 "tags": [
                     "Sauce Types"
                 ],
                 "summary": "Get all sauce types",
                 "description": "Retrieve a list of all sauce types.",
-                "operationId": "7a0d740b97528a8e6a307dba05a8533e",
+                "operationId": "2b54ee5f7c558ad91502018aaaa07d04",
                 "responses": {
                     "200": {
                         "description": "List of sauce types",
@@ -1183,7 +1183,7 @@
                 ],
                 "summary": "Add a new sauce type",
                 "description": "Create a new sauce type.",
-                "operationId": "35187983a5a30e55f60e7088c0ff5e29",
+                "operationId": "fafd9611309d0031585b68ac5c555bdf",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1217,14 +1217,14 @@
                 }
             }
         },
-        "/api/sauce-types/{id}": {
+        "/api/saucetypes/{id}": {
             "put": {
                 "tags": [
                     "Sauce Types"
                 ],
                 "summary": "Update a sauce type",
                 "description": "Update an existing sauce type.",
-                "operationId": "94c1df0f6a31300c73ec1e6ad63c51d9",
+                "operationId": "1b9688dd29d6ca6876104130a5a7d9a9",
                 "parameters": [
                     {
                         "name": "id",
@@ -1274,7 +1274,7 @@
                 ],
                 "summary": "Delete a sauce type",
                 "description": "Delete a specific sauce type.",
-                "operationId": "23af7d9c492b0137ff5adc369cc03b52",
+                "operationId": "62cd580dd672946af518665b35755a31",
                 "parameters": [
                     {
                         "name": "id",

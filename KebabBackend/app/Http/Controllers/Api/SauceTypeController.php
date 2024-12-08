@@ -39,7 +39,7 @@ class SauceTypeController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/sauce-types",
+     *     path="/api/saucetypes",
      *     tags={"Sauce Types"},
      *     summary="Get all sauce types",
      *     description="Retrieve a list of all sauce types.",
@@ -58,7 +58,7 @@ class SauceTypeController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/sauce-types",
+     *     path="/api/saucetypes",
      *     tags={"Sauce Types"},
      *     summary="Add a new sauce type",
      *     description="Create a new sauce type.",
@@ -91,7 +91,7 @@ class SauceTypeController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/sauce-types/{id}",
+     *     path="/api/saucetypes/{id}",
      *     tags={"Sauce Types"},
      *     summary="Update a sauce type",
      *     description="Update an existing sauce type.",
@@ -133,7 +133,7 @@ class SauceTypeController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/sauce-types/{id}",
+     *     path="/api/saucetypes/{id}",
      *     tags={"Sauce Types"},
      *     summary="Delete a sauce type",
      *     description="Delete a specific sauce type.",
