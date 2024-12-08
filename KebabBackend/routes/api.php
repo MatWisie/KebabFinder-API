@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SauceTypeController;
 use App\Http\Controllers\Api\CommentController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,8 +78,18 @@ Route::prefix('meattypes')->group(function () {
 
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [MeatTypeController::class, 'store']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [MeatTypeController::class, 'update']);
+    Route::middleware(['auth:sanctum', 'admin'])->put('{id}', [MeatTypeController::class, 'update']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [MeatTypeController::class, 'destroy']);
+    Route::middleware(['auth:sanctum', 'admin'])->delete('{id}', [MeatTypeController::class, 'destroy']);
+});
+
+Route::prefix('saucetypes')->group(function () {
+    Route::get('/', [SauceTypeController::class, 'index']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->post('/', [SauceTypeController::class, 'store']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->put('{id}', [SauceTypeController::class, 'update']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->delete('{id}', [SauceTypeController::class, 'destroy']);
 });
 
