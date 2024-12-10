@@ -3,6 +3,7 @@ import L from 'leaflet'
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { UserContext } from '../Contexts/AuthContext';
+import AddKebabPanel from "../Components/AddKebabPanel";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -39,10 +40,23 @@ export default function AdminPanel(){
       var popup = L.popup();
 
       function onMapClick(e) {
-          popup
-              .setLatLng(e.latlng)
-              .setContent("You clicked the map at " + e.latlng.toString())
-              .openOn(map);
+        const popupContent = document.createElement('div');
+        popupContent.innerHTML = `
+          <div class='flex flex-col justify-center items-center'>
+              <p>Add a new Kebab here</p>
+              <button class="text-xl text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-12 h-12 flex items-center justify-center">
+                  +
+              </button>
+          </div>
+        `
+        popupContent.querySelector('button').addEventListener('click', () => {
+          openAddKebabPanel(`${e.latlng.lat}, ${e.latlng.lng}`);
+        });
+
+        popup
+          .setLatLng(e.latlng)
+          .setContent(popupContent)
+          .openOn(map);
       }
 
       map.on('click', onMapClick);
@@ -179,6 +193,10 @@ export default function AdminPanel(){
     const [isBeingDeleted, setIsBeingDeleted] = useState({})
     async function handleDeleteComment(comment_id) {
 
+      if (window.confirm("Are you sure you want to delete this comment?") === false) {
+        return
+      }
+
       setIsBeingDeleted((prev) => ({ ...prev, [comment_id]: true }))
 
       try {
@@ -210,6 +228,19 @@ export default function AdminPanel(){
         setIsBeingDeleted((prev) => ({ ...prev, [comment_id]: false }))
 
       }
+    }
+
+    const [isAddKebabPanelOpen, setIsAddKebabPanelOpen] = useState(false)
+
+    function toggleAddKebabPanel() {
+      setIsAddKebabPanelOpen(!isAddKebabPanelOpen)
+    }
+
+    const [clickedCoordinates, setClickedCoordinates] = useState('')
+
+    function openAddKebabPanel(coordinates) {
+      setClickedCoordinates(coordinates)
+      setIsAddKebabPanelOpen(true)
     }
 
     return (
@@ -254,6 +285,12 @@ export default function AdminPanel(){
               onDelete={handleDeleteComment}
               isBeingDeleted={isBeingDeleted}
               />
+          }
+          {isAddKebabPanelOpen &&
+            <AddKebabPanel 
+              coordinates={clickedCoordinates}
+              onAction={toggleAddKebabPanel}
+            />
           }
         </div>
     )
