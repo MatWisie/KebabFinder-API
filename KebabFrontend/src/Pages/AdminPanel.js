@@ -243,6 +243,11 @@ export default function AdminPanel(){
       setIsAddKebabPanelOpen(true)
     }
 
+    function onKebabAdded() {
+      getKebabs()
+      setIsAddKebabPanelOpen(false)
+    }
+
     return (
         <div className="flex h-screen overflow-hidden">
           {isSidePanelOpen &&
@@ -290,6 +295,7 @@ export default function AdminPanel(){
             <AddKebabPanel 
               coordinates={clickedCoordinates}
               onAction={toggleAddKebabPanel}
+              onKebabAdded={onKebabAdded}
             />
           }
         </div>
