@@ -11,6 +11,7 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
     const [formData, setFormData] = useState({
         name: "Kebab",
         address: "Kebab City, Kebab Street 68",
+        logolink: "https://example.com",
         coordinates: coordinates,
         open_year: 1990,
         closed_year: 2000,
@@ -21,7 +22,37 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
         sauces: [],
         meats: [],
         social_media_links: [],
-        opening_hours: {},
+        opening_hours: {
+            monday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            tuesday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            wednesday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            thursday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            friday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            saturday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            sunday: {
+                open: '08:00',
+                close: '20:00'
+            },
+            
+        },
         order_ways: []
       });
       
@@ -126,6 +157,37 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
         });
     };
 
+    const handleSocialMediaLinksChange = (index, value) => {
+        setFormData((prevState) => {
+            const updatedSocialMediaLinks = [...prevState.social_media_links];
+            updatedSocialMediaLinks[index] = value; // Update the specific index with the new value
+            return {
+                ...prevState,
+                social_media_links: updatedSocialMediaLinks,
+            };
+        });
+    };
+
+    const handleRemoveSocialMediaLink = (index) => {
+        setFormData((prevState) => {
+            const updatedSocialMediaLinks = prevState.social_media_links.filter((_, i) => i !== index);
+            return {
+                ...prevState,
+                social_media_links: updatedSocialMediaLinks,
+            };
+        });
+    };
+
+    const handleRemoveOrderWay = (index) => {
+        setFormData((prevState) => {
+            const updatedOrderWays = prevState.order_ways.filter((_, i) => i !== index);
+            return {
+                ...prevState,
+                order_ways: updatedOrderWays,
+            };
+        });
+    };
+
     async function getSauces() {
         try {
             var response = await fetch(apiUrl + 'saucetypes', {
@@ -194,6 +256,18 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                         />
                     </div>
                     <div>
+                        <label className="block text-gray-700 font-medium m-2 p-1">Logo Link</label>
+                        <input
+                            type="url"
+                            name="logolink"
+                            value={formData.logolink}
+                            onChange={handleChange}
+                            placeholder="Enter logolink"
+                            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-indigo-300"
+                            
+                        />
+                    </div>
+                    <div>
                         <label className="block text-gray-700 font-medium m-2 p-1">Address</label>
                         <input
                             type="text"
@@ -254,6 +328,18 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                             <option value="closed">Closed</option>
                             <option value="planned">Plannned</option>
                         </select>
+                    </div>
+                    <div className="flex items-center justify-center space-x-2">
+                        <label htmlFor="is_chain" className="text-gray-700 font-medium">
+                            Is Chain
+                        </label>
+                        <input
+                            type="checkbox"
+                            name="is_chain"
+                            checked={formData.is_chain}
+                            onChange={handleChange}
+                            className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring focus:ring-indigo-300"
+                        />
                     </div>
                     <div className="flex items-center justify-center space-x-2">
                         <label htmlFor="is_craft" className="text-gray-700 font-medium">
@@ -369,6 +455,13 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                                 className="w-3/4 px-2 py-1 border rounded-md"
                             />
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => handleRemoveOrderWay(index)}
+                            className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
+                        >
+                            Remove Order Method
+                        </button>
                     </div>
                 ))}
                 <button
@@ -383,8 +476,46 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                 >
                     Add Order Method
                 </button>
-            </div>
+                {formData.social_media_links.map((link, index) => (
+                    <div key={index} className="space-y-2 border-b pb-4">
+                        <h3 className="text-lg font-medium text-gray-700">
+                            Social Media Link {index + 1}
+                        </h3>
+                        <div className="flex items-center gap-4">
+                            <label className="w-1/4 text-gray-500 text-sm">Link</label>
+                            <input
+                                type="url"
+                                value={link || ""}
+                                onChange={(e) => handleSocialMediaLinksChange(index, e.target.value)}
+                                className="w-3/4 px-2 py-1 border rounded-md"
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => handleRemoveSocialMediaLink(index)}
+                            className="px-2 py-1 bg-red-500 text-white rounded-md"
+                        >
+                            Remove Link
+                        </button>
+                    </div>
+                 ))}
+                 <div className="w-full">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setFormData((prevState) => ({
+                                ...prevState,
+                                social_media_links: [...prevState.social_media_links, ""],
+                            }))
+                        }
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Add Social Media Link
+                    </button>
+                 </div>
 
+            </div>
+            
             </div>
             <button
                 type="submit"
