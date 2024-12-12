@@ -4,6 +4,7 @@ import { UserContext } from "../Contexts/AuthContext";
 export default function SaucesPage() {
     const apiUrl = process.env.REACT_APP_API_URL
     const [sauces, setSauces] = useState([])
+    const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const {token, isLoading} = useContext(UserContext)
     const [chosenSauce, setChosenSauce] = useState(null)
@@ -13,6 +14,7 @@ export default function SaucesPage() {
     const [deletingID, setDeletingID] = useState(-1)
 
     async function getSauces() {
+        setLoading(true)
         try {
             var response = await fetch(apiUrl + 'saucetypes', {
                 method: 'GET',
@@ -23,13 +25,18 @@ export default function SaucesPage() {
             })
 
             if (!response.ok) {
+                var data = await response.json()
+                setErrorMessage(data.message)
                 throw new Error('Network response was not ok ' + response.statusText)
             }
             var data = await response.json()
+            
             setSauces(data)
             
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -95,6 +102,10 @@ export default function SaucesPage() {
                 >
                     Add a new Sauce
                 </button>
+                {loading && <p>Loading Sauces...</p>}
+                {!loading && sauces.length === 0 ? <p>No Sauces found</p> : ''}
+                {errorMessage.length > 0 && <p className="text-red-600">{errorMessage}</p>}
+                {sauces.length > 0 &&
                 <table className="min-w-full border-collapse border border-gray-200">
                     <thead>
                     <tr className="bg-gray-100">
@@ -129,6 +140,7 @@ export default function SaucesPage() {
                     ))}
                     </tbody>
                 </table>
+                }
             </div>
             </div>
             {isEditSaucePanelOpen && <EditSaucePanel sauce={chosenSauce} onClose={closeEditSaucePanel} onEdited={getSauces} />}
