@@ -26,7 +26,7 @@ class CommentController extends Controller
      * Get all comments belonging to the authenticated user.
      *
      * @OA\Get(
-     *     path="/user/comments",
+     *     path="/api/user/comments",
      *     summary="Get all user's comments",
      *     tags={"Comments"},
      *     security={{"sanctum":{}}},
@@ -45,7 +45,7 @@ class CommentController extends Controller
      * Add a new comment to a specific kebab.
      *
      * @OA\Post(
-     *     path="/kebabs/{kebab}/comments",
+     *     path="/api/kebabs/{kebab}/comments",
      *     summary="Add a new comment to a kebab",
      *     tags={"Comments"},
      *     security={{"sanctum":{}}},
@@ -80,7 +80,7 @@ class CommentController extends Controller
      * Edit a comment belonging to the authenticated user.
      *
      * @OA\Put(
-     *     path="/user/comments/{comment}",
+     *     path="/api/user/comments/{comment}",
      *     summary="Edit user's comment",
      *     tags={"Comments"},
      *     security={{"sanctum":{}}},
@@ -120,7 +120,7 @@ class CommentController extends Controller
      * Remove a comment belonging to the authenticated user.
      *
      * @OA\Delete(
-     *     path="/user/comments/{comment}",
+     *     path="/api/user/comments/{comment}",
      *     summary="Remove user's comment",
      *     tags={"Comments"},
      *     security={{"sanctum":{}}},
@@ -149,7 +149,7 @@ class CommentController extends Controller
      * Get all comments for a specific kebab.
      *
      * @OA\Get(
-     *     path="/kebabs/{kebab}/comments",
+     *     path="/api/kebabs/{kebab}/comments",
      *     summary="Get all comments for a specific kebab",
      *     tags={"Comments"},
      *     @OA\Parameter(
@@ -174,7 +174,7 @@ class CommentController extends Controller
      * Admin can remove any comment.
      *
      * @OA\Delete(
-     *     path="/admin/delete-comment/{comment}",
+     *     path="/api/admin/delete-comment/{comment}",
      *     summary="Admin can remove any comment",
      *     tags={"Comments"},
      *     security={{"sanctum":{}, "admin":{}}},

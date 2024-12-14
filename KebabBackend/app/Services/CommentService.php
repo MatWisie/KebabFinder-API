@@ -34,11 +34,11 @@ class CommentService
 
     public function getUserComments(): \Illuminate\Database\Eloquent\Collection
     {
-        return Comment::where('user_id', Auth::id())->get();
+        return Comment::with('user:id,name,is_admin')->where('user_id', Auth::id())->get();
     }
 
     public function getCommentsByKebabId(Kebab $kebab): \Illuminate\Database\Eloquent\Collection
     {
-        return $kebab->comments;
+        return $kebab->comments()->with('user:id,name,is_admin')->get();
     }
 }

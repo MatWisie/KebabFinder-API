@@ -64,7 +64,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /*
+    /**
      * Login for user.
      * 
      * @OA\Post(
