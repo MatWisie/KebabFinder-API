@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SauceTypeController;
@@ -91,5 +92,16 @@ Route::prefix('saucetypes')->group(function () {
     Route::middleware(['auth:sanctum', 'admin'])->put('{id}', [SauceTypeController::class, 'update']);
 
     Route::middleware(['auth:sanctum', 'admin'])->delete('{id}', [SauceTypeController::class, 'destroy']);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/reports', [ReportController::class, 'reportKebabChange']);
+});
+
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('/admin/reports', [ReportController::class, 'getAllReports']);
+    Route::delete('/admin/reports/{report}', [ReportController::class, 'removeReport']);
+    Route::put('/admin/reports/{report}/accept', [ReportController::class, 'acceptReport']);
+    Route::put('/admin/reports/{report}/refuse', [ReportController::class, 'refuseReport']);
 });
 
