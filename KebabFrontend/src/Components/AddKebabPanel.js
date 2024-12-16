@@ -113,6 +113,7 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                 },
             },
         }));
+        console.log(formData.opening_hours)
     };
 
     const handleSaucesChange = (sauceId) => {
@@ -229,6 +230,19 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
             console.log(error)
         }
     }
+
+    const handleDayToggle = (day, isOpen) => {
+        setFormData((prevData) => ({
+          ...prevData,
+          opening_hours: {
+            ...prevData.opening_hours,
+            [day]: {
+              open: isOpen ? prevData.opening_hours[day]?.open || "" : null,
+              close: isOpen ? prevData.opening_hours[day]?.close || "" : null,
+            },
+          },
+        }));
+      };
 
     useEffect(()=>{
         getSauces()
@@ -397,30 +411,41 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                         <label className="block text-gray-700 font-medium m-2">Opening Hours</label>
                 <div className="space-y-4">
                 {["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].map((day) => (
-                    <div key={day} className="flex items-center gap-4">
-                        <h2 className="text-center text-lg font-medium text-gray-700 w-full">
-                            {day.charAt(0).toUpperCase() + day.slice(1)}
-                        </h2>
-                        <label className="w-1/4 text-gray-500 text-sm">
-                            Opens
-                        </label>
-                        <input
-                            type="time"
-                            value={formData.opening_hours[day]?.open || "08:00"}
-                            onChange={(e) => handleOpeningHoursChange(day, "open", e.target.value)}
-                            className="w-1/4 px-2 py-1 border rounded-md"
-                        />
-                        <label className="w-1/4 text-gray-500 text-sm">
-                            Closes
-                        </label>
-                        <input
-                            type="time"
-                            value={formData.opening_hours[day]?.close || "20:00"}
-                            onChange={(e) => handleOpeningHoursChange(day, "close", e.target.value)}
-                            className="w-1/4 px-2 py-1 border rounded-md"
-                        />
-                    </div>
-                ))}
+      <div key={day} className="flex items-center gap-4">
+        <h2 className="text-center text-lg font-medium text-gray-700 w-full">
+          {day.charAt(0).toUpperCase() + day.slice(1)}
+        </h2>
+        <label className="w-1/4 text-gray-500 text-sm">
+          <input
+            type="checkbox"
+            checked={formData.opening_hours[day]?.open !== null}
+            onChange={(e) => handleDayToggle(day, e.target.checked)}
+            className="mr-2"
+          />
+          Open
+        </label>
+        {formData.opening_hours[day]?.open !== null ? (
+          <>
+            <label className="w-1/4 text-gray-500 text-sm">Opens</label>
+            <input
+              type="time"
+              value={formData.opening_hours[day]?.open || ""}
+              onChange={(e) => handleOpeningHoursChange(day, "open", e.target.value)}
+              className="w-1/4 px-2 py-1 border rounded-md"
+            />
+            <label className="w-1/4 text-gray-500 text-sm">Closes</label>
+            <input
+              type="time"
+              value={formData.opening_hours[day]?.close || ""}
+              onChange={(e) => handleOpeningHoursChange(day, "close", e.target.value)}
+              className="w-1/4 px-2 py-1 border rounded-md"
+            />
+          </>
+        ) : (
+          <span className="w-3/4 text-gray-500 text-sm italic">Closed</span>
+        )}
+      </div>
+    ))}
                 </div>
                 <div className="space-y-4">
                 {formData.order_ways.map((orderWay, index) => (
