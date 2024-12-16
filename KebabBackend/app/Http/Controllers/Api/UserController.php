@@ -119,6 +119,41 @@ class UserController extends Controller
     }
 
     /**
+     * Get a user by id
+     * 
+     * @OA\Get(
+     *      path="/api/user/{id}",
+     *      summary="Get a user by id",
+     *      tags={"User"},
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *      @OA\Response(
+     *         response=200,
+     *         description="The user with this id",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     * )
+     */
+
+    public function getUserById($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        return response()->json($user);
+    }
+
+    /**
      * Get all users.
      *
      * @OA\Get(
