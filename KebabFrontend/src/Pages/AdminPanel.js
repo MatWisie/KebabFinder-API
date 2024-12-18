@@ -330,13 +330,41 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                     <ul>
                     {
                     <>
-                    <li>Monday: {kebab.opening_hour.monday_open} - {kebab.opening_hour.monday_close}</li>
-                    <li>Tuesday: {kebab.opening_hour.tuesday_open} - {kebab.opening_hour.tuesday_close}</li> 
-                    <li>Wednesday: {kebab.opening_hour.wednesday_open} - {kebab.opening_hour.wednesday_close}</li> 
-                    <li>Thursday: {kebab.opening_hour.thursday_open} - {kebab.opening_hour.thursday_close}</li> 
-                    <li>Friday: {kebab.opening_hour.friday_open} - {kebab.opening_hour.friday_close}</li> 
-                    <li>Saturday: {kebab.opening_hour.saturday_open || 'Closed'}{kebab.opening_hour.saturday_close || ''}</li> 
-                    <li>Sunday: {kebab.opening_hour.sunday_open || 'Closed'}{kebab.opening_hour.sunday_close || ''}</li>
+                      <li>
+                          Monday: {kebab.opening_hour.monday_open && kebab.opening_hour.monday_close
+                              ? `${kebab.opening_hour.monday_open} - ${kebab.opening_hour.monday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Tuesday: {kebab.opening_hour.tuesday_open && kebab.opening_hour.tuesday_close
+                              ? `${kebab.opening_hour.tuesday_open} - ${kebab.opening_hour.tuesday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Wednesday: {kebab.opening_hour.wednesday_open && kebab.opening_hour.wednesday_close
+                              ? `${kebab.opening_hour.wednesday_open} - ${kebab.opening_hour.wednesday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Thursday: {kebab.opening_hour.thursday_open && kebab.opening_hour.thursday_close
+                              ? `${kebab.opening_hour.thursday_open} - ${kebab.opening_hour.thursday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Friday: {kebab.opening_hour.friday_open && kebab.opening_hour.friday_close
+                              ? `${kebab.opening_hour.friday_open} - ${kebab.opening_hour.friday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Saturday: {kebab.opening_hour.saturday_open && kebab.opening_hour.saturday_close
+                              ? `${kebab.opening_hour.saturday_open} - ${kebab.opening_hour.saturday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Sunday: {kebab.opening_hour.sunday_open && kebab.opening_hour.sunday_close
+                              ? `${kebab.opening_hour.sunday_open} - ${kebab.opening_hour.sunday_close}`
+                              : "Closed"}
+                      </li>
                     </>
                     }
                     </ul>
@@ -352,6 +380,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                       </ul>
+                      {kebab.sauces.length === 0 && <p>No sauces</p>}
                   </details>
                 </div>
                 <div>
@@ -364,6 +393,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                       </ul>
+                      {kebab.meat_types.length === 0 && <p>No meats</p>}
                   </details>
                 </div>
                 <div>
@@ -372,17 +402,19 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                     <ul>
                     {kebab.order_way.map((way, index) => (
                       <li key={index}>
-                        <p>Phone number: {way.phone_number}</p>
+                        {way.phone_number && <p>Phone number: {way.phone_number}</p> }
                         <p>{way.app_name}</p>
                         <a href={way.website}>{way.website}</a>
                       </li>
                     ))}
                     </ul>
+                    {kebab.order_way.length === 0 && <p>No ways to order</p>}
                   </details>
                 </div>
                 <div>
                   <details>
                     <summary className="text-lg font-semibold cursor-default">Social Media</summary>
+                    {kebab.social_medias.length > 0 &&
                     <ul>
                     {kebab.social_medias.map((media, index) => (
                           <li key={index}>
@@ -390,6 +422,8 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                     </ul>
+                    }
+                    {kebab.social_medias.length === 0 && <p>No social media</p>}
                   </details>
                 </div>
                 <div>
