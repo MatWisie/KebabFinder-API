@@ -3,6 +3,7 @@ import L from 'leaflet'
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { UserContext } from '../Contexts/AuthContext';
+import AddKebabPanel from "../Components/AddKebabPanel";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -39,10 +40,23 @@ export default function AdminPanel(){
       var popup = L.popup();
 
       function onMapClick(e) {
-          popup
-              .setLatLng(e.latlng)
-              .setContent("You clicked the map at " + e.latlng.toString())
-              .openOn(map);
+        const popupContent = document.createElement('div');
+        popupContent.innerHTML = `
+          <div class='flex flex-col justify-center items-center'>
+              <p>Add a new Kebab here</p>
+              <button class="text-xl text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-12 h-12 flex items-center justify-center">
+                  +
+              </button>
+          </div>
+        `
+        popupContent.querySelector('button').addEventListener('click', () => {
+          openAddKebabPanel(`${e.latlng.lat}, ${e.latlng.lng}`);
+        });
+
+        popup
+          .setLatLng(e.latlng)
+          .setContent(popupContent)
+          .openOn(map);
       }
 
       map.on('click', onMapClick);
@@ -179,6 +193,10 @@ export default function AdminPanel(){
     const [isBeingDeleted, setIsBeingDeleted] = useState({})
     async function handleDeleteComment(comment_id) {
 
+      if (window.confirm("Are you sure you want to delete this comment?") === false) {
+        return
+      }
+
       setIsBeingDeleted((prev) => ({ ...prev, [comment_id]: true }))
 
       try {
@@ -210,6 +228,24 @@ export default function AdminPanel(){
         setIsBeingDeleted((prev) => ({ ...prev, [comment_id]: false }))
 
       }
+    }
+
+    const [isAddKebabPanelOpen, setIsAddKebabPanelOpen] = useState(false)
+
+    function toggleAddKebabPanel() {
+      setIsAddKebabPanelOpen(!isAddKebabPanelOpen)
+    }
+
+    const [clickedCoordinates, setClickedCoordinates] = useState('')
+
+    function openAddKebabPanel(coordinates) {
+      setClickedCoordinates(coordinates)
+      setIsAddKebabPanelOpen(true)
+    }
+
+    function onKebabAdded() {
+      getKebabs()
+      setIsAddKebabPanelOpen(false)
     }
 
     return (
@@ -255,6 +291,13 @@ export default function AdminPanel(){
               isBeingDeleted={isBeingDeleted}
               />
           }
+          {isAddKebabPanelOpen &&
+            <AddKebabPanel 
+              coordinates={clickedCoordinates}
+              onAction={toggleAddKebabPanel}
+              onKebabAdded={onKebabAdded}
+            />
+          }
         </div>
     )
 }
@@ -287,13 +330,41 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                     <ul>
                     {
                     <>
-                    <li>Monday: {kebab.opening_hour.monday_open} - {kebab.opening_hour.monday_close}</li>
-                    <li>Tuesday: {kebab.opening_hour.tuesday_open} - {kebab.opening_hour.tuesday_close}</li> 
-                    <li>Wednesday: {kebab.opening_hour.wednesday_open} - {kebab.opening_hour.wednesday_close}</li> 
-                    <li>Thursday: {kebab.opening_hour.thursday_open} - {kebab.opening_hour.thursday_close}</li> 
-                    <li>Friday: {kebab.opening_hour.friday_open} - {kebab.opening_hour.friday_close}</li> 
-                    <li>Saturday: {kebab.opening_hour.saturday_open || 'Closed'}{kebab.opening_hour.saturday_close || ''}</li> 
-                    <li>Sunday: {kebab.opening_hour.sunday_open || 'Closed'}{kebab.opening_hour.sunday_close || ''}</li>
+                      <li>
+                          Monday: {kebab.opening_hour.monday_open && kebab.opening_hour.monday_close
+                              ? `${kebab.opening_hour.monday_open} - ${kebab.opening_hour.monday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Tuesday: {kebab.opening_hour.tuesday_open && kebab.opening_hour.tuesday_close
+                              ? `${kebab.opening_hour.tuesday_open} - ${kebab.opening_hour.tuesday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Wednesday: {kebab.opening_hour.wednesday_open && kebab.opening_hour.wednesday_close
+                              ? `${kebab.opening_hour.wednesday_open} - ${kebab.opening_hour.wednesday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Thursday: {kebab.opening_hour.thursday_open && kebab.opening_hour.thursday_close
+                              ? `${kebab.opening_hour.thursday_open} - ${kebab.opening_hour.thursday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Friday: {kebab.opening_hour.friday_open && kebab.opening_hour.friday_close
+                              ? `${kebab.opening_hour.friday_open} - ${kebab.opening_hour.friday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Saturday: {kebab.opening_hour.saturday_open && kebab.opening_hour.saturday_close
+                              ? `${kebab.opening_hour.saturday_open} - ${kebab.opening_hour.saturday_close}`
+                              : "Closed"}
+                      </li>
+                      <li>
+                          Sunday: {kebab.opening_hour.sunday_open && kebab.opening_hour.sunday_close
+                              ? `${kebab.opening_hour.sunday_open} - ${kebab.opening_hour.sunday_close}`
+                              : "Closed"}
+                      </li>
                     </>
                     }
                     </ul>
@@ -309,6 +380,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                       </ul>
+                      {kebab.sauces.length === 0 && <p>No sauces</p>}
                   </details>
                 </div>
                 <div>
@@ -321,6 +393,7 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                       </ul>
+                      {kebab.meat_types.length === 0 && <p>No meats</p>}
                   </details>
                 </div>
                 <div>
@@ -329,17 +402,19 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                     <ul>
                     {kebab.order_way.map((way, index) => (
                       <li key={index}>
-                        <p>Phone number: {way.phone_number}</p>
+                        {way.phone_number && <p>Phone number: {way.phone_number}</p> }
                         <p>{way.app_name}</p>
                         <a href={way.website}>{way.website}</a>
                       </li>
                     ))}
                     </ul>
+                    {kebab.order_way.length === 0 && <p>No ways to order</p>}
                   </details>
                 </div>
                 <div>
                   <details>
                     <summary className="text-lg font-semibold cursor-default">Social Media</summary>
+                    {kebab.social_medias.length > 0 &&
                     <ul>
                     {kebab.social_medias.map((media, index) => (
                           <li key={index}>
@@ -347,6 +422,8 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                           </li>
                         ))}
                     </ul>
+                    }
+                    {kebab.social_medias.length === 0 && <p>No social media</p>}
                   </details>
                 </div>
                 <div>
