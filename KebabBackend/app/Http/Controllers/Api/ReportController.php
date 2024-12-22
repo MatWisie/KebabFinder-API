@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReportRequest;
 use App\Models\Report;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,12 +24,13 @@ class ReportController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request): JsonResponse
+    public function store(ReportRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
         $report = Report::create([
             'kebab_id' => $validated['kebab_id'],
-            'message' => $validated['message'],
+            'content' => $validated['content'],
             'status' => 'Waiting',
         ]);
 
