@@ -95,13 +95,13 @@ Route::prefix('saucetypes')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/reports', [ReportController::class, 'reportKebabChange']);
+    Route::post('reports', [ReportController::class, 'store']);
 });
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::get('/admin/reports', [ReportController::class, 'getAllReports']);
-    Route::delete('/admin/reports/{report}', [ReportController::class, 'removeReport']);
-    Route::put('/admin/reports/{report}/accept', [ReportController::class, 'acceptReport']);
-    Route::put('/admin/reports/{report}/refuse', [ReportController::class, 'refuseReport']);
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/reports')->group(function () {
+    Route::get('/', [ReportController::class, 'index']);
+    Route::delete('{report}', [ReportController::class, 'destroy']);
+    Route::put('{report}/accept', [ReportController::class, 'acceptReport']);
+    Route::put('{report}/refuse', [ReportController::class, 'refuseReport']);
 });
 
