@@ -29,6 +29,7 @@ class ReportController extends Controller
         $validated = $request->validated();
 
         $report = Report::create([
+            'user_id' => auth()->id(),
             'kebab_id' => $validated['kebab_id'],
             'content' => $validated['content'],
             'status' => 'Waiting',
