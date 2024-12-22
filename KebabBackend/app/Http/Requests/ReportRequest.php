@@ -23,7 +23,7 @@ class ReportRequest extends FormRequest
     {
         return [
             'kebab_id' => 'required|exists:kebabs,id',
-            'message' => 'required|string|max:100',
+            'content' => 'required|string|max:100',
         ];
     }
 
@@ -35,9 +35,9 @@ class ReportRequest extends FormRequest
         return [
             'kebab_id.required' => 'You must specify a kebab to report.',
             'kebab_id.exists' => 'The specified kebab does not exist.',
-            'message.required' => 'Content of the comment is required.',
-            'message.string' => 'Content must be a valid string.',
-            'message.max' => 'Content can have a maximum length of 100 characters.',
+            'content.required' => 'Content of the comment is required.',
+            'content.string' => 'Content must be a valid string.',
+            'content.max' => 'Content can have a maximum length of 100 characters.',
         ];
     }
 }

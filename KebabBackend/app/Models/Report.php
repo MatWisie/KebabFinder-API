@@ -9,7 +9,7 @@ class Report extends Model
     protected $fillable = [
         'user_id',
         'kebab_id',
-        'message',
+        'content',
         'status',
     ];
 
