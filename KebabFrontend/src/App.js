@@ -16,6 +16,7 @@ import RootLayout from './Components/RootLayout';
 import { UserContext } from './Contexts/AuthContext';
 import ChangePasswordPage from './Pages/ChangePasswordPage';
 import SaucesPage from './Pages/SaucesPage';
+import MeatsPage from './Pages/MeatsPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,10 @@ const router = createBrowserRouter(
       <Route 
         path='/sauces' 
         element={<ProtectedRoute><SaucesPage /></ProtectedRoute>}
+      />
+      <Route 
+        path='/meats' 
+        element={<ProtectedRoute><MeatsPage /></ProtectedRoute>}
       />
       <Route
         path='/changepassword'
