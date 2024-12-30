@@ -434,9 +434,9 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
                     <summary className="text-lg font-semibold cursor-default">Ways to Order</summary>
                     <ul>
                     {kebab.order_way.map((way, index) => (
-                      <li key={index}>
-                        {way.phone_number && <p>Phone number: {way.phone_number}</p> }
+                      <li key={index} className="mb-4">
                         <p>{way.app_name}</p>
+                        {way.phone_number && <p>Phone number: {way.phone_number}</p> }
                         <a href={way.website}>{way.website}</a>
                       </li>
                     ))}
