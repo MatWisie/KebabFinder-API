@@ -48,10 +48,6 @@ const router = createBrowserRouter(
       >
       </Route>
       <Route
-        path='/editkebab'
-        element={<EditKebabPanel></EditKebabPanel>}
-      ></Route>
-      <Route
         path='*'
         element={<ErrorPage />}
       />

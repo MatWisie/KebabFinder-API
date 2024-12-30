@@ -86,7 +86,6 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
             onKebabAdded()
             
         } catch (error) {
-            //setErrorMessage('An error has occured. ' + error)
             console.log(error)
             
         } finally {
@@ -161,7 +160,7 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
     const handleSocialMediaLinksChange = (index, value) => {
         setFormData((prevState) => {
             const updatedSocialMediaLinks = [...prevState.social_media_links];
-            updatedSocialMediaLinks[index] = value; // Update the specific index with the new value
+            updatedSocialMediaLinks[index] = value;
             return {
                 ...prevState,
                 social_media_links: updatedSocialMediaLinks,

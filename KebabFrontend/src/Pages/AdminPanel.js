@@ -4,6 +4,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { UserContext } from '../Contexts/AuthContext';
 import AddKebabPanel from "../Components/AddKebabPanel";
+import EditKebabPanel from "../Components/EditKebabPanel";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -96,14 +97,22 @@ export default function AdminPanel(){
                 <b>${kebab.name}</b>
                 <div>${kebab.address}</div>
                 <div class="font-semibold m-1">${kebab.status}</div>
-                <button id="button-${kebab.id}" class="font-bold mt-2">Show More</button>
+                <button id="show-more-button-${kebab.id}" class="font-bold mt-2">Show More</button>
+                <button class="font-bold text-blue-500 mt-4" id="edit-kebab-button-${kebab.id}" class="font-bold mt-2">Edit Kebab</button>
               </div>
             `)
             marker.on('popupopen', () => {
-              const button = document.getElementById(`button-${kebab.id}`);
-              if (button) {
-                button.addEventListener('click', () => {
-                  showPanel(kebab.id);
+              const showMoreButton = document.getElementById(`show-more-button-${kebab.id}`);
+              if (showMoreButton) {
+                showMoreButton.addEventListener('click', () => {
+                  showPanel(kebab.id, 'view');
+                });
+              }
+            
+              const editKebabButton = document.getElementById(`edit-kebab-button-${kebab.id}`);
+              if (editKebabButton) {
+                editKebabButton.addEventListener('click', () => {
+                  showPanel(kebab.id, 'edit');
                 });
               }
             });
@@ -169,18 +178,20 @@ export default function AdminPanel(){
     }
 
     const [isPanelVisible, setIsPaneVisible] = useState(false)
+    const [panelType, setPanelType] = useState(null); // 'view' or 'edit'
 
-    function showPanel(kebab_id) {
-
-      setClickedKebabID(kebab_id)
-
-      setIsPaneVisible(true)
+    function showPanel(kebab_id, type = 'view') {
+      setClickedKebabID(kebab_id);
+      setPanelType(type);
+      setIsPaneVisible(true);
+      setChosenKebab(kebabs.find(kebab => kebab.id === kebab_id));
+      getKebabComments(kebab_id);
       
-      setChosenKebab(kebabs.find(kebab => kebab.id === kebab_id))
-      getKebabComments(kebab_id)
     }
+    
     function hidePanel() {
-      setIsPaneVisible(false)
+      setIsPaneVisible(false);
+      setPanelType(null);
     }
 
     const [clickedKebabID, setClickedKebabID] = useState(0)
@@ -248,6 +259,11 @@ export default function AdminPanel(){
       setIsAddKebabPanelOpen(false)
     }
 
+    function onKebabEdited() {
+      getKebabs()
+      hidePanel()
+    }
+
     return (
         <div className="flex h-screen overflow-hidden">
           {isSidePanelOpen &&
@@ -264,9 +280,18 @@ export default function AdminPanel(){
                   <h2 className="text-2xl font-semibold">{kebab.name}</h2>
                   <address>{kebab.address}</address>
                   <div>{kebab.status}</div>
-                  <button onClick={()=>{
-                    showPanel(kebab.id)
-                    }}>Show More</button>
+                  <div className="flex justify-center flex-col">
+                    <button className="mt-2" onClick={()=>{
+                      showPanel(kebab.id)
+                      }}>Show More
+                    </button>
+                    <button className="font-bold text-blue-500 my-2" onClick={()=>{
+                      setPanelType()
+                      showPanel(kebab.id, "edit")
+                      }}>Edit Kebab
+                    </button>
+                  </div>
+
                 </div>
               )) : <></>}
             </div>
@@ -281,7 +306,7 @@ export default function AdminPanel(){
           <div id="mapContainer" className={`flex ${isSidePanelOpen ? "sm:w-3/5 md:w-4/5" : "w-full"} z-10`}>
             <div id="map" className="w-full h-full" ref={mapRef} ></div>
           </div>
-          {isPanelVisible && 
+          {isPanelVisible && panelType === 'view' && 
             <KebabPanel 
               onAction={hidePanel} 
               kebab={chosenKebab} 
@@ -289,7 +314,15 @@ export default function AdminPanel(){
               loadingComments={loadingComments}
               onDelete={handleDeleteComment}
               isBeingDeleted={isBeingDeleted}
-              />
+            />
+          }
+
+          {isPanelVisible && panelType === 'edit' && 
+            <EditKebabPanel 
+              kebab={chosenKebab} 
+              onAction={hidePanel}
+              onKebabEdited={onKebabEdited}
+            />
           }
           {isAddKebabPanelOpen &&
             <AddKebabPanel 
