@@ -1,70 +1,75 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Contexts/AuthContext";
 
-export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
+export default function EditKebabPanel({kebab, onAction, onKebabEdited}) {
+    console.log(kebab)
     const apiUrl = process.env.REACT_APP_API_URL
     const {token} = useContext(UserContext)
     const [sauces, setSauces] = useState([])
     const [meatTypes, setMeatTypes] = useState([])
-    const [addingKebab, setAddingKebab] = useState(false)
+    const [editingKebab, setEditingKebab] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [formData, setFormData] = useState({
-        name: "Kebab",
-        address: "Kebab City, Kebab Street 68",
-        logolink: "https://example.com",
-        coordinates: coordinates,
-        open_year: 1990,
-        closed_year: 2000,
-        status: "open",
-        is_craft: false,
-        is_chain: false,
-        building_type: "domek",
-        sauces: [],
-        meats: [],
-        social_media_links: [],
+        name: kebab.name,
+        address: kebab.address,
+        coordinates: kebab.coordinates,
+        logo_link: kebab.logo_link,
+        open_year: kebab.open_year,
+        closed_year: kebab.closed_year,
+        status: kebab.status,
+        is_craft: kebab.is_craft,
+        building_type: kebab.building_type,
+        is_chain: kebab.is_chain,
+        sauces: kebab.sauces.map((sauce) => sauce.id),
+        meats: kebab.meat_types.map((meat) => meat.id),
+        social_media_links: kebab.social_medias.map((social) => social.social_media_link),
         opening_hours: {
             monday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.monday_open,
+                close: kebab.opening_hour.monday_close,
             },
             tuesday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.tuesday_open,
+                close: kebab.opening_hour.tuesday_close,
             },
             wednesday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.wednesday_open,
+                close: kebab.opening_hour.wednesday_close,
             },
             thursday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.thursday_open,
+                close: kebab.opening_hour.thursday_close,
             },
             friday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.friday_open,
+                close: kebab.opening_hour.friday_close,
             },
             saturday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.saturday_open,
+                close: kebab.opening_hour.saturday_close,
             },
             sunday: {
-                open: '08:00',
-                close: '20:00'
+                open: kebab.opening_hour.sunday_open,
+                close: kebab.opening_hour.sunday_close,
             },
-            
         },
-        order_ways: []
-      });
+        order_ways: kebab.order_way.map((way) => ({
+            app_name: way.app_name || null,
+            phone_number: way.phone_number || null,
+            website: way.website || null,
+        })),
+    })
+    
       
 
     async function handleSubmit(event) {
         setErrorMessage('')
         event.preventDefault()
         console.log(formData)
-        setAddingKebab(true)
+        setEditingKebab(true)
         try {
-            const response = await fetch(apiUrl + 'kebabs', {
-                method: 'POST',
+            const response = await fetch(apiUrl + 'kebabs/' + kebab.id, {
+                method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -83,13 +88,13 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                 throw new Error('Network response was not ok ' + response.statusText)
             }
 
-            onKebabAdded()
+            onKebabEdited()
             
         } catch (error) {
             console.log(error)
             
         } finally {
-            setAddingKebab(false)
+            setEditingKebab(false)
         }
     }
 
@@ -249,12 +254,12 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
     }, [])
 
     return (
-        <div id='add-kebab-panel' className="right-0 fixed flex justify-center items-center bg-gray-500 z-50 w-full h-full bg-opacity-70">
+        <div id='edit-kebab-panel' className="right-0 fixed flex justify-center items-center bg-gray-500 z-50 w-full h-full bg-opacity-70">
             <div className="bg-white p-6 sm:rounded-lg shadow-lg relative sm:h-3/4 sm:w-3/4 w-full h-full overflow-y-auto relative">
                 <button onClick={onAction} className="text-xl top-2 right-2 text-gray-600 hover:text-gray-800 sticky w-full text-right">
                     X
                 </button>
-                <h1 className="text-2xl">Add a new Kebab</h1>
+                <h1 className="text-2xl">Edit Kebab</h1>
                 <form className="w-2/3 mx-auto" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-gray-700 font-medium m-2">Name</label>
@@ -272,8 +277,8 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                         <label className="block text-gray-700 font-medium m-2 p-1">Logo Link</label>
                         <input
                             type="url"
-                            name="logolink"
-                            value={formData.logolink}
+                            name="logo_link"
+                            value={formData.logo_link}
                             onChange={handleChange}
                             placeholder="Enter logolink"
                             className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-indigo-300"
@@ -388,6 +393,7 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                                 id={`sauce-${sauce.id}`} 
                                 value={sauce.id} 
                                 onChange={() => handleSaucesChange(sauce.id)} 
+                                checked = {formData.sauces.includes(sauce.id)}
                                 /> 
                         </div> 
                         ))}
@@ -402,6 +408,7 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
                                 id={`meat-${meat.id}`} 
                                 value={meat.id} 
                                 onChange={() => handleMeatTypesChange(meat.id)} 
+                                checked = {formData.meats.includes(meat.id)}
                                 /> 
                             </div> 
                         ))}
@@ -543,10 +550,10 @@ export default function AddKebabPanel({coordinates, onAction, onKebabAdded}) {
             </div>
             <button
                 type="submit"
-                disabled={addingKebab}
+                disabled={editingKebab}
                 className="w-full px-4 py-2 mt-4 mb-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-indigo-300"
             >
-                {addingKebab ? 'Loading...' : 'Add Kebab'}
+                {editingKebab ? 'Loading...' : 'Edit Kebab'}
             </button>
             {errorMessage.length > 0 && <p className="text-red-500">{errorMessage}</p>}
                 </form>
