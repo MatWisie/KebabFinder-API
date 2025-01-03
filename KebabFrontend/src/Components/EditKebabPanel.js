@@ -277,8 +277,8 @@ export default function EditKebabPanel({kebab, onAction, onKebabEdited}) {
                         <label className="block text-gray-700 font-medium m-2 p-1">Logo Link</label>
                         <input
                             type="url"
-                            name="logolink"
-                            value={formData.logolink}
+                            name="logo_link"
+                            value={formData.logo_link}
                             onChange={handleChange}
                             placeholder="Enter logolink"
                             className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-indigo-300"
