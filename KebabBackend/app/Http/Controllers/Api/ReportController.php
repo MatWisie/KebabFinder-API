@@ -14,7 +14,7 @@ class ReportController extends Controller
      * Display a listing of the resource.
      *
      *  @OA\Get(
-     *     path="/api/reports",
+     *     path="/api/admin/reports",
      *     summary="Get a list of reports",
      *     description="Returns a list of all reports.",
      *     tags={"Reports"},
@@ -37,7 +37,7 @@ class ReportController extends Controller
      * Store a newly created resource in storage.
      * 
      * @OA\Post(
-     *     path="/api/reports",
+     *     path="/api/admin/reports",
      *     summary="Create a new report",
      *     description="Stores a newly created report in the database with the status 'Waiting'.",
      *     tags={"Reports"},
@@ -80,7 +80,7 @@ class ReportController extends Controller
      * Remove the specified resource from storage.
      * 
      * @OA\Delete(
-     *     path="/api/reports/{report}",
+     *     path="/api/admin/reports/{report}",
      *     summary="Delete a report",
      *     description="Removes a report from the database by its ID.",
      *     tags={"Reports"},
@@ -111,7 +111,7 @@ class ReportController extends Controller
      * Change the report status to "accepted".
      * 
      * @OA\Put(
-     *     path="/api/reports/{report}/accept",
+     *     path="/api/admin/reports/{report}/accept",
      *     summary="Accept a report",
      *     description="Changes the report status to 'Accepted'.",
      *     tags={"Reports"},
@@ -146,7 +146,7 @@ class ReportController extends Controller
      * Change the report status to "refused".
      * 
      *  @OA\Put(
-     *     path="/api/reports/{report}/refuse",
+     *     path="/api/admin/reports/{report}/refuse",
      *     summary="Refuse a report",
      *     description="Changes the report status to 'Refused'.",
      *     tags={"Reports"},

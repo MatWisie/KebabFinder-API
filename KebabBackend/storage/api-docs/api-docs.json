@@ -1153,14 +1153,14 @@
                 }
             }
         },
-        "/api/reports": {
+        "/api/admin/reports": {
             "get": {
                 "tags": [
                     "Reports"
                 ],
                 "summary": "Get a list of reports",
                 "description": "Returns a list of all reports.",
-                "operationId": "ff83498294a9277f092f65a52c58fbc5",
+                "operationId": "63f503c6d57b99a48ba439c9625812ac",
                 "responses": {
                     "200": {
                         "description": "List of reports",
@@ -1188,7 +1188,7 @@
                 ],
                 "summary": "Create a new report",
                 "description": "Stores a newly created report in the database with the status 'Waiting'.",
-                "operationId": "c1de1ab9c8b14a6aecd662f68a247bab",
+                "operationId": "34efcf425ab104d6cfce17ee5d15f566",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1233,7 +1233,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "422": {
                         "description": "Invalid data"
                     },
                     "401": {
@@ -1247,14 +1247,14 @@
                 ]
             }
         },
-        "/api/reports/{report}": {
+        "/api/admin/reports/{report}": {
             "delete": {
                 "tags": [
                     "Reports"
                 ],
                 "summary": "Delete a report",
                 "description": "Removes a report from the database by its ID.",
-                "operationId": "6a9e87ab7ee487a9f9f7360dd1d47fd3",
+                "operationId": "b3c83e82cc48d560f124111209b4e083",
                 "parameters": [
                     {
                         "name": "report",
@@ -1284,14 +1284,14 @@
                 ]
             }
         },
-        "/api/reports/{report}/accept": {
+        "/api/admin/reports/{report}/accept": {
             "put": {
                 "tags": [
                     "Reports"
                 ],
                 "summary": "Accept a report",
                 "description": "Changes the report status to 'Accepted'.",
-                "operationId": "fa57f0f303bf641512879660690d92cb",
+                "operationId": "b5f4a60202fc0c8c6fdd77c98a366eb5",
                 "parameters": [
                     {
                         "name": "report",
@@ -1337,14 +1337,14 @@
                 ]
             }
         },
-        "/api/reports/{report}/refuse": {
+        "/api/admin/reports/{report}/refuse": {
             "put": {
                 "tags": [
                     "Reports"
                 ],
                 "summary": "Refuse a report",
                 "description": "Changes the report status to 'Refused'.",
-                "operationId": "56246ca434de707db2941d804c5b5448",
+                "operationId": "09b5a3558e16153b91b736387d050efc",
                 "parameters": [
                     {
                         "name": "report",
