@@ -345,7 +345,9 @@ function  KebabPanel({ onAction, kebab, comments, loadingComments, onDelete, isB
         </button>
         <div className="mt-4">
             <div className="kebab-item">
-              <image src={kebab.logo_link}></image>
+              <div id="img-container" className="flex justify-center">
+                <img src={kebab.logo_link} alt="kebab's logo" className="w-1/6 block"></img>
+              </div>
               <h2 className="text-2xl font-semibold">{kebab.name}</h2>
               <address>{kebab.address}</address>
               <div className="text-md">{kebab.status.toUpperCase()}</div>
