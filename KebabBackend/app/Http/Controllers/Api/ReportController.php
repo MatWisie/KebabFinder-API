@@ -37,7 +37,7 @@ class ReportController extends Controller
      * Store a newly created resource in storage.
      * 
      * @OA\Post(
-     *     path="/api/admin/reports",
+     *     path="/api/reports",
      *     summary="Create a new report",
      *     description="Stores a newly created report in the database with the status 'Waiting'.",
      *     tags={"Reports"},

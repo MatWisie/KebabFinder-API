@@ -1181,14 +1181,16 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/reports": {
             "post": {
                 "tags": [
                     "Reports"
                 ],
                 "summary": "Create a new report",
                 "description": "Stores a newly created report in the database with the status 'Waiting'.",
-                "operationId": "34efcf425ab104d6cfce17ee5d15f566",
+                "operationId": "c1de1ab9c8b14a6aecd662f68a247bab",
                 "requestBody": {
                     "required": true,
                     "content": {
