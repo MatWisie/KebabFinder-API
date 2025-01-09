@@ -17,6 +17,7 @@ import { UserContext } from './Contexts/AuthContext';
 import ChangePasswordPage from './Pages/ChangePasswordPage';
 import SaucesPage from './Pages/SaucesPage';
 import MeatsPage from './Pages/MeatsPage';
+import ReportsPage from './Pages/ReportsPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,10 @@ const router = createBrowserRouter(
       <Route 
         path='/meats' 
         element={<ProtectedRoute><MeatsPage /></ProtectedRoute>}
+      />
+     <Route 
+        path='/reports' 
+        element={<ProtectedRoute><ReportsPage /></ProtectedRoute>}
       />
       <Route
         path='/changepassword'
