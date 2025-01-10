@@ -189,14 +189,14 @@ export default function ReportsPage() {
                                 <div className="flex justify-around">
                                     <button 
                                     onClick={()=>acceptReport(report.id)} 
-                                    className="text-green-500 border-2 border-green-400 p-1 hover:underline"
+                                    className="text-green-500 border-2 border-green-500 p-1 hover:bg-green-500 hover:text-white rounded-md px-2"
                                     disabled = {loadingReports}
                                     >
                                         Accept
                                     </button>
                                     <button 
                                     onClick={()=>refuseReport(report.id)} 
-                                    className="text-red-500 border-2 border-red-400 p-1 hover:underline"
+                                    className="text-red-500 border-2 border-red-500 p-1 hover:bg-red-500 hover:text-white rounded-md px-2"
                                     disabled = {loadingReports}
                                     >
                                         Refuse
