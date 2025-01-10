@@ -8,12 +8,13 @@ export default function ReportsPage() {
     const [reports, setReports] = useState([])
     const [loadingReports, setLoadingReports] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [getReportsEM, setGetReportsEM] = useState('')
     const [isEditKebabPanelOpen, setIsEditKebabPanelOpen] = useState(false)
     const [chosenKebab, setChosenKebab] = useState(null)
     const [kebabs, setKebabs] = useState([])
 
     async function getReports() {
-        console.log('getting reports')
+        setGetReportsEM('')
         try {
             setLoadingReports(true)
             const response = await fetch(apiUrl + "admin/reports",{
@@ -32,13 +33,14 @@ export default function ReportsPage() {
 
         } catch (error) {
             console.log(error)
-            setErrorMessage(error)
+            setGetReportsEM(error)
         } finally {
             setLoadingReports(false)
         }
     }
 
     async function acceptReport(reportId) {
+        setErrorMessage('')
         try {
             const response = await fetch(apiUrl + `admin/reports/${reportId}/accept`, {
                 method: 'PUT',
@@ -56,11 +58,9 @@ export default function ReportsPage() {
             getReports()
 
         } catch (error) {
+            setErrorMessage(error)
             
-        } finally {
-
         }
-
     }
 
     async function refuseReport(reportId) {
@@ -81,11 +81,8 @@ export default function ReportsPage() {
             getReports()
 
         } catch (error) {
-            
-        } finally {
-
+            setErrorMessage(error)
         }
-
     }
 
     function openEditKebabPanel(kebab_id) {
@@ -98,12 +95,8 @@ export default function ReportsPage() {
         setIsEditKebabPanelOpen(false)
     }
 
-    //waiting accepted refused
-    //current tab
-
     async function getKebabs(){
         try{
-          //setLoadingKebabs(true)
           const response = await fetch(apiUrl + 'kebabs', {
             method:'GET',
             headers: {
@@ -113,17 +106,14 @@ export default function ReportsPage() {
           })
   
           if(!response.ok) {
-            //setLoadingKebabs(false)
             throw new Error('Network response was not ok ' + response.statusText);
           }
           const data = await response.json()
   
-          //setLoadingKebabs(false)
           setKebabs(data)
   
         } catch(error) {
           console.error('Fetch error:', error);
-          //setLoadingKebabs(false)
         }
       }
     
@@ -138,8 +128,9 @@ export default function ReportsPage() {
         <div className="flex h-screen overflow-hidden">
             <div className="flex flex-col w-full overflow-y-auto">
                 <h1 className="text-2xl font-semibold mt-6">Reports</h1>
-                {loadingReports && <p>Loading Reports...</p>}
-                {!loadingReports && reports.length === 0 ? <p>No Reports found</p> : ''}
+                {loadingReports && <p className="mt-4">Loading Reports...</p>}
+                {!loadingReports && reports.length === 0 ? <p className="mt-4">No Reports found</p> : ''}
+                {getReportsEM && <p className="mt-4">{errorMessage}</p>}
                 <div className="max-w-5xl w-full flex flex-col justify-center align-center mx-auto mt-4">
                     <div id="tabs">
                         <ul className="flex flex-wrap justify-center -mb-px">
@@ -181,15 +172,17 @@ export default function ReportsPage() {
                             </li>
                         </ul>
                     </div>
-                    <ul>
-                    {reports.filter((report)=> report.status === activeTab).map((report, index) => (
+                    <ul className="mb-4">
+                    {kebabs.length > 0 && reports.length > 0 ?
+                    reports.filter((report)=> report.status === activeTab).map((report, index) => (
                         <li key={index} className="grid grid-cols-[1fr_6fr] mx-10 border-2 mt-2 rounded-xl p-2">
                             <div className="m-2">
-                                <p>Kebab: {report.kebab_id}</p>
+                                <p>{kebabs.find((kebab)=> kebab.id === report.kebab_id).name}</p>
+                                <p>{kebabs.find((kebab)=> kebab.id === report.kebab_id).address}</p>
                                 <p><button onClick={()=>{openEditKebabPanel(report.kebab_id)}} className="text-blue-500 hover:underline font-bold">Edit</button></p>
-                                <p>User: {report.user_id}</p>
+                                <p>User ID: {report.user_id}</p>
                             </div>                        
-                            <div>
+                            <div className="flex flex-col justify-around">
                                 <p>{report.content}</p>
                                 <p className="text-sm my-2">Status: {report.status}</p>
                                 {report.status === "Waiting" && 
@@ -211,8 +204,10 @@ export default function ReportsPage() {
                                 </div>
                                 }
                             </div>
+                            <p className="text-red-500 col-start-2">{errorMessage}</p>
                         </li>
-                    ))}
+                    ))
+                : ''}
                     </ul>
                 </div>
             </div>
