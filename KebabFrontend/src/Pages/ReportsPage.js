@@ -98,6 +98,9 @@ export default function ReportsPage() {
         setIsEditKebabPanelOpen(false)
     }
 
+    //waiting accepted refused
+    //current tab
+
     async function getKebabs(){
         try{
           //setLoadingKebabs(true)
@@ -129,15 +132,57 @@ export default function ReportsPage() {
         getKebabs()
     }, [])
 
+    const [activeTab, setActiveTab] = useState("Waiting")
+
     return(
         <div className="flex h-screen overflow-hidden">
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full overflow-y-auto">
                 <h1 className="text-2xl font-semibold mt-6">Reports</h1>
                 {loadingReports && <p>Loading Reports...</p>}
                 {!loadingReports && reports.length === 0 ? <p>No Reports found</p> : ''}
-                <div className="max-w-5xl flex flex-column justify-center align-center mx-auto mt-4">
+                <div className="max-w-5xl w-full flex flex-col justify-center align-center mx-auto mt-4">
+                    <div id="tabs">
+                        <ul className="flex flex-wrap justify-center -mb-px">
+                            <li>
+                                <button
+                                    onClick={() => setActiveTab("Waiting")}
+                                    className={`inline-block p-4 border-b-2 rounded-t-lg ${
+                                        activeTab === "Waiting"
+                                            ? "text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                                            : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                    }`}
+                                >
+                                    Waiting
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={() => setActiveTab("Accepted")}
+                                    className={`inline-block p-4 border-b-2 rounded-t-lg ${
+                                        activeTab === "Accepted"
+                                            ? "text-green-500 border-green-500 dark:text-green-500 dark:border-green-500"
+                                            : "border-transparent hover:text-green-400 hover:border-green-400 dark:hover:text-green-400"
+                                    }`}
+                                >
+                                    Accepted
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={() => setActiveTab("Refused")}
+                                    className={`inline-block p-4 border-b-2 rounded-t-lg ${
+                                        activeTab === "Refused"
+                                            ? "text-red-500 border-red-500 dark:text-red-500 dark:border-red-500"
+                                            : "border-transparent hover:text-red-400 hover:border-red-400 dark:hover:text-red-400"
+                                    }`}
+                                >
+                                    Refused
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                     <ul>
-                    {reports.map((report, index) => (
+                    {reports.filter((report)=> report.status === activeTab).map((report, index) => (
                         <li key={index} className="grid grid-cols-[1fr_6fr] mx-10 border-2 mt-2 rounded-xl p-2">
                             <div className="m-2">
                                 <p>Kebab: {report.kebab_id}</p>
