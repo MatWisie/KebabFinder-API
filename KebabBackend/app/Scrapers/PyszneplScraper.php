@@ -3,6 +3,7 @@
 namespace App\Scrapers;
 
 use GuzzleHttp\Client;
+use Log;
 use Symfony\Component\DomCrawler\Crawler;
 use Psr\Log\LoggerInterface;
 
@@ -15,6 +16,12 @@ class PyszneplScraper
         $this->client = $this->client ?? new Client([
             'base_uri' => 'https://www.pyszne.pl',
             'timeout' => 10,
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                'Accept-Language' => 'en-US,en;q=0.5',
+                'Connection' => 'keep-alive',
+            ],
         ]);
     }
 
@@ -37,6 +44,7 @@ class PyszneplScraper
             }
 
             $htmlContent = (string) $response->getBody();
+            Log::info($htmlContent);
             $crawler = new Crawler($htmlContent);
 
             $element = $crawler->filter('[data-qa="restaurant-header-score"] b')->first();
