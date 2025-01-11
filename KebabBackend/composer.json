@@ -7,11 +7,14 @@
     "require": {
         "php": "^8.2",
         "darkaonline/l5-swagger": "^8.6",
+        "guzzlehttp/guzzle": "^7.9",
         "laravel/breeze": "^2.2",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "spatie/laravel-query-builder": "^6.2",
+        "symfony/css-selector": "^7.2",
+        "symfony/dom-crawler": "^7.2",
         "tucker-eric/eloquentfilter": "^3.4"
     },
     "require-dev": {
