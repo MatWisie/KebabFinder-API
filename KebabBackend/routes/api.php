@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
+use App\Http\Controllers\Api\PyszneRatingController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SauceTypeController;
@@ -71,6 +72,8 @@ Route::prefix('kebabs')->group(function () {
     Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [KebabController::class, 'update']);
 
     Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/refresh-review', [PyszneRatingController::class, 'getRating']);
 });
 
 Route::prefix('meattypes')->group(function () {
