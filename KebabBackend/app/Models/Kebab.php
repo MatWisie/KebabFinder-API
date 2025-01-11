@@ -18,7 +18,8 @@ class Kebab extends Model
         'building_type',
         'is_chain',
         'google_review',
-        'pysznepl_review'
+        'pyszne_pl_link',
+        'pyszne_pl_review'
     ];
 
     public function socialMedias()

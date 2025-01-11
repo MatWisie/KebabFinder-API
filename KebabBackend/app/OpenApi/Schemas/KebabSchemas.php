@@ -18,6 +18,7 @@ namespace App\OpenApi\Schemas;
  *     @OA\Property(property="open_year", type="integer", nullable=true, description="Year when the kebab opened"),
  *     @OA\Property(property="closed_year", type="integer", nullable=true, description="Year when the kebab closed"),
  *     @OA\Property(property="status", type="string", enum={"open", "closed", "under renovation"}, description="Current status of the kebab place"),
+ *     @OA\Property(property="pyszne_pl_link", type="string", description="Link to pyszne.pl for rating"),
  *     @OA\Property(property="is_craft", type="boolean", description="Indicates if the kebab is a craft kebab"),
  *     @OA\Property(property="building_type", type="string", description="Type of building the kebab operates in"),
  *     @OA\Property(property="is_chain", type="boolean", description="Indicates if the kebab place is part of a chain"),

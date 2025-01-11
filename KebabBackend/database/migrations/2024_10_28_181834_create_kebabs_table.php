@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('building_type');
             $table->boolean('is_chain');
             $table->double('google_review')->nullable();
+            $table->string('pyszne_pl_link')->nullable();
             $table->double('pyszne_pl_review')->nullable();
             $table->timestamps();
         });
