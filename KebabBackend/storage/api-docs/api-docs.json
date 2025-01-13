@@ -533,6 +533,52 @@
                 ]
             }
         },
+        "/api/kebabs/{kebab}/glovo-refresh-review": {
+            "get": {
+                "tags": [
+                    "Kebabs",
+                    "Glovo"
+                ],
+                "summary": "Get restaurant rating for a specific kebab",
+                "description": "Fetches the rating of a restaurant from Glovo using the kebab's link.",
+                "operationId": "5689411c6f0dd79c727c14003e884c4a",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "ID of the kebab",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurant rating",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rating": {
+                                            "type": "string",
+                                            "example": "89%"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found or link missing"
+                    },
+                    "400": {
+                        "description": "Invalid Glovo link"
+                    }
+                }
+            }
+        },
         "/api/kebabs/{kebab}": {
             "get": {
                 "tags": [
@@ -642,6 +688,16 @@
                                     "building_type": {
                                         "description": "The type of building where the kebab is located",
                                         "type": "string"
+                                    },
+                                    "pyszne_pl_link": {
+                                        "description": "Link to pyszne.pl for rating",
+                                        "type": "string",
+                                        "example": "https://www.pyszne.pl/menu/kebab-piri-piri-szkolna"
+                                    },
+                                    "glovo_link": {
+                                        "description": "Link to glovoapp.com for rating",
+                                        "type": "string",
+                                        "example": "https://glovoapp.com/pl/pl/legnica/piri-piri-kebab-legnica-lga/"
                                     },
                                     "is_chain": {
                                         "description": "Whether the kebab is part of a chain",
@@ -843,6 +899,16 @@
                                         "description": "The type of building where the kebab is located",
                                         "type": "string",
                                         "example": "domek"
+                                    },
+                                    "pyszne_pl_link": {
+                                        "description": "Link to pyszne.pl for rating",
+                                        "type": "string",
+                                        "example": "https://www.pyszne.pl/menu/kebab-piri-piri-szkolna0"
+                                    },
+                                    "glovo_link": {
+                                        "description": "Link to glovoapp.com for rating",
+                                        "type": "string",
+                                        "example": "https://glovoapp.com/pl/pl/legnica/piri-piri-kebab-legnica-lga/"
                                     },
                                     "is_chain": {
                                         "description": "Whether the kebab is part of a chain",
@@ -1149,6 +1215,53 @@
                     },
                     "404": {
                         "description": "Meat type not found"
+                    }
+                }
+            }
+        },
+        "/api/kebabs/{kebab}/pysznepl-refresh-review": {
+            "get": {
+                "tags": [
+                    "Kebabs",
+                    "Pyszne"
+                ],
+                "summary": "Get restaurant rating for a specific kebab",
+                "description": "Fetches the rating of a restaurant from Pyszne.pl using the kebab's link.",
+                "operationId": "297bdf2d89d6bcd5c7d24acc32343ed2",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "ID of the kebab",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurant rating",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rating": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 4.5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found or link missing"
+                    },
+                    "400": {
+                        "description": "Invalid Pyszne.pl link"
                     }
                 }
             }
@@ -1872,6 +1985,10 @@
                             "under renovation"
                         ]
                     },
+                    "pyszne_pl_link": {
+                        "description": "Link to pyszne.pl for rating",
+                        "type": "string"
+                    },
                     "is_craft": {
                         "description": "Indicates if the kebab is a craft kebab",
                         "type": "boolean"
@@ -2168,6 +2285,14 @@
         {
             "name": "Kebabs",
             "description": "Kebabs"
+        },
+        {
+            "name": "Glovo",
+            "description": "Glovo"
+        },
+        {
+            "name": "Pyszne",
+            "description": "Pyszne"
         },
         {
             "name": "Sauce Types",
