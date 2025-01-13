@@ -49,7 +49,7 @@ class PyszneplScraper
             Log::info($htmlContent);
             $crawler = new Crawler($htmlContent);
 
-            $element = $crawler->filter('[data-qa="restaurant-header-score"] b')->first();
+            $element = $crawler->filter('[data-qa="restaurant-header-score"]')->first();
 
             if ($element->count() === 0) {
                 $this->logger->warning("PyszneScraper: Rating element not found", [
