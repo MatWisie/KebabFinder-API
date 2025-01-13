@@ -26,6 +26,8 @@ return new class extends Migration
             $table->double('google_review')->nullable();
             $table->string('pyszne_pl_link')->nullable();
             $table->double('pyszne_pl_review')->nullable();
+            $table->string('glovo_link')->nullable();
+            $table->double('glovo_review')->nullable();
             $table->timestamps();
         });
     }
