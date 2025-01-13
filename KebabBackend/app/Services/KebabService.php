@@ -20,6 +20,7 @@ class KebabService
             'closed_year' => $validated['closed_year'] ?? null,
             'status' => $validated['status'],
             'pyszne_pl_link' => $validated['pyszne_pl_link'],
+            'glovo_link' => $validated['glovo_link'],
             'is_craft' => $validated['is_craft'],
             'building_type' => $validated['building_type'],
             'is_chain' => $validated['is_chain'],

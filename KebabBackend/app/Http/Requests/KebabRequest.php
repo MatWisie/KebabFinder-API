@@ -50,6 +50,7 @@ class KebabRequest extends FormRequest
             'closed_year' => 'nullable|integer|digits:4',
             'status' => 'required|in:open,closed,planned',
             'pyszne_pl_link' => 'nullable|url',
+            'glovo_link' => 'nullable|url',
             'is_craft' => 'required|boolean',
             'building_type' => 'required|string',
             'is_chain' => 'required|boolean',
