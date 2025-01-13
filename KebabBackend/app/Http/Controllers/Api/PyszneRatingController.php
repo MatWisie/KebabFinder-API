@@ -19,7 +19,7 @@ class PyszneRatingController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/kebabs/{kebab}/rating",
+     *     path="/api/kebabs/{kebab}/pysznepl-refresh-review",
      *     summary="Get restaurant rating for a specific kebab",
      *     description="Fetches the rating of a restaurant from Pyszne.pl using the kebab's link.",
      *     tags={"Kebabs", "Pyszne"},
