@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\GlovoRatingController;
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
 use App\Http\Controllers\Api\PyszneRatingController;
@@ -73,7 +74,9 @@ Route::prefix('kebabs')->group(function () {
 
     Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/refresh-review', [PyszneRatingController::class, 'getRating']);
+    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/pysznepl-refresh-review', [PyszneRatingController::class, 'getRating']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/glovo-refresh-review', [GlovoRatingController::class, 'getRating']);
 });
 
 Route::prefix('meattypes')->group(function () {
