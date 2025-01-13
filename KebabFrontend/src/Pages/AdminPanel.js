@@ -264,17 +264,27 @@ export default function AdminPanel(){
       hidePanel()
     }
 
+    const [searchedKebabName, setSearchedKebabName] = useState("")
+    const filteredKebabs = kebabs.filter((kebab)=>kebab.name.toLowerCase().includes(searchedKebabName.toLowerCase()))
+
     return (
         <div className="flex h-screen overflow-hidden">
           {isSidePanelOpen &&
           <div id="sidePanel" className={`h-full z-30 bg-white overflow-y-auto shadow-lg ${isSidePanelOpen ? "w-full sm:w-2/5 md:w-1/5" : "hidden"}`}>
             <div id="searchBar" className="w-full">
-              <input type="text" placeholder="Search" className="my-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-3/4"></input>
+              <input 
+              type="text" 
+              placeholder="Search by name" 
+              value={searchedKebabName}
+              onChange={e => setSearchedKebabName(e.target.value)}
+              className="my-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-3/4"
+              >
+              </input>
             </div>
             <div className="kebabList">
               {loadingKebabs && <div>Loading kebabs...</div>}
               {kebabs.length === 0 && !loadingKebabs && (<div>No kebabs found</div>)}
-              {(kebabs && kebabs.length>0) ? kebabs.map((kebab, index) => (
+              {(kebabs && kebabs.length>0) ? filteredKebabs.map((kebab, index) => (
                 <div key={index} className="kebab-item border-b-2">
                   <image src={kebab.logo_link}></image>
                   <h2 className="text-2xl font-semibold">{kebab.name}</h2>
