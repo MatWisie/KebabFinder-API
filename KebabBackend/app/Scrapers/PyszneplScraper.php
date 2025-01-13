@@ -9,11 +9,13 @@ use Psr\Log\LoggerInterface;
 
 class PyszneplScraper
 {
+    protected Client $client;
+
     public function __construct(
         protected LoggerInterface $logger,
-        protected ?Client $client = null
+        Client $client = null
     ) {
-        $this->client = $this->client ?? new Client([
+        $this->client = $client ?? new Client([
             'base_uri' => 'https://www.pyszne.pl',
             'timeout' => 10,
             'headers' => [
