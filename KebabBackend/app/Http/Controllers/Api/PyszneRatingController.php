@@ -61,6 +61,7 @@ class PyszneRatingController extends Controller
             return response()->json(['message' => 'Rating not found or could not be retrieved'], 404);
         }
 
-        return response()->json(['rating' => $rating], 200);
+        $kebab->pyszne_pl_review = $rating;
+        $kebab->save();
     }
 }
