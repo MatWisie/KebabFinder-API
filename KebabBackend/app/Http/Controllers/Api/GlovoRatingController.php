@@ -18,7 +18,7 @@ class GlovoRatingController extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *     path="/api/kebabs/{kebab}/glovo-refresh-review",
      *     summary="Get restaurant rating for a specific kebab",
      *     description="Fetches the rating of a restaurant from Glovo using the kebab's link.",
