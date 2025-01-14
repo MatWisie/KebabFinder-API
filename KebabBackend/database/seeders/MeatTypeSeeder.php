@@ -14,10 +14,14 @@ class MeatTypeSeeder extends Seeder
     public function run(): void
     {
         MeatType::insert([
-            ["name" => "Chicken"],
-            ["name" => "Beef"],
-            ["name" => "Lamb"],
-            ["name" => "Mixed"],
+            ["name" => "Chicken"],  //1 kurczak
+            ["name" => "Poultry]"], //2 drobiowe
+            ["name" => "Pork"],     //3 wieprzowe
+            ["name" => "Beef"],     //4 wołowe
+            ["name" => "Mutton"],   //5 baranina
+            ["name" => "Falafel"],  //6 falafel
+            ["name" => "Mixed"],    //7 mieszane
+            ["name" => "Loin"],     //8 Schab     
         ]);
     }
 }

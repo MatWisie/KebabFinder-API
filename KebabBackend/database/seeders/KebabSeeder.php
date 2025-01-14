@@ -34,7 +34,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // Add sauces - mieszany, miodowo-musztardowy, mocny czosnek, ostry, sriracha mayo, łagodny
-        $sauceIds = [1, 2];
+        $sauceIds = [3, 4, 5, 6, 7, 1];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -45,7 +45,7 @@ class KebabSeeder extends Seeder
         }
 
         // Add meat types - chicken, pork, beef and lamb(wołowo-baranina)
-        $meatIds = [2, 4];
+        $meatIds = [1, 3, 4, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -144,7 +144,7 @@ class KebabSeeder extends Seeder
         ]);
 
         //łagodny, ostry
-        $sauceIdsBafra = [1, 2];
+        $sauceIdsBafra = [1, 6];
         foreach ($sauceIdsBafra as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabIdBafra,
@@ -254,7 +254,7 @@ class KebabSeeder extends Seeder
         ]);
 
         //łagodny, ostry
-        $sauceIdsAmAm = [1, 2];
+        $sauceIdsAmAm = [1, 6];
         foreach ($sauceIdsAmAm as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabIdAMAM,
@@ -265,7 +265,7 @@ class KebabSeeder extends Seeder
         }
 
         //drobiowe, wołowe, falafel
-        $meatIdsAmAm = [2, 4];
+        $meatIdsAmAm = [2, 4, 6];
         foreach ($meatIdsAmAm as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabIdAMAM,
@@ -363,7 +363,7 @@ class KebabSeeder extends Seeder
         ]);
 
         //czosnkowy, ostry, ziołowy, barbecue, tysiąca wysp
-        $sauceIdsKov = [1, 2];
+        $sauceIdsKov = [3, 6, 8, 9, 10];
         foreach ($sauceIdsKov as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabIdKov,
@@ -374,7 +374,7 @@ class KebabSeeder extends Seeder
         }
 
         //drobiowe, wołowe, baranina
-        $meatIdsKov = [2, 4];
+        $meatIdsKov = [2, 4, 5];
         foreach ($meatIdsKov as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabIdKov,
@@ -477,7 +477,7 @@ class KebabSeeder extends Seeder
         ]);
 
         //czosnkowy, ostry, łagodny, barbecue
-        $sauceIdsKing = [1, 2];
+        $sauceIdsKing = [3, 6, 1, 9];
         foreach ($sauceIdsKing as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabIdKing,
@@ -488,7 +488,7 @@ class KebabSeeder extends Seeder
         }
 
         //drobiowe, baranina
-        $meatIdsKing = [2, 4];
+        $meatIdsKing = [2, 5];
         foreach ($meatIdsKing as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabIdKing,
@@ -591,7 +591,7 @@ class KebabSeeder extends Seeder
         ]);
 
         //łagodny, ostry, czosnkowy, ziołowy
-        $sauceIdsKTruck = [1, 2];
+        $sauceIdsKTruck = [1, 6, 3, 8];
         foreach ($sauceIdsKTruck as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabIdKTruck,
@@ -602,7 +602,7 @@ class KebabSeeder extends Seeder
         }
 
         //drobiowe, wieprzowe, wołowe
-        $meatIdsKTruck = [2, 4];
+        $meatIdsKTruck = [2, 3, 4];
         foreach ($meatIdsKTruck as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabIdKTruck,
@@ -696,7 +696,7 @@ class KebabSeeder extends Seeder
 
         // ostre: carolina reaper, trinidad scorpion, habanero, chili,
         //łagodne paprykowy, sweet chili mango, majonez, barbeque, serowy, sriracho mayo, czosnkowy
-        $sauceIds = [1, 2];
+        $sauceIds = [11, 12, 13, 14, 15, 16, 17, 9, 18, 7, 3];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -707,7 +707,7 @@ class KebabSeeder extends Seeder
         }
 
         // wołowina, schab, kurczak
-        $meatIds = [2, 4];
+        $meatIds = [1, 3, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -804,8 +804,8 @@ class KebabSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        // Add sauces
-        $sauceIds = [1, 2];
+        // Add sauces łagodny, ostry
+        $sauceIds = [1, 6];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -815,8 +815,8 @@ class KebabSeeder extends Seeder
             ]);
         }
 
-        // Add meat types
-        $meatIds = [2, 4];
+        // Add meat types drobiowe, baranina
+        $meatIds = [2, 5];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -914,8 +914,8 @@ class KebabSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        // Add sauces
-        $sauceIds = [1, 2];
+        // Add sauces łagodny, ostry
+        $sauceIds = [1, 6];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -925,8 +925,8 @@ class KebabSeeder extends Seeder
             ]);
         }
 
-        // Add meat types
-        $meatIds = [2, 4];
+        // Add meat types drobiowe, baranina
+        $meatIds = [2, 5];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1026,7 +1026,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // Łagodny Ostry Czosnkowy Barbeque Koperkowy Ketchup
-        $sauceIds = [1, 2];
+        $sauceIds = [1, 6, 3, 9, 19, 21];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1037,7 +1037,7 @@ class KebabSeeder extends Seeder
         }
 
         // Kurczak Baranina
-        $meatIds = [2, 4];
+        $meatIds = [1, 5];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1140,7 +1140,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // czosnkowy, ostry, ziołowy, ketchup, miętowy 
-        $sauceIds = [1, 2];
+        $sauceIds = [3, 6, 8, 21, 20];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1151,7 +1151,7 @@ class KebabSeeder extends Seeder
         }
 
         // kurczak, wołowina, mieszane
-        $meatIds = [2, 4];
+        $meatIds = [2, 4, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1252,7 +1252,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // łagodny ostry czosnkowy mieszany
-        $sauceIds = [1, 2];
+        $sauceIds = [1, 6, 2, 3];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1263,7 +1263,7 @@ class KebabSeeder extends Seeder
         }
 
         // kurczaK WOŁOWINA, MIESZANE, falafel
-        $meatIds = [2, 4];
+        $meatIds = [1, 4, 6, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1369,7 +1369,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // Łagodny Ostry Czosnkowy Barbeque Koperkowy Ketchup
-        $sauceIds = [1, 2];
+        $sauceIds = [1, 6, 3, 9, 19, 21];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1380,7 +1380,7 @@ class KebabSeeder extends Seeder
         }
 
         // Kurczak Baranina
-        $meatIds = [2, 4];
+        $meatIds = [1, 5];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1484,7 +1484,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // Łagodny Ostry Czosnkowy mieszany
-        $sauceIds = [1, 2];
+        $sauceIds = [1, 6, 3, 2];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1495,7 +1495,7 @@ class KebabSeeder extends Seeder
         }
 
         // Kurczak wołowina mieszany 
-        $meatIds = [2, 4];
+        $meatIds = [2, 4, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
@@ -1596,7 +1596,7 @@ class KebabSeeder extends Seeder
         ]);
 
         // Łagodny Ostry Czosnkowy mieszany
-        $sauceIds = [1, 2];
+        $sauceIds = [1, 6, 3, 2];
         foreach ($sauceIds as $sauceId) {
             DB::table('kebab_sauces')->insert([
                 'kebab_id' => $kebabId,
@@ -1607,7 +1607,7 @@ class KebabSeeder extends Seeder
         }
 
         // Kurczak wołowina mieszany 
-        $meatIds = [2, 4];
+        $meatIds = [2, 4, 7];
         foreach ($meatIds as $meatId) {
             DB::table('kebab_meat_types')->insert([
                 'kebab_id' => $kebabId,
