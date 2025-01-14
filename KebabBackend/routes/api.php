@@ -50,11 +50,8 @@ Route::prefix('kebabs')->group(function () {
     Route::middleware(['auth:sanctum', 'admin'])->post('/', [KebabController::class, 'store']);
     Route::middleware(['auth:sanctum', 'admin'])->put('{kebab}', [KebabController::class, 'update']);
     Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
-
     Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/pysznepl-refresh-review', [PyszneRatingController::class, 'getRating']);
-
     Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/glovo-refresh-review', [GlovoRatingController::class, 'getRating']);
-
     Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/google-refresh-review', [GooglePlacesController::class, 'getKebabDetails']);
 });
 
