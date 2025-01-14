@@ -61,6 +61,9 @@ class GlovoRatingController extends Controller
             return response()->json(['message' => 'Rating not found or could not be retrieved'], 404);
         }
 
+        $kebab->glovo_review = $ratingData['rating'];
+        $kebab->save();
+
         return response()->json([
             'rating' => $ratingData['rating'],
         ], 200);
