@@ -534,14 +534,14 @@
             }
         },
         "/api/kebabs/{kebab}/glovo-refresh-review": {
-            "get": {
+            "post": {
                 "tags": [
                     "Kebabs",
                     "Glovo"
                 ],
                 "summary": "Get restaurant rating for a specific kebab",
                 "description": "Fetches the rating of a restaurant from Glovo using the kebab's link.",
-                "operationId": "5689411c6f0dd79c727c14003e884c4a",
+                "operationId": "c7f29ecd8af81710427fe86d8852f262",
                 "parameters": [
                     {
                         "name": "kebab",
@@ -575,6 +575,60 @@
                     },
                     "400": {
                         "description": "Invalid Glovo link"
+                    }
+                }
+            }
+        },
+        "/api/kebabs/{kebab}/google-refresh-review": {
+            "post": {
+                "tags": [
+                    "Kebabs",
+                    "Google"
+                ],
+                "summary": "Get restaurant details from Google Places",
+                "description": "Fetches details such as rating and address of a kebab restaurant using its name and location.",
+                "operationId": "da6c4abe27a57e21c5fb58fe8515ced5",
+                "parameters": [
+                    {
+                        "name": "kebab",
+                        "in": "path",
+                        "description": "ID of the kebab",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurant details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Kebab King"
+                                        },
+                                        "rating": {
+                                            "type": "number",
+                                            "example": 4.5
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "123 Main St, Legnica"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kebab not found"
+                    },
+                    "400": {
+                        "description": "Invalid kebab data"
                     }
                 }
             }
@@ -1220,14 +1274,14 @@
             }
         },
         "/api/kebabs/{kebab}/pysznepl-refresh-review": {
-            "get": {
+            "post": {
                 "tags": [
                     "Kebabs",
                     "Pyszne"
                 ],
                 "summary": "Get restaurant rating for a specific kebab",
                 "description": "Fetches the rating of a restaurant from Pyszne.pl using the kebab's link.",
-                "operationId": "297bdf2d89d6bcd5c7d24acc32343ed2",
+                "operationId": "50108b4323dd57eb87d7d6616bda4846",
                 "parameters": [
                     {
                         "name": "kebab",
@@ -2289,6 +2343,10 @@
         {
             "name": "Glovo",
             "description": "Glovo"
+        },
+        {
+            "name": "Google",
+            "description": "Google"
         },
         {
             "name": "Pyszne",
