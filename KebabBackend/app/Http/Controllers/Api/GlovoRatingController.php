@@ -65,6 +65,7 @@ class GlovoRatingController extends Controller
         $kebab->save();
 
         return response()->json([
+            'name' => $kebab->name,
             'rating' => $ratingData['rating'],
         ], 200);
     }
