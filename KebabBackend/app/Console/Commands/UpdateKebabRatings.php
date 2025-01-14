@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Kebab;
 use App\Scrapers\PyszneplScraper;
 use App\Scrapers\GlovoScraper;
+use App\Services\GoogleApiService;
 use Illuminate\Support\Facades\Log;
 
 class UpdateKebabRatings extends Command
@@ -26,15 +27,20 @@ class UpdateKebabRatings extends Command
 
     protected PyszneplScraper $pyszneScraper;
     protected GlovoScraper $glovoScraper;
+    protected GoogleApiService $googleApiService;
 
     /**
      * Create a new command instance.
      */
-    public function __construct(PyszneplScraper $pyszneScraper, GlovoScraper $glovoScraper)
-    {
+    public function __construct(
+        PyszneplScraper $pyszneScraper,
+        GlovoScraper $glovoScraper,
+        GoogleApiService $googleApiService
+    ) {
         parent::__construct();
         $this->pyszneScraper = $pyszneScraper;
         $this->glovoScraper = $glovoScraper;
+        $this->googleApiService = $googleApiService;
     }
 
     /**
@@ -78,6 +84,23 @@ class UpdateKebabRatings extends Command
                 } catch (\Exception $e) {
                     Log::error("Error updating Glovo rating for {$kebab->name}: {$e->getMessage()}");
                     $this->error("Error updating Glovo rating for {$kebab->name}: {$e->getMessage()}");
+                }
+            }
+
+            // Update Google rating
+            if (!empty($kebab->name) && !empty($kebab->address)) {
+                try {
+                    $rating = $this->googleApiService->fetchRatingByNameAndAddress($kebab->name, $kebab->address);
+
+                    if ($rating !== 0) {
+                        $kebab->google_review = $rating;
+                        $this->info("Updated Google rating for {$kebab->name} to {$rating}");
+                    } else {
+                        $this->warn("Could not fetch Google rating for {$kebab->name}");
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Error updating Google rating for {$kebab->name}: {$e->getMessage()}");
+                    $this->error("Error updating Google rating for {$kebab->name}: {$e->getMessage()}");
                 }
             }
 
