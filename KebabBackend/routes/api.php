@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\GlovoRatingController;
+use App\Http\Controllers\Api\GooglePlacesController;
 use App\Http\Controllers\Api\KebabController;
 use App\Http\Controllers\Api\MeatTypeController;
 use App\Http\Controllers\Api\PyszneRatingController;
