@@ -1320,6 +1320,245 @@
                 }
             }
         },
+        "/api/admin/reports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get a list of reports",
+                "description": "Returns a list of all reports.",
+                "operationId": "63f503c6d57b99a48ba439c9625812ac",
+                "responses": {
+                    "200": {
+                        "description": "List of reports",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Report"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/reports": {
+            "post": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Create a new report",
+                "description": "Stores a newly created report in the database with the status 'Waiting'.",
+                "operationId": "c1de1ab9c8b14a6aecd662f68a247bab",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "kebab_id",
+                                    "content"
+                                ],
+                                "properties": {
+                                    "kebab_id": {
+                                        "description": "ID of the kebab",
+                                        "type": "integer"
+                                    },
+                                    "content": {
+                                        "description": "Content of the report",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Report submitted successfully"
+                                        },
+                                        "report": {
+                                            "$ref": "#/components/schemas/Report"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid data"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reports/{report}": {
+            "delete": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Delete a report",
+                "description": "Removes a report from the database by its ID.",
+                "operationId": "b3c83e82cc48d560f124111209b4e083",
+                "parameters": [
+                    {
+                        "name": "report",
+                        "in": "path",
+                        "description": "ID of the report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Report removed successfully"
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reports/{report}/accept": {
+            "put": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Accept a report",
+                "description": "Changes the report status to 'Accepted'.",
+                "operationId": "b5f4a60202fc0c8c6fdd77c98a366eb5",
+                "parameters": [
+                    {
+                        "name": "report",
+                        "in": "path",
+                        "description": "ID of the report to accept",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Report accepted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Report accepted successfully"
+                                        },
+                                        "report": {
+                                            "$ref": "#/components/schemas/Report"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reports/{report}/refuse": {
+            "put": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Refuse a report",
+                "description": "Changes the report status to 'Refused'.",
+                "operationId": "09b5a3558e16153b91b736387d050efc",
+                "parameters": [
+                    {
+                        "name": "report",
+                        "in": "path",
+                        "description": "ID of the report to refuse",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Report refused successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Report refused successfully"
+                                        },
+                                        "report": {
+                                            "$ref": "#/components/schemas/Report"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/saucetypes": {
             "get": {
                 "tags": [
@@ -2269,6 +2508,62 @@
                 },
                 "type": "object"
             },
+            "Report": {
+                "title": "Report",
+                "description": "Report model schema",
+                "required": [
+                    "id",
+                    "kebab_id",
+                    "user_id",
+                    "content",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier for the report",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "kebab_id": {
+                        "description": "ID of the kebab being reported",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "user_id": {
+                        "description": "ID of the user who created the report",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "content": {
+                        "description": "Content of the report",
+                        "type": "string",
+                        "example": "Kebab seems to have different opening hours than stated."
+                    },
+                    "status": {
+                        "description": "Current status of the report",
+                        "type": "string",
+                        "enum": [
+                            "Waiting",
+                            "Accepted",
+                            "Refused"
+                        ],
+                        "example": "Waiting"
+                    },
+                    "created_at": {
+                        "description": "Record creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-22T10:55:13.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "Record last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-22T11:11:45.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "Sauce": {
                 "title": "Sauce",
                 "description": "Sauce model schema",
@@ -2351,6 +2646,10 @@
         {
             "name": "Pyszne",
             "description": "Pyszne"
+        },
+        {
+            "name": "Reports",
+            "description": "Reports"
         },
         {
             "name": "Sauce Types",
