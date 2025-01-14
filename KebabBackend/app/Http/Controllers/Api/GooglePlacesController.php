@@ -16,6 +16,38 @@ class GooglePlacesController extends Controller
         $this->googleApiService = $googleApiService;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/kebabs/{kebab}/google-refresh-review",
+     *     summary="Get restaurant details from Google Places",
+     *     description="Fetches details such as rating and address of a kebab restaurant using its name and location.",
+     *     tags={"Kebabs", "Google"},
+     *     @OA\Parameter(
+     *         name="kebab",
+     *         in="path",
+     *         description="ID of the kebab",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Restaurant details",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Kebab King"),
+     *             @OA\Property(property="rating", type="number", example=4.5),
+     *             @OA\Property(property="address", type="string", example="123 Main St, Legnica"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kebab not found"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid kebab data"
+     *     )
+     * )
+     */
     public function getKebabDetails(Kebab $kebab): JsonResponse
     {
         $name = $kebab->name;
