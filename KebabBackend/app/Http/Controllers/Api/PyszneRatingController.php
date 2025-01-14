@@ -63,5 +63,10 @@ class PyszneRatingController extends Controller
 
         $kebab->pyszne_pl_review = $rating;
         $kebab->save();
+
+        return response()->json([
+            'name' => $kebab->name,
+            'rating' => $rating,
+        ], 200);
     }
 }
