@@ -74,9 +74,9 @@ Route::prefix('kebabs')->group(function () {
 
     Route::middleware(['auth:sanctum', 'admin'])->delete('{kebab}', [KebabController::class, 'destroy']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/pysznepl-refresh-review', [PyszneRatingController::class, 'getRating']);
+    Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/pysznepl-refresh-review', [PyszneRatingController::class, 'getRating']);
 
-    Route::middleware(['auth:sanctum', 'admin'])->patch('{kebab}/glovo-refresh-review', [GlovoRatingController::class, 'getRating']);
+    Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/glovo-refresh-review', [GlovoRatingController::class, 'getRating']);
 });
 
 Route::prefix('meattypes')->group(function () {
