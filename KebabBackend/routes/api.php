@@ -77,6 +77,8 @@ Route::prefix('kebabs')->group(function () {
     Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/pysznepl-refresh-review', [PyszneRatingController::class, 'getRating']);
 
     Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/glovo-refresh-review', [GlovoRatingController::class, 'getRating']);
+
+    Route::middleware(['auth:sanctum', 'admin'])->post('{kebab}/google-refresh-review', [GooglePlacesController::class, 'getKebabDetails']);
 });
 
 Route::prefix('meattypes')->group(function () {
